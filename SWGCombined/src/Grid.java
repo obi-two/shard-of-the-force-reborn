@@ -2,7 +2,8 @@ import java.awt.Polygon;
 import java.awt.geom.Rectangle2D;
 import java.util.Enumeration;
 import java.util.Hashtable;
-import java.util.Vector;
+//import java.util.Vector;
+import java.util.Stack;
 import java.util.concurrent.ConcurrentHashMap;
 
 
@@ -146,8 +147,8 @@ public class Grid {
 		return gridCount;
 	}
 	
-	protected Vector<GridElement> getAllContainedElements(Rectangle2D rect) {
-		Vector<GridElement> elementsToReturn = new Vector<GridElement>();
+	protected Stack<GridElement> getAllContainedElements(Rectangle2D rect) {
+		Stack<GridElement> elementsToReturn = new Stack<GridElement>();
 		for (int x = 0; x < theGrid.length; x++) {
 			for (int y = 0; y < theGrid[x].length; y++) {
 				if (rect.contains(theGrid[x][y].getX(), theGrid[x][y].getY())) {

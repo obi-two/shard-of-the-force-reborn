@@ -1,4 +1,5 @@
-import java.util.Vector;
+//import java.util.Vector;
+import java.util.Stack;
 
 /**
  * Container class for a Chatroom object.
@@ -9,9 +10,9 @@ public class Chatroom {
 	private String sRoomName;
 	private String sCreatorName;
 	private String sRoomDescription;
-	private Vector<String> vModerators;
-	private Vector<String> vPlayersInRoom;
-	private ChatServer vMyServer;
+        private Stack<String> vModerators;
+	private Stack<String> vPlayersInRoom;
+        private ChatServer vMyServer;
 	/**
 	 * Constructs a ChatRoom on the given ChatServer, with a given name, creator, and description. 
 	 * @param s -- The ChatServer which this room is to exist on.
@@ -54,15 +55,15 @@ public class Chatroom {
 	 * Get the list of the names of the Moderators for this ChatRoom
 	 * @return The Moderator name list.
 	 */
-	public Vector<String> getModeratorList() {
-		return vModerators;
+        public Stack<String> getModeratorList() {
+            return vModerators;
 	}
 	
 	/**
 	 * Get the list of the names of the Players in this ChatRoom.
 	 * @return The Player name list.
 	 */
-	public Vector<String> getPlayersInRoom() {
+        public Stack<String> getPlayersInRoom() {
 		return vPlayersInRoom;
 	}
 	

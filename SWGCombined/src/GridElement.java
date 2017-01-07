@@ -1,7 +1,8 @@
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.Vector;
+//import java.util.Vector;
+import java.util.Stack;
 import java.util.concurrent.ConcurrentHashMap;
 
 
@@ -83,7 +84,7 @@ public class GridElement {
 			if (isContainedBy(o)) {
 				vObjects.put(o.getID(), o);
 				if (!o.getIsStaticObject()) { 
-					Vector<Player> players = getAllNearPlayers(); 
+					Stack<Player> players = getAllNearPlayers();
 					for (int i = 0; i < players.size(); i++) {
 						try {
 							players.elementAt(i).spawnItem(o);
@@ -119,7 +120,7 @@ public class GridElement {
 		vObjects.remove(o.getID());
 		if (!bStillSpawned) {
 			if (!o.getIsStaticObject()) {
-				Vector<Player> players = getAllNearPlayers(); 
+				Stack<Player> players = getAllNearPlayers();
 				for (int i = 0; i < players.size(); i++) {
 					Player player = (Player)players.elementAt(i);
 					try {
@@ -140,9 +141,9 @@ public class GridElement {
 		return vObjects;
 	}
 	
-	public Vector<Player> getAllPlayersContained() {
+	public Stack<Player> getAllPlayersContained() {
 		Enumeration<SOEObject> vObjEnum = vObjects.elements();
-		Vector<Player> vPlayers = new Vector<Player>();
+		Stack<Player> vPlayers = new Stack<Player>();
 		while (vObjEnum.hasMoreElements()) {
 			SOEObject elementObject = vObjEnum.nextElement();
 			if (elementObject instanceof Player) {
@@ -154,9 +155,9 @@ public class GridElement {
 		return vPlayers;
 	}
 	
-	public Vector<NPC> getAllNPCsContained() {
+	public Stack<NPC> getAllNPCsContained() {
 		Enumeration<SOEObject> vObjEnum = vObjects.elements();
-		Vector<NPC> vPlayers = new Vector<NPC>();
+		Stack<NPC> vPlayers = new Stack<NPC>();
 		while (vObjEnum.hasMoreElements()) {
 			SOEObject elementObject = vObjEnum.nextElement();
 			if (elementObject instanceof NPC) {
@@ -194,8 +195,8 @@ public class GridElement {
 		vNearbyElements[gridPosition] = e;
 	}
 	
-	public Vector<Player> getAllNearPlayers() {
-		Vector<Player> toReturn = new Vector<Player>();
+	public Stack<Player> getAllNearPlayers() {
+		Stack<Player> toReturn = new Stack<Player>();
 		toReturn.addAll(getAllPlayersContained());
 		for (int i = 0; i < vNearbyElements.length; i++) {
 			GridElement element = vNearbyElements[i];
@@ -206,8 +207,8 @@ public class GridElement {
 		return toReturn;
 	}
 	
-	public Vector<SOEObject> getAllNearCreatures() {
-		Vector<SOEObject> toReturn = new Vector<SOEObject>();
+	public Stack<SOEObject> getAllNearCreatures() {
+		Stack<SOEObject> toReturn = new Stack<SOEObject>();
 		toReturn.addAll(getAllPlayersContained());
 		for (int i = 0; i < vNearbyElements.length; i++) {
 			GridElement element = vNearbyElements[i];

@@ -1,8 +1,8 @@
 import java.io.IOException;
 import java.util.Enumeration;
 import java.util.Hashtable;
-import java.util.Vector;
-
+//import java.util.Vector;
+import java.util.Stack;
 
 public class Harvester extends Structure {
 	public final static long serialVersionUID = 1l;
@@ -10,7 +10,7 @@ public class Harvester extends Structure {
 	
     private SpawnedResourceData currentHarvestResource;
     private float currentResourceConcentration;
-    private transient Vector<ZoneClient> vSyncronizedListeners;
+    private transient Stack<ZoneClient> vSyncronizedListeners;
 
     private byte harvesterUpdateCounter;
     private int iHarvesterResourceUpdateCounter;
@@ -25,7 +25,7 @@ public class Harvester extends Structure {
     private ResourceContainer theResource;
     private transient int iTicks = 0;
     private Hashtable<Long, SOEObject> vOutputHopper;
-    private Vector<SpawnedResourceData> vResourcesAvailable;
+    private Stack<SpawnedResourceData> vResourcesAvailable;
     private byte iHarvesterType;
 
 	/**
@@ -413,7 +413,7 @@ public class Harvester extends Structure {
     public boolean addSyncronizedListener(ZoneClient client){
         if(vSyncronizedListeners == null)
         {
-            vSyncronizedListeners = new Vector<ZoneClient>();
+            vSyncronizedListeners = new Stack<ZoneClient>();
         }
         if(!vSyncronizedListeners.contains(client))
         {
@@ -425,7 +425,7 @@ public class Harvester extends Structure {
     public boolean removeSyncronizedListener(ZoneClient client){
         if(vSyncronizedListeners == null)
         {
-            vSyncronizedListeners = new Vector<ZoneClient>();
+            vSyncronizedListeners = new Stack<ZoneClient>();
         }
         if(vSyncronizedListeners.contains(client))
         {
@@ -549,7 +549,7 @@ public class Harvester extends Structure {
     	}
     }
     
-    public Vector<SpawnedResourceData> getResourcesAvailable() {
+    public Stack<SpawnedResourceData> getResourcesAvailable() {
     	return vResourcesAvailable;
     }
     public Hashtable<Long, SOEObject> getOutputHopper() {

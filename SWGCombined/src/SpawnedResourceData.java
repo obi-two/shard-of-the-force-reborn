@@ -1,5 +1,6 @@
 import java.io.Serializable;
-import java.util.Vector;
+//import java.util.Vector;
+import java.util.Stack;
 
 /**
  * The Spawned Resource Data class holds information on resources that are currently available from the world.
@@ -71,20 +72,20 @@ public class SpawnedResourceData implements Serializable{
 	private String stfFileName;
 	private int iResourceType;
 	
-	private Vector<ResourceSpawnCoordinateData> spawnCoordinates;
+        private Stack<ResourceSpawnCoordinateData> spawnCoordinates;
 	private int resourceContainerTemplateID;
 	private int drawColor;
-	private Vector<Attribute> vResourceAttributes;
+        private Stack<Attribute> vResourceAttributes;
 	/**
 	 * Construct a new, empty, spawned resource.
 	 */
 	public SpawnedResourceData() {
 		iPlanetIDs = new int[8];
-		spawnCoordinates = new Vector<ResourceSpawnCoordinateData>();
+                spawnCoordinates = new Stack<ResourceSpawnCoordinateData>();
 		for (int i = 0; i < iPlanetIDs.length; i++) {
 			iPlanetIDs[i] = -1;
 		}
-		vResourceAttributes = new Vector<Attribute>();
+                vResourceAttributes = new Stack<Attribute>();
 	}
 	
 	/**
@@ -118,7 +119,7 @@ public class SpawnedResourceData implements Serializable{
 		vResourceAttributes.add(a);
 	}
 	
-	protected Vector<Attribute> getAttributes() {
+        protected Stack<Attribute> getAttributes() {
 		return vResourceAttributes;
 	}
 	/**
@@ -531,9 +532,11 @@ public class SpawnedResourceData implements Serializable{
 		return iResourceType;
 	}
 	
-	protected Vector<Float> getDensitiesForSurveyToolUsage(float posX, float posY, float surveyRadius, float distanceIncrement, int numPoints) {
-		Vector<Float> vDensitiesAndLocationsToReturn = new Vector<Float>();
-		
+	//protected Vector<Float> getDensitiesForSurveyToolUsage(float posX, float posY, float surveyRadius, float distanceIncrement, int numPoints) {
+	//	Vector<Float> vDensitiesAndLocationsToReturn = new Vector<Float>();
+	protected Stack<Float> getDensitiesForSurveyToolUsage(float posX, float posY, float surveyRadius, float distanceIncrement, int numPoints) {
+		Stack<Float> vDensitiesAndLocationsToReturn = new Stack<Float>();
+
 		float leftX = posX - (surveyRadius / 2);
 		//float rightX = posX + (surveyRadius / 2);
 		float topY = posY - (surveyRadius / 2);
@@ -618,7 +621,7 @@ public class SpawnedResourceData implements Serializable{
 		return data.getSpawnY() - (data.getSpawnRadius()/ 2);
 	}
 	
-	protected Vector<ResourceSpawnCoordinateData> getCoordinates() {
+        protected Stack<ResourceSpawnCoordinateData> getCoordinates() {
 		return spawnCoordinates;
 	}
 	protected void addCoordinates(ResourceSpawnCoordinateData coordinates) {

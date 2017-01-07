@@ -1,5 +1,6 @@
 import java.io.Serializable;
-import java.util.Vector;
+//import java.util.Vector;
+import java.util.Stack;
 
 /**
  * The CraftingSchematic class contains the CRC, ID, etc. of any Crafting Schematic which the Player knows.
@@ -12,26 +13,26 @@ public class CraftingSchematic implements Serializable {
 	private int iCRC;
 	private int index;
 	private int iSchematicType;
-	private Vector<Integer> iRequiredSkillID; // Need to support 2 (or more) skills here -- if the player gains ANY skill, they can have this schematic.
+        private Stack<Integer> iRequiredSkillID; // Need to support 2 (or more) skills here -- if the player gains ANY skill, they can have this schematic.
 	private int iExperienceGainedFromCrafting;
 	private int iExperienceTypeToGrant;
 	private int iComplexity;
 	private int iToolTabBitmask;
-	private Vector<CraftingSchematicComponent> vComponents;
+        private Stack<CraftingSchematicComponent> vComponents;
 	private int iCraftedItemType;
 	private CraftingExperimentationAttribute[] vAttributes;
 	private String sCraftedItemIFFFilename;
 	private TangibleItem itemToCraft;
-	private Vector<TangibleItem>[] vFactoryItemsUsedToCraftCrate;
+        private Stack<TangibleItem>[] vFactoryItemsUsedToCraftCrate;
 	
 	
 	/**
 	 * Constructs a new Crafting Schematic.
 	 */
 	public CraftingSchematic() {
-		vComponents = new Vector<CraftingSchematicComponent>();
+            vComponents = new Stack<CraftingSchematicComponent>();
         iToolTabBitmask = 1;
-        iRequiredSkillID = new Vector<Integer>();
+        iRequiredSkillID = new Stack<Integer>();
         
 	}
 
@@ -55,7 +56,7 @@ public class CraftingSchematic implements Serializable {
 		return iSchematicType;
 	}
 	
-	public Vector<Integer> getRequiredSkillID() {
+        public Stack<Integer> getRequiredSkillID() {
 		return iRequiredSkillID;
 	}
 
@@ -95,7 +96,7 @@ public class CraftingSchematic implements Serializable {
 		vComponents.add(comp);
 	}
 	
-	protected Vector<CraftingSchematicComponent> getComponents() {
+        protected Stack<CraftingSchematicComponent> getComponents() {
 		return vComponents;
 	}
 	protected void setComplexity(int i) {
@@ -176,7 +177,7 @@ public class CraftingSchematic implements Serializable {
 	
 	public void addFactoryItemForCrafting(TangibleItem item, int slotID) {
 		if (vFactoryItemsUsedToCraftCrate == null) {
-			vFactoryItemsUsedToCraftCrate = new Vector[vComponents.size()];
+                    vFactoryItemsUsedToCraftCrate = new Stack[vComponents.size()];
 		}
 		vFactoryItemsUsedToCraftCrate[slotID].add(item);
 	}
@@ -204,9 +205,9 @@ public class CraftingSchematic implements Serializable {
 	
 	public void clearFactoryItemForCrafting() {
 		if (vFactoryItemsUsedToCraftCrate == null) {
-			vFactoryItemsUsedToCraftCrate = new Vector[vComponents.size()];
+                    vFactoryItemsUsedToCraftCrate = new Stack[vComponents.size()];
 			for (int i = 0; i < vFactoryItemsUsedToCraftCrate.length; i++) {
-				vFactoryItemsUsedToCraftCrate[i] = new Vector<TangibleItem>();
+                            vFactoryItemsUsedToCraftCrate[i] = new Stack<TangibleItem>();
 			}
 		} else {
 			for (int i = 0; i < vFactoryItemsUsedToCraftCrate.length; i++) {

@@ -1,4 +1,5 @@
-import java.util.Vector;
+//import java.util.Vector;
+import java.util.Stack;
 import java.io.Serializable;
 
 /**
@@ -11,7 +12,7 @@ public class SWGEmail implements Serializable{
 	private transient int objectID = 0; //we dont want to save the id we get it from the db and set it there
 	private long recipientID = 0;
 	private long originatorID = 0;
-	private Vector<Waypoint> vWaypointAttachmentList = null;
+	private Stack<Waypoint> vWaypointAttachmentList = null;
 	private String sMessageHeader = null;
 	private String sMessageBody = null;
 	private boolean bRead  = false;
@@ -38,7 +39,7 @@ public class SWGEmail implements Serializable{
 		this.objectID = objectID;
 		messageCreationTime = System.currentTimeMillis();
         bRead = false;
-        vWaypointAttachmentList = new Vector<Waypoint>();  
+        vWaypointAttachmentList = new Stack<Waypoint>();
         bDeleteEmail = false;
         bSent = false;
 	}
@@ -53,7 +54,7 @@ public class SWGEmail implements Serializable{
 	 * @param attachments -- The list of Waypoints which may be attached to this message.
 	 * @param creationTime -- The time at which this message was received.
 	 */
-	public SWGEmail(int objectID, long sender, long receiver, String header, String body, Vector<Waypoint> attachments,boolean readFlag) {
+	public SWGEmail(int objectID, long sender, long receiver, String header, String body, Stack<Waypoint> attachments,boolean readFlag) {
 		try{
             this.objectID = objectID;
 			originatorID = sender;
@@ -132,7 +133,7 @@ public class SWGEmail implements Serializable{
 	 * Gets the list of attachments for this email.
 	 * @return The email attachments.
 	 */
-	public Vector<Waypoint> getAttachments() {
+	public Stack<Waypoint> getAttachments() {
 		return vWaypointAttachmentList;
 	}
 	

@@ -8,7 +8,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Hashtable;
-import java.util.Vector;
+//import java.util.Vector;
+import java.util.Stack;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -26,11 +27,11 @@ public class LoginServer implements Runnable{
 	protected final static int MAX_PACKET_SIZE = 496;
 	protected final static int MAX_PACKET_SIZE_BEFORE_COMPRESSION_NEEDED = 149;
 	private Hashtable<SocketAddress, LoginClient> activeClientHash;
-	private Vector<LoginClient> activeClientList;
+	private Stack<LoginClient> activeClientList;
 	private boolean bAutoAccountRegistration = true; // To be read from the config file.
 	private ConcurrentLinkedQueue<DatagramPacket> packetQueue;
-	private Vector<Player> clientCharacterList;
-	private Vector<AccountData> clientAccountList;
+	private Stack<Player> clientCharacterList;
+	private Stack<AccountData> clientAccountList;
 	///public final static String SynchronizationObject = "";
 	protected final static String sLoginServerString = "LoginServer:29411";
 	private final static int socketTimeout = 10;
@@ -72,7 +73,7 @@ public class LoginServer implements Runnable{
 	        dataSocket.setSoTimeout(socketTimeout);
             //sHostName = dataSocket.getInetAddress().getLocalHost().getHostName();
 	        sHostName = InetAddress.getLocalHost().getHostName();
-	        outgoingPackets = new Vector<byte[]>();
+	        outgoingPackets = new Stack<byte[]>();
 		} catch (Exception e) {
 			System.out.println("Unable to create database connection: " + e.toString());
 			e.printStackTrace();
@@ -94,7 +95,7 @@ public class LoginServer implements Runnable{
     public void start() {
     	System.out.println("LoginServer start");
 		activeClientHash = new Hashtable<SocketAddress, LoginClient>();
-		activeClientList = new Vector<LoginClient>();
+		activeClientList = new Stack<LoginClient>();
 		//clientCharacterList = new Vector<Player>();
 		//packetsBeingParsed = new Vector<SOEInputStream>();
 		packetQueue = new ConcurrentLinkedQueue<DatagramPacket>();
@@ -111,8 +112,7 @@ public class LoginServer implements Runnable{
 		dataSocket.close();
 	}
 	
-	public Vector<byte[]> outgoingPackets;
-	//public Vector<byte[]> incomingPackets;
+	public Stack<byte[]> outgoingPackets;
 
 	private long lLastUpdateTimeMS;
 	private long lCurrentUpdateTimeMS;
@@ -455,8 +455,8 @@ public class LoginServer implements Runnable{
 	 * @param accountID -- The Account ID.
 	 * @return A Vector containing all Players belonging to the Account ID.
 	 */
-	protected Vector<Player> getCharacterListForAccount(long accountID) {
-		Vector<Player> list = new Vector<Player>();
+	protected Stack<Player> getCharacterListForAccount(long accountID) {
+		Stack<Player> list = new Stack<Player>();
 		for (int i = 0; i < clientCharacterList.size(); i++) {
 			Player character = clientCharacterList.elementAt(i);
 			if ((character != null) && (character.getAccountID() == accountID) && !character.isDeleted()) {
@@ -466,8 +466,8 @@ public class LoginServer implements Runnable{
 		return list;
 	}
 
-	protected Vector<Player> getCharacterListForServer(int serverID) {
-		Vector<Player> toReturn = new Vector<Player>();
+	protected Stack<Player> getCharacterListForServer(int serverID) {
+		Stack<Player> toReturn = new Stack<Player>();
 		for (int i = 0; i < clientCharacterList.size(); i++) {
 			Player player = clientCharacterList.elementAt(i);
 			if (player.getServerID() == serverID) {
@@ -485,7 +485,7 @@ public class LoginServer implements Runnable{
 			if (player != null && (player.getServerID() == iServerID)) {
                 player.fixPlayerCluster(server.getClusterName());
                 player.setOnlineStatus(false);
-				Vector<TangibleItem> vAllPlayerItems = player.getInventoryItems();
+				Stack<TangibleItem> vAllPlayerItems = player.getInventoryItems();
 
 				for (int i = 0; i < vAllPlayerItems.size(); i++) {
 					TangibleItem item = vAllPlayerItems.elementAt(i);
@@ -503,12 +503,12 @@ public class LoginServer implements Runnable{
 					}*/
 
 				}
-				Vector<Waypoint> vPlayerWaypoints = player.getPlayData().getWaypoints();
+				Stack<Waypoint> vPlayerWaypoints = player.getPlayData().getWaypoints();
 				for (int i = 0; i < vPlayerWaypoints.size(); i++) {
 					Waypoint w = vPlayerWaypoints.elementAt(i);
 					server.addObjectToAllObjects(w, false,false);
 				}
-				Vector<IntangibleObject> vAllDatapadObjects = player.getDatapad().getIntangibleObjects();
+				Stack<IntangibleObject> vAllDatapadObjects = player.getDatapad().getIntangibleObjects();
 				for (int i = 0; i < vAllDatapadObjects.size(); i++) {
 					server.addObjectToAllObjects(vAllDatapadObjects.elementAt(i), false,false);
 				}
@@ -521,7 +521,7 @@ public class LoginServer implements Runnable{
 				server.addObjectToAllObjects(player.getInventory(), false,false);				
 				map.put(player.getID(), player);
                 TangibleItem DataPad = player.getDatapad();
-                Vector<IntangibleObject> vItnos = DataPad.getIntangibleObjects();
+                Stack<IntangibleObject> vItnos = DataPad.getIntangibleObjects();
                 for(int i = 0; i < vItnos.size(); i++)
                 {
                     IntangibleObject itno = vItnos.get(i);

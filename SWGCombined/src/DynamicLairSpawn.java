@@ -1,5 +1,6 @@
 import java.awt.geom.Rectangle2D;
-import java.util.Vector;
+//import java.util.Vector;
+import java.util.Stack;
 
 
 public class DynamicLairSpawn {
@@ -19,7 +20,7 @@ public class DynamicLairSpawn {
 	private long lRespawnDelay;
 	private ZoneServer server;
 	//private long lTimeToNextSpawn;
-	private Vector<Lair> lairs;
+	private Stack<Lair> lairs;
 	private long lNextUpdateTime = UPDATE_TIMEOUT;
 	private int targetNumToSpawn;
 	private int iNumPlayersBeforeSpawn = 1;
@@ -67,7 +68,8 @@ public class DynamicLairSpawn {
 
 	protected void setMaxNumToSpawn(int maxNumToSpawn) {
 		iMaxNumToSpawn = maxNumToSpawn;
-		lairs = new Vector<Lair>(iMaxNumToSpawn);
+                //problem BUG TODO:Fix this
+		//lairs = new Stack<Lair>(iMaxNumToSpawn);
 	}
 
 	protected short getSpawnTemplateID() {
@@ -137,7 +139,7 @@ public class DynamicLairSpawn {
 		if (lNextUpdateTime <= 0) {
 			//System.out.println("Update dynamic spawn.");
 			lNextUpdateTime = UPDATE_TIMEOUT;
-			Vector<GridElement> vElements = theGrid.getAllContainedElements(spawnBoundaries);
+			Stack<GridElement> vElements = theGrid.getAllContainedElements(spawnBoundaries);
 			
 			//Vector<Player> vNearbyPlayers = new Vector<Player>(); 
 			int iNumPlayersInSpawn = 0;

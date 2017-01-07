@@ -2,7 +2,8 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-import java.util.Vector;
+//import java.util.Vector;
+import java.util.Stack;
 /**
  *
  * @author Tomas Cruz
@@ -11,8 +12,8 @@ public class TradeObject extends SOEObject{ // This shouldn't extend SOEObject i
 
     public final static long serialVersionUID = 1l;
     private transient ZoneServer server;
-    private Vector<SOEObject> vTradeListToOriginator;
-    private Vector<SOEObject> vTradeListToRecipient;
+    private Stack<SOEObject> vTradeListToOriginator;
+    private Stack<SOEObject> vTradeListToRecipient;
     private int cashToOriginator;
     private int cashToRecipient;
     private Player originator;
@@ -29,8 +30,8 @@ public class TradeObject extends SOEObject{ // This shouldn't extend SOEObject i
     
     public TradeObject(ZoneServer server){
         this.server = server;
-        vTradeListToOriginator = new Vector<SOEObject>();
-        vTradeListToRecipient = new Vector<SOEObject>();
+        vTradeListToOriginator = new Stack<SOEObject>();
+        vTradeListToRecipient = new Stack<SOEObject>();
         sTradeLog = "Trade Object Created: " + System.currentTimeMillis() + "\r\n";
         originatorTradeVerified = false;
         recipientTradeVerified = false;
@@ -85,19 +86,19 @@ public class TradeObject extends SOEObject{ // This shouldn't extend SOEObject i
         this.server = server;
     }
 
-    public Vector<SOEObject> getTradeListToOriginator() {
+    public Stack<SOEObject> getTradeListToOriginator() {
         return vTradeListToOriginator;
     }
 
-    public void setTradeListToOriginator(Vector<SOEObject> tradeListToOriginator) {
+    public void setTradeListToOriginator(Stack<SOEObject> tradeListToOriginator) {
         this.vTradeListToOriginator = tradeListToOriginator;
     }
 
-    public Vector<SOEObject> getTradeListToRecipient() {
+    public Stack<SOEObject> getTradeListToRecipient() {
         return vTradeListToRecipient;
     }
 
-    public void setTradeListToRecipient(Vector<SOEObject> tradeListToRecipient) {
+    public void setTradeListToRecipient(Stack<SOEObject> tradeListToRecipient) {
         this.vTradeListToRecipient = tradeListToRecipient;
     }
 

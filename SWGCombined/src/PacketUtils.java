@@ -7,7 +7,8 @@ import java.io.DataOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Vector;
+//import java.util.Vector;
+import java.util.Stack;
 import java.util.zip.Deflater;
 import java.util.zip.DeflaterOutputStream;
 import java.util.zip.Inflater;
@@ -754,12 +755,12 @@ public class PacketUtils {
 	 * @throws ArrayIndexOutOfBoundsException
 	 * @throws Exception
 	 */
-	public static Vector<byte[]> fragmentDataA(Vector<byte[]> packet)
+	public static Stack<byte[]> fragmentDataA(Stack<byte[]> packet)
 			throws ArrayIndexOutOfBoundsException, Exception {
 		// Fragments the data provided into subpackets based on the specified
 		// MAX_PACKET_SIZE. If MAX_PACKET_SIZE is not allocated, throws an
 		// ArrayIndexOutOfBoundsException
-		Vector<byte[]> vPacketsToReturn = new Vector<byte[]>();
+		Stack<byte[]> vPacketsToReturn = new Stack<byte[]>();
 		int totalPacketSize = packet.size();
 		int iNumberOfFragments = totalPacketSize / MAX_PACKET_SIZE;
 		for (int i = 0; i < packet.size(); i++) {
@@ -813,8 +814,8 @@ public class PacketUtils {
 	 * @return
 	 * @throws Exception
 	 */
-	public static Vector<byte[]> buildDataAMultiPacket(
-			Vector<byte[]> packetDatas) throws Exception {
+	public static Stack<byte[]> buildDataAMultiPacket(
+			Stack<byte[]> packetDatas) throws Exception {
 		// This function is designed specifically for the multipacketing of
 		// SOE_CHL_DATA_A packets.
 		// Format: Opcode SOE_CHL_DATA_A
@@ -826,7 +827,7 @@ public class PacketUtils {
 		// }
 		// short crc
 		// boolean compressed;
-		Vector<byte[]> vMultipacketedData = new Vector<byte[]>();
+		Stack<byte[]> vMultipacketedData = new Stack<byte[]>();
 		int iTotalPackets = packetDatas.size();
 		SOEOutputStream sOut = new SOEOutputStream(new ByteArrayOutputStream());
 
@@ -878,9 +879,9 @@ public class PacketUtils {
 	 * @return
 	 * @throws IOException
 	 */
-	public static Vector<byte[]> buildMultiPacket(Vector<byte[]> vPackets)
+	public static Stack<byte[]> buildMultiPacket(Stack<byte[]> vPackets)
 			throws IOException {
-		Vector<byte[]> vReadyPackets = new Vector<byte[]>();
+		Stack<byte[]> vReadyPackets = new Stack<byte[]>();
 
 		int iTotalPackets = vPackets.size();
 		int iBytesInMulti = 2;

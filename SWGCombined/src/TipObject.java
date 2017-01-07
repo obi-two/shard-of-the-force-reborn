@@ -25,7 +25,8 @@
      */
 
  
-import java.util.Vector;
+//import java.util.Vector;
+import java.util.Stack;
 /**
  * Tip Object is used for making bank tips.
  * It is passed to the SUI Window for information for the sui window.
@@ -51,7 +52,7 @@ public class TipObject extends SOEObject{ // This shouldn't extend SOEObject as 
             }
             String sHeader = "On behalf of " + player.getFullName();
             String sBody = iTipAmount + " credits from " + player.getFullName() + " have been successfully delivered from escrow to your bank account.";
-            Vector<Waypoint> attachments = new Vector<Waypoint>();
+            Stack<Waypoint> attachments = new Stack<Waypoint>();
             SWGEmail e = new SWGEmail(server.getNextEmailID(),EmailServer.BM.getID(),recipient.getID(),sHeader,sBody,attachments,false);
             server.queueEmailNewClientMessage(e);
             sHeader = "On behalf of " + player.getFullName();

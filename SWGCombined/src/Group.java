@@ -1,4 +1,5 @@
-import java.util.Vector;
+//import java.util.Vector;
+import java.util.Stack;
 
 /**
  * A Group object is a collection of Players and/or Player Pets which are cohesive.
@@ -9,7 +10,7 @@ public class Group extends SOEObject{
 	public final static long serialVersionUID = 1;
 	private final static byte MAX_GROUP_SIZE = 20;
 	private Player groupLeader;        
-	private Vector<SOEObject> vGroupMembers;
+	private Stack<SOEObject> vGroupMembers;
     private int iGroupUpdateCounter;
     private long lGroupAge;
     private long lLeaderOffLineTimer;
@@ -28,7 +29,7 @@ public class Group extends SOEObject{
                 this.setCRC(2022504856);
                 this.setOrientationW(1);
                 p.getServer().addObjectToAllObjects(this, false,false);
-                vGroupMembers = new Vector<SOEObject>();
+                vGroupMembers = new Stack<SOEObject>();
                 
                 groupLeader = p;
                 updateObject = p;
@@ -125,7 +126,7 @@ public class Group extends SOEObject{
 	 * Get the list of Players which are members of this Group.
 	 * @return A Vector containing all the Players of this Group.
 	 */
-	public Vector<SOEObject> getGroupMembers() {
+	public Stack<SOEObject> getGroupMembers() {
 		return vGroupMembers;
 	}
 
@@ -325,7 +326,7 @@ public class Group extends SOEObject{
                     SOEObject newLeader = vGroupMembers.get(iNewLeaderIndex);
                     SOEObject oldLeader = vGroupMembers.get(0);                    
                     groupLeader = (Player)newLeader;
-                    Vector<SOEObject> vTempMemberList = new Vector<SOEObject>();
+                    Stack<SOEObject> vTempMemberList = new Stack<SOEObject>();
                     for(int i = 0; i < vGroupMembers.size(); i++)
                     {
                         if(i == 0)
@@ -492,8 +493,8 @@ public class Group extends SOEObject{
             }
         }
         
-        protected Vector<Player> getPlayerObjectsInGroup(){
-            Vector<Player> retVal = new Vector<Player>();
+        protected Stack<Player> getPlayerObjectsInGroup(){
+            Stack<Player> retVal = new Stack<Player>();
             for(int i = 0; i < vGroupMembers.size(); i++)
             {
                 if(vGroupMembers.get(i) instanceof Player)

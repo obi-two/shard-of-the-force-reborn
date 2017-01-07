@@ -3,7 +3,8 @@ import java.util.Arrays;
 import java.util.BitSet;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Vector;
+//import java.util.Vector;
+import java.util.Stack;
 import java.util.Hashtable;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.Enumeration;
@@ -73,9 +74,9 @@ public class Player extends SOEObject {
 	private final static long HAM_MIGRATION_TIME_MAXIMUM_KK_MS = PacketUtils
 			.toKK(HAM_MIGRATION_TIME_MAXIMUM_MS);
 	private long lState; // Vectors
-	private Vector<TangibleItem> vInventoryItemsList;
-	private Vector<SkillMods> vSkillModsList; // This one has to be there.
-	private Vector<PlayerFactions> vFactionList; // This one kinda has to be
+	private Stack<TangibleItem> vInventoryItemsList;
+	private Stack<SkillMods> vSkillModsList; // This one has to be there.
+	private Stack<PlayerFactions> vFactionList; // This one kinda has to be
 													// here... need the faction
 													// AND the faction amount.
 	// Strings
@@ -186,22 +187,22 @@ public class Player extends SOEObject {
 	private transient Hashtable<Integer, SOEObject> SUIListWindowObjectList;
 	private transient ConcurrentHashMap<Integer, SUIWindow> PendingSUIWindowList;
 	private transient String[] sLastConversationMenu;
-	private transient Vector<DialogOption> vLastConversationMenuOptions;
-	private transient Vector<TradeObject> vTradeRequests;
-	private transient Vector<Long> vIncomingTradeRequest;
+	private transient Stack<DialogOption> vLastConversationMenuOptions;
+	private transient Stack<TradeObject> vTradeRequests;
+	private transient Stack<Long> vIncomingTradeRequest;
 	private transient TradeObject currentTradeObject;
 	private transient Player teachingStudent = null;
 	private transient Player teacher;
 	private transient Skills skillOfferedByTeacher = null;
 	private transient SOEObject synchronizedObject = null;
-	private transient Vector<CraftingSchematic> vLastCreatedCraftingSchematicList = null;
+	private transient Stack<CraftingSchematic> vLastCreatedCraftingSchematicList = null;
 	private transient Camp currentCampObject;
-	private transient Vector<CreaturePet> vCalledPets;
-	private transient Vector<CreaturePet> vFriendPets;
+	private transient Stack<CreaturePet> vCalledPets;
+	private transient Stack<CreaturePet> vFriendPets;
 	private transient Waypoint lastForageArea;
 	private transient ManufacturingSchematic currentManufacturingSchematic;
-	private transient Vector<Player> vPlayersListening;
-	private transient Vector<Player> vPlayersWatching;
+	private transient Stack<Player> vPlayersListening;
+	private transient Stack<Player> vPlayersWatching;
 	private transient Player playerBeingListened;
 	private transient Player playerBeingWatched;
 	private transient boolean isDancing;
@@ -235,13 +236,13 @@ public class Player extends SOEObject {
 
 	private transient long[] lStateTimer;
 
-	private transient Vector<Long> vDefenderList; // This can be a Vector<Long>
-	private transient Vector<Long> vAllSpawnedObjectIDs;
-	private transient Vector<SOEObject> vDelayedSpawnObjects; // This is an
+	private transient Stack<Long> vDefenderList; // This can be a Vector<Long>
+	private transient Stack<Long> vAllSpawnedObjectIDs;
+	private transient Stack<SOEObject> vDelayedSpawnObjects; // This is an
 																// extremely bad
 																// way of doing
 																// this.
-	private transient Vector<Long> lNextDelayedSpawn;
+	private transient Stack<Long> lNextDelayedSpawn;
 	private transient TangibleItem lastUsedSurveyTool = null;
 	private transient ZoneServer server;
 	private transient ZoneClient client;
@@ -307,12 +308,12 @@ public class Player extends SOEObject {
 		lStateTimer = new long[Constants.NUM_STATES];
 		lState = 0;
 		// Vectors
-		vAllSpawnedObjectIDs = new Vector<Long>();
-		vInventoryItemsList = new Vector<TangibleItem>();
+		vAllSpawnedObjectIDs = new Stack<Long>();
+		vInventoryItemsList = new Stack<TangibleItem>();
 		// vCommandQueue = new LinkedList<CommandQueueItem>();
-		vSkillModsList = new Vector<SkillMods>();
-		vDefenderList = new Vector<Long>();
-		vFactionList = new Vector<PlayerFactions>();
+		vSkillModsList = new Stack<SkillMods>();
+		vDefenderList = new Stack<Long>();
+		vFactionList = new Stack<PlayerFactions>();
 		vCommandQueue = new LinkedList<CommandQueueItem>();
 
 		// Strings
@@ -343,8 +344,8 @@ public class Player extends SOEObject {
 		SUIListWindowObjectList = new Hashtable<Integer, SOEObject>();
 		PendingSUIWindowList = new ConcurrentHashMap<Integer, SUIWindow>();
 		sLastConversationMenu = new String[7];
-		vLastConversationMenuOptions = new Vector<DialogOption>();
-		lNextDelayedSpawn = new Vector<Long>();
+		vLastConversationMenuOptions = new Stack<DialogOption>();
+		lNextDelayedSpawn = new Stack<Long>();
 		/*
 		 * vMissionBag = new Vector<MissionObject>(); for(int i = 0; i < 15;
 		 * i++) { MissionObject m = new MissionObject();
@@ -804,7 +805,7 @@ public class Player extends SOEObject {
 	private final static long lUpdateIntervalMS = 300000;
 	private long lDatabaseUpdateTimeMS = 0;
 
-	private transient Vector<POI> vPOIsThisPlanet;
+	private transient Stack<POI> vPOIsThisPlanet;
 	private final static int DISTANCE_TO_TRIGGER_GRANT_POI = 20;
 
 	private long lHamUpdateTimerMS = 0; // TODO: This value must be fiddled /
@@ -813,9 +814,9 @@ public class Player extends SOEObject {
 										// when we're fighting.
 	private final static long MAX_TIME_MS_BETWEEN_HAM_UPDATE = 1000;
 	private final static long TIME_DIVIDER_ON_REGENERATION_RATE_MS = 100000;
-	private transient Vector<MapLocationData> vLastSeenCloneLocations = null;
+	private transient Stack<MapLocationData> vLastSeenCloneLocations = null;
 
-	protected Vector<MapLocationData> getLastSeenCloneLocations() {
+	protected Stack<MapLocationData> getLastSeenCloneLocations() {
 		return vLastSeenCloneLocations;
 	}
 
@@ -1099,7 +1100,7 @@ public class Player extends SOEObject {
 						- lDeltaTimeMS);
 			}
 			// update players intangibles.
-			Vector<IntangibleObject> vI = tDatapad.getIntangibleObjects();
+			Stack<IntangibleObject> vI = tDatapad.getIntangibleObjects();
 			for (int i = 0; i < vI.size(); i++) {
 				IntangibleObject iUpd = vI.get(i);
 				iUpd.update(lDeltaTimeMS);
@@ -1217,7 +1218,7 @@ public class Player extends SOEObject {
 					}
 					server.removeFromTree(this);
 
-					Vector<PlayerFriends> vPlayerFriends = thePlayer
+					Stack<PlayerFriends> vPlayerFriends = thePlayer
 							.getFriendsList();
 					for (int i = 0; i < vPlayerFriends.size(); i++) {
 						Player friend = server.getPlayer(vPlayerFriends
@@ -1467,7 +1468,7 @@ public class Player extends SOEObject {
 						Group g = (Group) server.getObjectFromAllObjects(this
 								.getGroupID());
 						int iGroupModifier = 0;
-						Vector<SOEObject> vGM = g.getGroupMembers();
+						Stack<SOEObject> vGM = g.getGroupMembers();
 						for (int i = 0; i < vGM.size(); i++) {
 							SOEObject o = vGM.get(i);
 							if (o instanceof Player && !o.equals(this)) {
@@ -1628,7 +1629,7 @@ public class Player extends SOEObject {
 						Group g = (Group) server.getObjectFromAllObjects(this
 								.getGroupID());
 						int iGroupModifier = 0;
-						Vector<SOEObject> vGM = g.getGroupMembers();
+						Stack<SOEObject> vGM = g.getGroupMembers();
 						for (int i = 0; i < vGM.size(); i++) {
 							SOEObject o = vGM.get(i);
 							if (o instanceof Player && !o.equals(this)) {
@@ -1703,8 +1704,8 @@ public class Player extends SOEObject {
 					String WindowTypeString = "handlePlayerRevive";
 					String DataListTitle = "@base_player:revive_title";
 					String DataListPrompt = "@base_player:clone_prompt_header";
-					Vector<String> vCloneNames = new Vector<String>();
-					Vector<MapLocationData> vCloneData = new Vector<MapLocationData>();
+					Stack<String> vCloneNames = new Stack<String>();
+					Stack<MapLocationData> vCloneData = new Stack<MapLocationData>();
 					// TODO: Now, check to see if the Player has a specific
 					// Player City cloning center they are bound to, on this
 					// planet. For that, players must be able to bind to a
@@ -1719,7 +1720,7 @@ public class Player extends SOEObject {
 
 					// Now, go through all static cloners and check them as
 					// well.
-					Vector<MapLocationData> vStaticLocationsThisPlanet = server
+					Stack<MapLocationData> vStaticLocationsThisPlanet = server
 							.getStaticMapLocations(Constants.PlanetNames[getPlanetID()]);
 					for (int i = 0; i < vStaticLocationsThisPlanet.size(); i++) {
 						MapLocationData staticPoint = vStaticLocationsThisPlanet
@@ -2030,7 +2031,7 @@ public class Player extends SOEObject {
 		setOrientationS(newS);
 		setOrientationW(newW);
 		setVelocity(fVelocity);
-		Vector<IntangibleObject> vDatapadItems = tDatapad.getIntangibleObjects();
+		Stack<IntangibleObject> vDatapadItems = tDatapad.getIntangibleObjects();
 		for (int i = 0; i < vDatapadItems.size(); i++) {
 			IntangibleObject o = vDatapadItems.elementAt(i);
 			NPC theCalledObject = o.getAssociatedCreature();
@@ -2105,7 +2106,7 @@ public class Player extends SOEObject {
 			}
 			this.setCellID(0);
 			// Get every object on the Player, set them to an appropriate value.
-			Vector<IntangibleObject> vDatapadItems = tDatapad.getIntangibleObjects();
+			Stack<IntangibleObject> vDatapadItems = tDatapad.getIntangibleObjects();
 			for (int i = 0; i < vDatapadItems.size(); i++) {
 				IntangibleObject o = vDatapadItems.elementAt(i);
 				NPC theCalledObject = o.getAssociatedCreature();
@@ -2138,7 +2139,7 @@ public class Player extends SOEObject {
 
 		// These 3 vectors need to be reworked. They are already taken care of
 		// by the positional grid.
-		Vector<SOEObject> vObjectsBeforeMovement = server
+		Stack<SOEObject> vObjectsBeforeMovement = server
 				.getWorldObjectsAroundObject(this);
 
 		setCellID(cellID);
@@ -2208,9 +2209,9 @@ public class Player extends SOEObject {
 			return;
 		}
 
-		Vector<SOEObject> vObjectsAfterMovement = server
+		Stack<SOEObject> vObjectsAfterMovement = server
 				.getWorldObjectsAroundObject(this);
-		Vector<SOEObject> vStillSpawned = new Vector<SOEObject>();
+		Stack<SOEObject> vStillSpawned = new Stack<SOEObject>();
 		for (int i = 0; i < vObjectsBeforeMovement.size(); i++) {
 			SOEObject p = vObjectsBeforeMovement.elementAt(i);
 			if (!vObjectsAfterMovement.contains(p)) {
@@ -2300,7 +2301,7 @@ public class Player extends SOEObject {
 		setOrientationS(newS);
 		setOrientationW(newW);
 		setVelocity(fVelocity);
-		Vector<IntangibleObject> vDatapadItems = tDatapad.getIntangibleObjects();
+		Stack<IntangibleObject> vDatapadItems = tDatapad.getIntangibleObjects();
 		for (int i = 0; i < vDatapadItems.size(); i++) {
 			IntangibleObject o = vDatapadItems.elementAt(i);
 			NPC theCalledObject = o.getAssociatedCreature();
@@ -2383,11 +2384,11 @@ public class Player extends SOEObject {
 		}
 
 		// server.getWorldObjectsAroundObject(this);
-		Vector<SOEObject> vObjectsBeforeMovement = server
+		Stack<SOEObject> vObjectsBeforeMovement = server
 				.getWorldObjectsAroundObject(this);
 		c.addCellObject(this);
 		if (oldCellID == 0) {
-			Vector<IntangibleObject> vDatapadItems = tDatapad.getIntangibleObjects();
+			Stack<IntangibleObject> vDatapadItems = tDatapad.getIntangibleObjects();
 			for (int i = 0; i < vDatapadItems.size(); i++) {
 				IntangibleObject o = vDatapadItems.elementAt(i);
 				NPC theCalledObject = o.getAssociatedCreature();
@@ -2465,9 +2466,9 @@ public class Player extends SOEObject {
 			return;
 		}
 
-		Vector<SOEObject> vObjectsAfterMovement = server
+		Stack<SOEObject> vObjectsAfterMovement = server
 				.getWorldObjectsAroundObject(this);
-		Vector<SOEObject> vStillSpawned = new Vector<SOEObject>();
+		Stack<SOEObject> vStillSpawned = new Stack<SOEObject>();
 
 		for (int i = 0; i < vObjectsBeforeMovement.size(); i++) {
 			SOEObject p = vObjectsBeforeMovement.elementAt(i);
@@ -2786,7 +2787,7 @@ public class Player extends SOEObject {
 	 * 
 	 * @return The friends list.
 	 */
-	public Vector<PlayerFriends> getFriendsList() {
+	public Stack<PlayerFriends> getFriendsList() {
 		return thePlayer.getFriendsList();
 	}
 
@@ -2795,7 +2796,7 @@ public class Player extends SOEObject {
 	 * 
 	 * @return The ignore list.
 	 */
-	public Vector<PlayerFriends> getIgnoreList() {
+	public Stack<PlayerFriends> getIgnoreList() {
 		return thePlayer.getIgnoreList();
 	}
 
@@ -3374,7 +3375,7 @@ public class Player extends SOEObject {
 	 * 
 	 * @return The skill mods list.
 	 */
-	public Vector<SkillMods> getSkillModsList() {
+	public Stack<SkillMods> getSkillModsList() {
 		return vSkillModsList;
 	}
 
@@ -3490,7 +3491,7 @@ public class Player extends SOEObject {
 	 * @param mods
 	 *            -- The list of skill mods to add.
 	 */
-	public void addSkillMods(Vector<SkillMods> mods) {
+	public void addSkillMods(Stack<SkillMods> mods) {
 		vSkillModsList.addAll(mods);
 	}
 
@@ -3671,7 +3672,7 @@ public class Player extends SOEObject {
 	 * 
 	 * @return The Inventory list.
 	 */
-	public Vector<TangibleItem> getInventoryItems() {
+	public Stack<TangibleItem> getInventoryItems() {
 		return vInventoryItemsList;
 	}
 
@@ -3718,7 +3719,7 @@ public class Player extends SOEObject {
 	 * 
 	 * @return The defender list.
 	 */
-	public Vector<Long> getDefenderList() {
+	public Stack<Long> getDefenderList() {
 		return vDefenderList;
 	}
 
@@ -4038,7 +4039,7 @@ public class Player extends SOEObject {
 			// System.out.println("Spawn the MissionBag Item.");
 			spawnItem(tMissionBag);
 			server.addObjectToAllObjects(tMissionBag, false, false);
-			Vector<MissionObject> vML = tMissionBag.getVMissionList();
+			Stack<MissionObject> vML = tMissionBag.getVMissionList();
 			for (int i = 0; i < vML.size(); i++) {
 				MissionObject m = vML.elementAt(i);
 				// tMissionBag.addIntangibleObject(m);
@@ -4078,7 +4079,7 @@ public class Player extends SOEObject {
 					if (e.getLinkedObjects().size() >= 1) {
 						// System.out.println("Spawning Container With Items in it: "
 						// + e.getIFFFileName());
-						Vector<TangibleItem> vContainedItems = e
+						Stack<TangibleItem> vContainedItems = e
 								.getLinkedObjects();
 						for (int c = 0; c < vContainedItems.size(); c++) {
 							TangibleItem contained = vContainedItems.get(c);
@@ -4098,7 +4099,7 @@ public class Player extends SOEObject {
 
 			// This doesn't necessarially have to happen until/unless the Player
 			// opens their bank.
-			Vector<TangibleItem> vBankItems = tBank.getLinkedObjects();
+			Stack<TangibleItem> vBankItems = tBank.getLinkedObjects();
 			for (int i = 0; i < vBankItems.size(); i++) {
 				TangibleItem t = vBankItems.get(i);
 				// System.out.println("Spawn Bank Item.");
@@ -4107,7 +4108,7 @@ public class Player extends SOEObject {
 				if (t.getLinkedObjects().size() >= 1) {
 					// System.out.println("Spawning Container In Bank With Items in it: "
 					// + t.getIFFFileName());
-					Vector<TangibleItem> vContainedItems = t.getLinkedObjects();
+					Stack<TangibleItem> vContainedItems = t.getLinkedObjects();
 					for (int c = 0; c < vContainedItems.size(); c++) {
 						TangibleItem contained = vContainedItems.get(c);
 						// System.out.println("Spawning Item in Container: " +
@@ -4121,7 +4122,7 @@ public class Player extends SOEObject {
 					}
 				}
 			}
-			Vector<IntangibleObject> datapadItems = tDatapad
+			Stack<IntangibleObject> datapadItems = tDatapad
 					.getIntangibleObjects();
 			for (int i = 0; i < datapadItems.size(); i++) {
 				IntangibleObject itno = datapadItems.elementAt(i);
@@ -4271,7 +4272,7 @@ public class Player extends SOEObject {
 	protected void spawnItem(SOEObject i) throws IOException {
 		if (vAllSpawnedObjectIDs == null) {
 			// System.out.println("Player::spawnItem -- vector of IDs is null.  Instantiating...");
-			vAllSpawnedObjectIDs = new Vector<Long>();
+			vAllSpawnedObjectIDs = new Stack<Long>();
 		}
 		
 		
@@ -4559,7 +4560,7 @@ public class Player extends SOEObject {
 						TangibleItem structureBase = s.getStructureBase();
 						Terminal structureSign = s.getStructureSign();
 						Terminal adminTerminal = s.getAdminTerminal();
-						Vector<Terminal> vElevatorTerminal = s.getVElevatorTerminals();
+						Stack<Terminal> vElevatorTerminal = s.getVElevatorTerminals();
 						spawnItem(structureBase);
 						spawnItem(guildTerminal);
 						spawnItem(structureSign);
@@ -4980,7 +4981,7 @@ public class Player extends SOEObject {
 	 * @param v
 	 *            -- THe items to add to Inventory.
 	 */
-	protected void addInventoryItem(Vector<TangibleItem> v) {
+	protected void addInventoryItem(Stack<TangibleItem> v) {
 		vInventoryItemsList.addAll(v);
 	}
 
@@ -4989,8 +4990,8 @@ public class Player extends SOEObject {
 	 * 
 	 * @return The list of equipped items.
 	 */
-	protected Vector<TangibleItem> getEquippedItems() {
-		Vector<TangibleItem> toReturn = new Vector<TangibleItem>();
+	protected Stack<TangibleItem> getEquippedItems() {
+		Stack<TangibleItem> toReturn = new Stack<TangibleItem>();
 		for (int i = 0; i < vInventoryItemsList.size(); i++) {
 			TangibleItem t = vInventoryItemsList.elementAt(i);
 			if (t.getContainerID() == getID()) {
@@ -5164,7 +5165,7 @@ public class Player extends SOEObject {
 	 * 
 	 * @return The list of waypoints.
 	 */
-	protected Vector<Waypoint> getWaypoints() {
+	protected Stack<Waypoint> getWaypoints() {
 		return thePlayer.getWaypoints();
 	}
 
@@ -5191,7 +5192,7 @@ public class Player extends SOEObject {
 	 * @param vFriendsList
 	 *            -- The friends list.
 	 */
-	public void setFriendsList(Vector<PlayerFriends> vFriendsList) {
+	public void setFriendsList(Stack<PlayerFriends> vFriendsList) {
 		thePlayer.setFriendsList(vFriendsList);
 	}
 
@@ -5430,7 +5431,7 @@ public class Player extends SOEObject {
 		addFactionToFactionList(sFactionName, newValue);
 	}
 
-	protected Vector<PlayerFactions> getFactionList() {
+	protected Stack<PlayerFactions> getFactionList() {
 		return vFactionList;
 	}
 
@@ -5854,7 +5855,7 @@ public class Player extends SOEObject {
 		// here is where we make the player warp
 		// this.isWarping = true;
 		try {
-			Vector<Player> vPL = server.getPlayersAroundObject(this, false);
+			Stack<Player> vPL = server.getPlayersAroundObject(this, false);
 			for (int i = 0; i < vPL.size(); i++) {
 				Player p = vPL.get(i);
 				p.despawnItem(this);
@@ -5997,15 +5998,15 @@ public class Player extends SOEObject {
 		vLastConversationMenuOptions.clear();
 	}
 
-	protected void setLastConversationMenuOptions(Vector<DialogOption> L) {
+	protected void setLastConversationMenuOptions(Stack<DialogOption> L) {
 		if (vLastConversationMenuOptions == null) {
-			vLastConversationMenuOptions = new Vector<DialogOption>();
+			vLastConversationMenuOptions = new Stack<DialogOption>();
 		}
 		vLastConversationMenuOptions.clear();
 		vLastConversationMenuOptions = L;
 	}
 
-	protected Vector<DialogOption> getLastConversationMenuOptions() {
+	protected Stack<DialogOption> getLastConversationMenuOptions() {
 		return vLastConversationMenuOptions;
 	}
 
@@ -6193,32 +6194,32 @@ public class Player extends SOEObject {
 
 	protected void addDelayedSpawnObject(SOEObject o, long lDelayTime) {
 		if (vDelayedSpawnObjects == null) {
-			vDelayedSpawnObjects = new Vector<SOEObject>();
+			vDelayedSpawnObjects = new Stack<SOEObject>();
 		}
 		vDelayedSpawnObjects.add(o);
 		if (lNextDelayedSpawn == null) {
-			lNextDelayedSpawn = new Vector<Long>();
+			lNextDelayedSpawn = new Stack<Long>();
 		}
 		lNextDelayedSpawn.add(lDelayTime);
 	}
 
 	protected SOEObject getNextDelayedSpawnObject() {
 		if (vDelayedSpawnObjects == null) {
-			vDelayedSpawnObjects = new Vector<SOEObject>();
+			vDelayedSpawnObjects = new Stack<SOEObject>();
 		}
 		return vDelayedSpawnObjects.get(0);
 	}
 
 	protected long getNextDelayTime(int item) {
 		if (lNextDelayedSpawn == null) {
-			lNextDelayedSpawn = new Vector<Long>();
+			lNextDelayedSpawn = new Stack<Long>();
 		}
 		return lNextDelayedSpawn.get(item);
 	}
 
 	protected int getDelayListCount() {
 		if (lNextDelayedSpawn == null) {
-			lNextDelayedSpawn = new Vector<Long>();
+			lNextDelayedSpawn = new Stack<Long>();
 		}
 		return lNextDelayedSpawn.size();
 	}
@@ -6288,7 +6289,7 @@ public class Player extends SOEObject {
 
 	protected boolean addTradeRequest(TradeObject t) {
 		if (vTradeRequests == null) {
-			vTradeRequests = new Vector<TradeObject>();
+			vTradeRequests = new Stack<TradeObject>();
 		}
 		return vTradeRequests.add(t);
 	}
@@ -6297,7 +6298,7 @@ public class Player extends SOEObject {
 
 	protected boolean removeTradeRequest(TradeObject t) {
 		if (vTradeRequests == null) {
-			vTradeRequests = new Vector<TradeObject>();
+			vTradeRequests = new Stack<TradeObject>();
 		}
 		return vTradeRequests.remove(t);
 	}
@@ -6333,7 +6334,7 @@ public class Player extends SOEObject {
 
 	protected void addIncomingTradeRequest(long lRequesterID) {
 		if (vIncomingTradeRequest == null) {
-			vIncomingTradeRequest = new Vector<Long>();
+			vIncomingTradeRequest = new Stack<Long>();
 		}
 		if (!vIncomingTradeRequest.contains(lRequesterID)) {
 			vIncomingTradeRequest.add(0, lRequesterID); // <<always add to 0
@@ -6343,7 +6344,7 @@ public class Player extends SOEObject {
 
 	protected void removeIncomingtradeRequest(long lRequesterID) {
 		if (vIncomingTradeRequest == null) {
-			vIncomingTradeRequest = new Vector<Long>();
+			vIncomingTradeRequest = new Stack<Long>();
 		}
 		if (!vIncomingTradeRequest.contains(lRequesterID)) {
 			vIncomingTradeRequest.remove(lRequesterID);
@@ -6526,11 +6527,11 @@ public class Player extends SOEObject {
 	}
 
 	public void setLastSentCraftingSchematicList(
-			Vector<CraftingSchematic> vLastCreatedCraftingSchematicList) {
+			Stack<CraftingSchematic> vLastCreatedCraftingSchematicList) {
 		this.vLastCreatedCraftingSchematicList = vLastCreatedCraftingSchematicList;
 	}
 
-	public Vector<CraftingSchematic> getLastSentCraftingSchematicList() {
+	public Stack<CraftingSchematic> getLastSentCraftingSchematicList() {
 		return vLastCreatedCraftingSchematicList;
 	}
 
@@ -6552,7 +6553,7 @@ public class Player extends SOEObject {
 
 	protected void addCalledPet(CreaturePet pet) {
 		if (vCalledPets == null) {
-			vCalledPets = new Vector<CreaturePet>();
+			vCalledPets = new Stack<CreaturePet>();
 		}
 		if (!vCalledPets.contains(pet)) {
 			vCalledPets.add(pet);
@@ -6566,7 +6567,7 @@ public class Player extends SOEObject {
 
 	protected void removeCalledPet(CreaturePet pet) {
 		if (vCalledPets == null) {
-			vCalledPets = new Vector<CreaturePet>();
+			vCalledPets = new Stack<CreaturePet>();
 		}
 		if (vCalledPets.contains(pet)) {
 			vCalledPets.remove(pet);
@@ -6577,16 +6578,16 @@ public class Player extends SOEObject {
 		return currentManufacturingSchematic;
 	}
 
-	protected Vector<CreaturePet> getCalledPets() {
+	protected Stack<CreaturePet> getCalledPets() {
 		if (vCalledPets == null) {
-			vCalledPets = new Vector<CreaturePet>();
+			vCalledPets = new Stack<CreaturePet>();
 		}
 		return vCalledPets;
 	}
 
 	protected void addFriendPet(CreaturePet pet) {
 		if (vFriendPets == null) {
-			vFriendPets = new Vector<CreaturePet>();
+			vFriendPets = new Stack<CreaturePet>();
 		}
 		if (!vFriendPets.contains(pet)) {
 			vFriendPets.add(pet);
@@ -6595,16 +6596,16 @@ public class Player extends SOEObject {
 
 	protected void removeFriendPet(CreaturePet pet) {
 		if (vFriendPets == null) {
-			vFriendPets = new Vector<CreaturePet>();
+			vFriendPets = new Stack<CreaturePet>();
 		}
 		if (vFriendPets.contains(pet)) {
 			vFriendPets.remove(pet);
 		}
 	}
 
-	protected Vector<CreaturePet> getFriendPets() {
+	protected Stack<CreaturePet> getFriendPets() {
 		if (vFriendPets == null) {
-			vFriendPets = new Vector<CreaturePet>();
+			vFriendPets = new Stack<CreaturePet>();
 		}
 		return vFriendPets;
 	}
@@ -6973,7 +6974,7 @@ public class Player extends SOEObject {
 
 	protected void addPlayerWatching(Player p) {
 		if (vPlayersWatching == null) {
-			vPlayersWatching = new Vector<Player>();
+			vPlayersWatching = new Stack<Player>();
 		}
 		if (!vPlayersWatching.contains(p)) {
 			vPlayersWatching.add(p);
@@ -6982,7 +6983,7 @@ public class Player extends SOEObject {
 
 	protected void removePlayerWatching(Player p) {
 		if (vPlayersWatching == null) {
-			vPlayersWatching = new Vector<Player>();
+			vPlayersWatching = new Stack<Player>();
 		}
 		if (vPlayersWatching.contains(p)) {
 			vPlayersWatching.remove(p);
@@ -6991,7 +6992,7 @@ public class Player extends SOEObject {
 
 	protected void addPlayerListening(Player p) {
 		if (vPlayersListening == null) {
-			vPlayersListening = new Vector<Player>();
+			vPlayersListening = new Stack<Player>();
 		}
 		if (!vPlayersListening.contains(p)) {
 			vPlayersListening.add(p);
@@ -7000,23 +7001,23 @@ public class Player extends SOEObject {
 
 	protected void removePlayerListening(Player p) {
 		if (vPlayersListening == null) {
-			vPlayersListening = new Vector<Player>();
+			vPlayersListening = new Stack<Player>();
 		}
 		if (vPlayersListening.contains(p)) {
 			vPlayersListening.remove(p);
 		}
 	}
 
-	protected Vector<Player> getPlayersListening() {
+	protected Stack<Player> getPlayersListening() {
 		if (vPlayersListening == null) {
-			vPlayersListening = new Vector<Player>();
+			vPlayersListening = new Stack<Player>();
 		}
 		return vPlayersListening;
 	}
 
-	protected Vector<Player> getPlayersWatching() {
+	protected Stack<Player> getPlayersWatching() {
 		if (vPlayersWatching == null) {
-			vPlayersWatching = new Vector<Player>();
+			vPlayersWatching = new Stack<Player>();
 		}
 		return vPlayersWatching;
 	}
@@ -7055,8 +7056,8 @@ public class Player extends SOEObject {
 		this.lEffectTick = lEffectTick;
 	}
 
-	protected Vector<String> getKnownDances() {
-		Vector<String> vKnownDances = new Vector<String>();
+	protected Stack<String> getKnownDances() {
+		Stack<String> vKnownDances = new Stack<String>();
 		for (int i = 0; i < Constants.DANCE_STRINGS.length; i++) {
 			if (this.hasSkill(Constants.DANCE_SKILL_REQUIREMENTS[i])) {
 				vKnownDances.add(Constants.DANCE_STRINGS[i][0]);
@@ -7065,8 +7066,8 @@ public class Player extends SOEObject {
 		return vKnownDances;
 	}
 
-	protected Vector<String> getKnownMusic() {
-		Vector<String> vKnownMusic = new Vector<String>();
+	protected Stack<String> getKnownMusic() {
+		Stack<String> vKnownMusic = new Stack<String>();
 		for (int i = 0; i < Constants.MUSIC_STRINGS.length; i++) {
 			if (this.hasSkill(Constants.MUSIC_SKILL_REQUIREMENTS[i])) {
 				vKnownMusic.add(Constants.MUSIC_STRINGS[i][0]);
@@ -7503,7 +7504,7 @@ public class Player extends SOEObject {
 	protected byte[] addDefender(Player player) throws IOException {
 		long lDefenderID = player.getID();
 		if (vDefenderList == null) {
-			vDefenderList = new Vector<Long>();
+			vDefenderList = new Stack<Long>();
 		}
 		if (!vDefenderList.contains(lDefenderID)) {
 			// Add it, send the packet.
@@ -7604,11 +7605,11 @@ public class Player extends SOEObject {
 		return bIsSampling;
 	}
 
-	protected Vector<ManufacturingSchematic> getSchematicsForFactory(
+	protected Stack<ManufacturingSchematic> getSchematicsForFactory(
 			byte iFactoryType) {
-		Vector<IntangibleObject> vAllDatapadIntangibles = tDatapad
+		Stack<IntangibleObject> vAllDatapadIntangibles = tDatapad
 				.getIntangibleObjects();
-		Vector<ManufacturingSchematic> vDatapadSchematics = new Vector<ManufacturingSchematic>();
+		Stack<ManufacturingSchematic> vDatapadSchematics = new Stack<ManufacturingSchematic>();
 		int mask = 0;
 		switch (iFactoryType) {
 		case Constants.FACTORY_TYPE_CLOTHING: {
