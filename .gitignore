@@ -30,3 +30,7 @@ swganh*deps*.*
 *.Log
 SWGCombined/Config.dat
 SWGCombined/build/built-jar.properties
+SWGCombined/build/built-jar.properties
+*.xml
+SWGCombined/build/depcache/dependencies.txt
+SWGCombined/build/built-jar.properties
