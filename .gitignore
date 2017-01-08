@@ -27,3 +27,6 @@ data/docs/generated
 data/docs/doxygen
 
 swganh*deps*.*
+*.Log
+SWGCombined/Config.dat
+SWGCombined/build/built-jar.properties
