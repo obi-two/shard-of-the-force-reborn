@@ -16,7 +16,8 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Enumeration;
-import java.util.Vector;
+//import java.util.Vector;
+import java.util.Stack;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.swing.JFrame;
@@ -133,11 +134,11 @@ public class ZoneServerScreen implements KeyListener, MouseListener, MouseMotion
 	//private int fontHeightDiv2;
 	//private int fontWidth;
 	//private int fontWidthDiv2;
-	private Vector<NPC>[] vCreaturesSortedByPlanet;
-	private Vector<SpawnedResourceData>[] vResourcesSortedByPlanet;
-	private Vector<Player>[] vPlayersSortedByPlanet;
-	private Vector<Structure>[] vStructuresSortedByPlanet;
-	private static Vector<LairTemplate>[] vLairTemplates;
+	private Stack<NPC>[] vCreaturesSortedByPlanet;
+	private Stack<SpawnedResourceData>[] vResourcesSortedByPlanet;
+	private Stack<Player>[] vPlayersSortedByPlanet;
+	private Stack<Structure>[] vStructuresSortedByPlanet;
+	private static Stack<LairTemplate>[] vLairTemplates;
 	private final static String loadingString = "Loading...";
 	
 	public ZoneServerScreen(ZoneServer server) {
@@ -201,17 +202,17 @@ public class ZoneServerScreen implements KeyListener, MouseListener, MouseMotion
 		theFrame.addMouseListener(this);
 		theFrame.addMouseMotionListener(this);
 		if (vLairTemplates == null) {
-			vLairTemplates = new Vector[Constants.PlanetNames.length - 1];
-			vCreaturesSortedByPlanet = new Vector[Constants.PlanetNames.length - 1];
-			vPlayersSortedByPlanet = new Vector[Constants.PlanetNames.length - 1];
-			vResourcesSortedByPlanet = new Vector[Constants.PlanetNames.length - 1];
-			vStructuresSortedByPlanet = new Vector[Constants.PlanetNames.length - 1];
-			vLairSpawns = new Vector[Constants.PlanetNames.length - 1];
+			vLairTemplates = new Stack[Constants.PlanetNames.length - 1];
+			vCreaturesSortedByPlanet = new Stack[Constants.PlanetNames.length - 1];
+			vPlayersSortedByPlanet = new Stack[Constants.PlanetNames.length - 1];
+			vResourcesSortedByPlanet = new Stack[Constants.PlanetNames.length - 1];
+			vStructuresSortedByPlanet = new Stack[Constants.PlanetNames.length - 1];
+			vLairSpawns = new Stack[Constants.PlanetNames.length - 1];
 			for (int i = 0; i < vLairTemplates.length; i++) {
-				vLairTemplates[i] = new Vector<LairTemplate>();
-				vCreaturesSortedByPlanet[i] = new Vector<NPC>();
-				vPlayersSortedByPlanet[i] = new Vector<Player>();
-				vStructuresSortedByPlanet[i] = new Vector<Structure>();
+				vLairTemplates[i] = new Stack<LairTemplate>();
+				vCreaturesSortedByPlanet[i] = new Stack<NPC>();
+				vPlayersSortedByPlanet[i] = new Stack<Player>();
+				vStructuresSortedByPlanet[i] = new Stack<Structure>();
 				try {
 					vResourcesSortedByPlanet[i] = server.getResourceManager().getResourcesByPlanetID(i);
 				} catch (NullPointerException e) {
@@ -557,7 +558,7 @@ public class ZoneServerScreen implements KeyListener, MouseListener, MouseMotion
 		if (bChangedPlanet || lairTemplateBubbleWidth == 0) {
 			iPlanetToView = (iPlanetToView + planetMaps.length) % planetMaps.length;
 			vLairSpawns[iPlanetToView] = server.getLairSpawnForPlanet(iPlanetToView);
-			Vector<LairTemplate> lairs = vLairTemplates[iPlanetToView];
+			Stack<LairTemplate> lairs = vLairTemplates[iPlanetToView];
 			for (int i = 0; i < lairs.size(); i++) {
 				LairTemplate lairTemplate = lairs.elementAt(i);
 				String sLairType = server.getTemplateData(lairTemplate.getIMob1Template()).getIFFFileName();
@@ -722,7 +723,7 @@ public class ZoneServerScreen implements KeyListener, MouseListener, MouseMotion
 	private int iMaxNumDynamicLairsToSpawn = 1;
 	private int iMinNumPlayersToTriggerDynamicLairSpawn = 1;
 	private long lDynamicLairRespawnTimeMS = 5000;
-	private Vector<DynamicLairSpawn>[] vLairSpawns;
+	private Stack<DynamicLairSpawn>[] vLairSpawns;
 	private void updatePlaceDynamicSpawns() {
 		int gridMaxIndex = zoneServerGrid[iPlanetToView].getGridCount();
 		gridElementIndexX = (gridElementIndexX + gridMaxIndex) % gridMaxIndex;
@@ -908,7 +909,7 @@ public class ZoneServerScreen implements KeyListener, MouseListener, MouseMotion
 		if (numFrames % 10 == 0) {
 			for (int i = 0; i < vAllGridElements.length; i++) {
 				for (int j = 0; j < vAllGridElements[i].length; j++) {
-					Vector<Player> vCreaturesThisElement = vAllGridElements[i][j].getAllPlayersContained();
+					Stack<Player> vCreaturesThisElement = vAllGridElements[i][j].getAllPlayersContained();
 					for (int k = 0; k < vCreaturesThisElement.size(); k++) {
 						Player player = vCreaturesThisElement.elementAt(i);
 						if (!vPlayersSortedByPlanet[iPlanetToView].contains(player)) {
@@ -1000,7 +1001,7 @@ public class ZoneServerScreen implements KeyListener, MouseListener, MouseMotion
 			int resourceRadiusDiv2;
 			for (int i = 0; i < vResourcesSortedByPlanet[iPlanetToView].size(); i++){
 				SpawnedResourceData resource = vResourcesSortedByPlanet[iPlanetToView].elementAt(i);
-				Vector<ResourceSpawnCoordinateData> vCoordinates = resource.getCoordinates();
+				Stack<ResourceSpawnCoordinateData> vCoordinates = resource.getCoordinates();
 				Color drawColor = ColorManager.getColor(resource.getDrawColor());
 				
 				for (int j = 0; j < vCoordinates.size(); j++) {
@@ -1171,7 +1172,7 @@ public class ZoneServerScreen implements KeyListener, MouseListener, MouseMotion
 	}
 	
 	private void drawChooseDynamicSpawn(Graphics2D g) {
-		Vector<LairTemplate> lairTemplatesThisPlanet = vLairTemplates[iPlanetToView];
+		Stack<LairTemplate> lairTemplatesThisPlanet = vLairTemplates[iPlanetToView];
 		g.setTransform(identity);
 		int currentX = 0;
 		int currentY = 0;
@@ -1440,7 +1441,7 @@ public class ZoneServerScreen implements KeyListener, MouseListener, MouseMotion
 		//float topY = (float)bounds.getY();
 		//float rightX = (float)(leftX + bounds.getWidth());
 		//float bottomY = (float)(topY + bounds.getHeight());
-		Vector<GridElement> vElementsInSpawn = zoneServerGrid[iPlanetToView].getAllContainedElements(bounds);
+		Stack<GridElement> vElementsInSpawn = zoneServerGrid[iPlanetToView].getAllContainedElements(bounds);
 		float numElements = vElementsInSpawn.size();
 		if (numElements == 0) {
 			

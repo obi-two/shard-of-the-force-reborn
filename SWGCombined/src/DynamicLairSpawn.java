@@ -1,5 +1,6 @@
 import java.awt.geom.Rectangle2D;
 import java.util.Vector;
+import java.util.Stack;
 
 
 public class DynamicLairSpawn {
@@ -67,6 +68,7 @@ public class DynamicLairSpawn {
 
 	protected void setMaxNumToSpawn(int maxNumToSpawn) {
 		iMaxNumToSpawn = maxNumToSpawn;
+                //problem BUG TODO: Fix this Stack will not go!
 		lairs = new Vector<Lair>(iMaxNumToSpawn);
 	}
 
@@ -137,7 +139,7 @@ public class DynamicLairSpawn {
 		if (lNextUpdateTime <= 0) {
 			//System.out.println("Update dynamic spawn.");
 			lNextUpdateTime = UPDATE_TIMEOUT;
-			Vector<GridElement> vElements = theGrid.getAllContainedElements(spawnBoundaries);
+			Stack<GridElement> vElements = theGrid.getAllContainedElements(spawnBoundaries);
 			
 			//Vector<Player> vNearbyPlayers = new Vector<Player>(); 
 			int iNumPlayersInSpawn = 0;

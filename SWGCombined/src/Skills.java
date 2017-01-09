@@ -1,5 +1,5 @@
-import java.util.Vector;
-
+//import java.util.Vector;
+import java.util.Stack;
 /**
  * Container class for Skills.  A skill has required money costs to learn, required experience values to learn, etc. etc.
  * @author Darryl
@@ -18,8 +18,8 @@ public class Skills {
 	private int iSkillCapXP = -1;
 	private int[] iSkillSpeciesSpecificID;
 	private int iNumRequiredSkills = 0;
-	private Vector<SkillMods> vSkillMods;
-	private Vector<String> vCertificationsList;
+	private Stack<SkillMods> vSkillMods;
+	private Stack<String> vCertificationsList;
     //private String sRequisiteSkills;
 	private boolean bIsNoviceSkill = false;
 	private boolean bIsProfessionSkill = false;
@@ -31,8 +31,8 @@ public class Skills {
 	 */
 	public Skills() {
 		iRequiredSkillID = new int[MAX_PREREQ_SKILLS];
-		vSkillMods = new Vector<SkillMods>();
-		vCertificationsList = new Vector<String>();
+		vSkillMods = new Stack<SkillMods>();
+		vCertificationsList = new Stack<String>();
 	}
 	
 	/**
@@ -224,7 +224,7 @@ public class Skills {
 	 * Gets all of the Skill Modifiers granted by this Skill.
 	 * @return The Skill Modifiers.
 	 */
-	public Vector<SkillMods> getAllSkillMods() {
+	public Stack<SkillMods> getAllSkillMods() {
 		return vSkillMods;
 	}
 	
@@ -236,7 +236,7 @@ public class Skills {
 		return vCertificationsList.contains(sCertification);
 	}
 	
-	public Vector<String> getCertificationList() {
+	public Stack<String> getCertificationList() {
 		return vCertificationsList;
 	}
         

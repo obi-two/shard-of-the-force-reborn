@@ -1,7 +1,7 @@
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Vector;
-
+//import java.util.Vector;
+import java.util.Stack;
 
 public class ManufacturingSchematic extends IntangibleObject {
 	public final static long serialVersionUID = 1l;
@@ -28,7 +28,7 @@ public class ManufacturingSchematic extends IntangibleObject {
 	
 	
 	// MSCO3 vID 5
-	private Vector<ManufacturingSchematicAttribute> vSchematicAttributes;
+	private Stack<ManufacturingSchematicAttribute> vSchematicAttributes;
 	private int iSchematicAttributeUpdateCount = 0;
 	private boolean bCanRecoverInstalledItems = true;
 	
@@ -109,7 +109,7 @@ public class ManufacturingSchematic extends IntangibleObject {
 		return null;
 	}
 	
-	protected byte[] addSchematicAttribute(Vector<ManufacturingSchematicAttribute> vAttribs, boolean bUpdateZone) throws IOException {
+	protected byte[] addSchematicAttribute(Stack<ManufacturingSchematicAttribute> vAttribs, boolean bUpdateZone) throws IOException {
 		vSchematicAttributes.addAll(vAttribs);
 		if (bUpdateZone) {
 			return PacketFactory.buildDeltasMSCO3SchematicAttribute(this, vAttribs.size(), Constants.DELTA_CREATING_ITEM);
@@ -117,7 +117,7 @@ public class ManufacturingSchematic extends IntangibleObject {
 		return null;
 	}
 	
-	protected Vector<ManufacturingSchematicAttribute> getSchematicAttributes(){
+	protected Stack<ManufacturingSchematicAttribute> getSchematicAttributes(){
 		return vSchematicAttributes;
 	}
 	
@@ -529,7 +529,7 @@ public class ManufacturingSchematic extends IntangibleObject {
 			// Can't happen here -- We're not actually building the packet.
 		}
 		setIFFFileName(template.getIFFFileName());
-		vSchematicAttributes = new Vector<ManufacturingSchematicAttribute>();
+		vSchematicAttributes = new Stack<ManufacturingSchematicAttribute>();
 	}
 	
 	protected float getBaseCraftingComplexity() {
@@ -553,7 +553,7 @@ public class ManufacturingSchematic extends IntangibleObject {
 
 	protected void setCraftingSchematic(CraftingSchematic schem) {
 		cSchematic = schem;
-		Vector<CraftingSchematicComponent> vComponentList = schem.getComponents();
+		Stack<CraftingSchematicComponent> vComponentList = schem.getComponents();
 		CraftingSchematicComponent[] vComponentArray = null;
 		if (vComponentList != null) {
 			vComponentArray = new CraftingSchematicComponent[vComponentList.size()];
@@ -739,11 +739,11 @@ public class ManufacturingSchematic extends IntangibleObject {
 	
 	protected int setExperimentalValues(ZoneClient client) {
 		// For each experiemental value, find the weight it has by percentage.
-		Vector<Integer> requisiteSkills = cSchematic.getRequiredSkillID();
+		Stack<Integer> requisiteSkills = cSchematic.getRequiredSkillID();
 		boolean bHasAnyRequiredSkill = false;
 		Player player = client.getPlayer(); 
 		Skills theSkill = null;
-		Vector<SkillMods> allSkillModsThisSkill = null;
+		Stack<SkillMods> allSkillModsThisSkill = null;
 		if (requisiteSkills.isEmpty()) {
 			// No required skill
 			System.out.println("No skill required to craft this object: " + itemBeingCrafted.getIFFFileName());

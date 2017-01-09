@@ -1,10 +1,11 @@
 import java.io.IOException;
 import java.util.Hashtable;
-import java.util.Vector;
+//import java.util.Vector;
+import java.util.Stack;
 
 public class Factory extends Structure {
 	public final static long serialVersionUID = 1l;
-	private Vector<Long> vHopperAccessList;
+	private Stack<Long> vHopperAccessList;
 	private ManufacturingSchematic currentSchematic;
 	private TangibleItem tInputHopper;
 	private TangibleItem tOutputHopper;
@@ -78,7 +79,7 @@ public class Factory extends Structure {
 			tOutputHopper.setMaxCondition(1, false);
 			getServer().addObjectToAllObjects(tOutputHopper, false, false);
 			tOutputHopper.addBitToPVPStatus(Constants.PVP_STATUS_IS_ITEM);
-			vHopperAccessList = new Vector<Long>();
+			vHopperAccessList = new Stack<Long>();
 		} catch (Exception e) {
 			System.out
 					.println("Error initializing input / output hoppers for factory: "
@@ -110,7 +111,7 @@ public class Factory extends Structure {
 		if (vRadialsForAdmin == null) {
 			vRadialsForAdmin = new Hashtable<Character, RadialMenuItem>();
 			vRadialsForNonAdmin = new Hashtable<Character, RadialMenuItem>();
-			Vector<RadialMenuItem> vRadial = c.getServer().getRadialMenusByCRC(
+			Stack<RadialMenuItem> vRadial = c.getServer().getRadialMenusByCRC(
 					getCRC());
 			for (int i = 0; i < vRadial.size(); i++) {
 				RadialMenuItem item = vRadial.elementAt(i);
@@ -155,8 +156,8 @@ public class Factory extends Structure {
 				return;
 			}
 			Player player = client.getPlayer();
-			Vector<TangibleItem> vInputHopper = tInputHopper.getLinkedObjects();
-			Vector<TangibleItem> vOutputHopper = tOutputHopper
+			Stack<TangibleItem> vInputHopper = tInputHopper.getLinkedObjects();
+			Stack<TangibleItem> vOutputHopper = tOutputHopper
 					.getLinkedObjects();
 			switch (commandID) {
 			case Constants.RADIAL_MENU_EXAMINE: {
@@ -171,7 +172,7 @@ public class Factory extends Structure {
 			case Constants.RADIAL_MENU_ADMIN_SERVER_MENU3: {// Manage power.
 				if (isAdmin(player.getID())) {
 					int iPowerOnHand = 0;
-					Vector<ResourceContainer> vRCList = new Vector<ResourceContainer>();
+					Stack<ResourceContainer> vRCList = new Stack<ResourceContainer>();
 					for (int i = 0; i < client.getPlayer().getInventoryItems()
 							.size(); i++) {
 						TangibleItem o = client.getPlayer().getInventoryItems()
@@ -496,7 +497,7 @@ public class Factory extends Structure {
 					DataListPrompt = "Current schematic installed: "
 							+ currentSchematic.getCraftedName();
 				}
-				Vector<ManufacturingSchematic> vSchematics = player.getSchematicsForFactory(iFactoryType);
+				Stack<ManufacturingSchematic> vSchematics = player.getSchematicsForFactory(iFactoryType);
 				int listSize = vSchematics.size();
 				if (currentSchematic != null) {
 					listSize += 1;
@@ -601,8 +602,8 @@ public class Factory extends Structure {
 				long[] vSerialsOfComponents = currentSchematic.getComponentSerials();
 				CraftingSchematic schematic= currentSchematic.getCraftingSchematic();
 				schematic.clearFactoryItemForCrafting();
-				Vector<CraftingSchematicComponent> vComponents = schematic.getComponents();
-				Vector<TangibleItem> vInputHopper= tInputHopper.getLinkedObjects();
+				Stack<CraftingSchematicComponent> vComponents = schematic.getComponents();
+				Stack<TangibleItem> vInputHopper= tInputHopper.getLinkedObjects();
 				// For each component in the list:  Is it an optional component, a required component, or a resource?
 				// If it's an optional component, must they all be identical, or similar?
 				// If it's an identical component, is it in the factory, and must they all be identical, or similar?

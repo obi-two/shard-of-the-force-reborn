@@ -1,5 +1,6 @@
 import java.io.IOException;
-import java.util.Vector;
+//import java.util.Vector;
+import java.util.Stack;
 import java.util.Hashtable;
 
 /**
@@ -78,7 +79,7 @@ public class Shuttle extends NPC{
 	            {
 	            	setStance(null, Constants.STANCE_PRONE, true);
 	            	//System.out.println("Shuttle Taking Off ID " + this.getTicketID());
-                    Vector <Player>playerList = this.getServer().getPlayersAroundNPC(this);
+                    Stack <Player>playerList = this.getServer().getPlayersAroundNPC(this);
                     if(!playerList.isEmpty())
                     {
                         for(int i = 0; i < playerList.size(); i++)
@@ -126,7 +127,7 @@ public class Shuttle extends NPC{
 	                
 	                if(TD!=null)
 	                {
-	                    Vector <Player>PlayerList = this.getServer().getPlayersAroundNPC(TD);                    
+	                    Stack <Player>PlayerList = this.getServer().getPlayersAroundNPC(TD);
 	                    if(PlayerList!=null && PlayerList.size() >= 1)
 	                    {
 	                        for(int i = 0; i < PlayerList.size(); i++)

@@ -2,8 +2,8 @@ import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.util.Enumeration;
 import java.util.Hashtable;
-import java.util.Vector;
-
+//import java.util.Vector;
+import java.util.Stack;
 /**
  * The NPC class represents any non-player character present in the world.  This can include anything from 
  * probe droids to creatures to vehicles to Krayt Dragons.  Each NPC may or may not have a Path they are following, 
@@ -220,7 +220,7 @@ public class NPC extends Player {
     }
     protected void animateNPC(ZoneClient c, String sAnimation){
        try{
-            Vector<Player> currentPlayers = c.getServer().getPlayersAroundNPC(this);
+            Stack<Player> currentPlayers = c.getServer().getPlayersAroundNPC(this);
             byte [] A = PacketFactory.buildNPCAnimation(this, sAnimation);
             for(int i = 0; i < currentPlayers.size(); i++)
             {
@@ -235,7 +235,7 @@ public class NPC extends Player {
     
     protected void speakNPC(ZoneClient c, String sSpeech, short Mood1, short Mood2){
        try{
-            Vector<Player> currentPlayers = c.getServer().getPlayersAroundNPC(this);
+            Stack<Player> currentPlayers = c.getServer().getPlayersAroundNPC(this);
             
             for(int i = 0; i < currentPlayers.size(); i++)
             {
@@ -504,7 +504,7 @@ public class NPC extends Player {
     private void updateAggressiveIntelligence(long lElapsedTimeMS) throws Exception {
     	// If we don't hate anything, grab the closest player or NPC to hate.  Any player / NPC within 16 metres will be a viable target, provided it is not of the same species I am.
     	if (lCurrentHateID == 0) {
-        	Vector<SOEObject> vObjectsInRange = getServer().getWorldObjectsAroundObject(this, 16.0f);
+        	Stack<SOEObject> vObjectsInRange = getServer().getWorldObjectsAroundObject(this, 16.0f);
 	    	if (!vObjectsInRange.isEmpty()) {
 	    		float fClosestObjectRange = 0;
     			SOEObject tarObject = null;
@@ -676,7 +676,7 @@ public class NPC extends Player {
     	try {
 	    	if (lCurrentHateID == 0) {
 	    		// Find something nearby to stalk.
-	    		Vector<SOEObject> vObjectsInRange = getServer().getWorldObjectsAroundObject(this, 16.0f);
+	    		Stack<SOEObject> vObjectsInRange = getServer().getWorldObjectsAroundObject(this, 16.0f);
 		    	if (!vObjectsInRange.isEmpty()) {
 		    		float fClosestObjectRange = 0;
 	    			SOEObject tarObject = null;
@@ -1010,7 +1010,7 @@ public class NPC extends Player {
         unarmedWeapon.setWeaponType(Constants.WEAPON_TYPE_UNARMED);
 		getServer().addObjectToAllObjects(unarmedWeapon, false, false);
 		equipWeapon(unarmedWeapon, false);
-		Vector<Player> vNearbyPlayers = getServer().getPlayersAroundNPC(this);
+		Stack<Player> vNearbyPlayers = getServer().getPlayersAroundNPC(this);
 		for (int i = 0; i < vNearbyPlayers.size(); i++) {
 			Player nearPlayer = vNearbyPlayers.elementAt(i);
 			nearPlayer.spawnItem(unarmedWeapon);
@@ -1264,7 +1264,7 @@ public class NPC extends Player {
 		int iTotalDamage = iDamageToApply;
 
 		// If the damage to apply was 0 or less, we must have missed or been blocked somehow.
-		Vector<Integer> vCRCs = specialAttack.getAnimationCRC();
+		Stack<Integer> vCRCs = specialAttack.getAnimationCRC();
 		int iCRCToSend = 0;
 		if (vCRCs != null) {
 			if (!vCRCs.isEmpty()) {
@@ -1310,7 +1310,7 @@ public class NPC extends Player {
 		if (iDamageToReflect != 0) {
 			updateCurrentHam(iHamToDamage, -iDamageToReflect);
 		}
-		Vector<Player> vPlayersInRange = getServer().getPlayersAroundObject(this, true);
+		Stack<Player> vPlayersInRange = getServer().getPlayersAroundObject(this, true);
 		for (int i = 0; i < vPlayersInRange.size(); i++) {
 			Player thePlayer = vPlayersInRange.elementAt(i);
 			thePlayer.getClient().insertPacket(PacketFactory.buildCombatTextSpam(this, thePlayer, tarPlayer, "cbt_spam", specialAttack.getCombatSTFSpamArr()[iHitState], iTotalDamage));

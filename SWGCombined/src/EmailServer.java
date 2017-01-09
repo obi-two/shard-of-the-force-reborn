@@ -1,5 +1,6 @@
 import java.net.SocketAddress;
-import java.util.Vector;
+//import java.util.Vector;
+import java.util.Stack;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -50,7 +51,7 @@ public class EmailServer implements Runnable {
 
 	public ConcurrentLinkedQueue<ZoneClient> qClearSentEmails;
 
-	public Vector<SWGEmail> vSentEmails;
+	public Stack<SWGEmail> vSentEmails;
 
 	public Player SystemPlayer;
 
@@ -137,7 +138,7 @@ public class EmailServer implements Runnable {
 																		// of
 																		// Integers?
 		qClearSentEmails = new ConcurrentLinkedQueue<ZoneClient>();
-		vSentEmails = new Vector<SWGEmail>();
+		vSentEmails = new Stack<SWGEmail>();
 
 		while (myThread != null) {
 			try {
@@ -168,7 +169,7 @@ public class EmailServer implements Runnable {
 							// retrieve email from db
 							// SWGEmail E = DB CALL GOES HERE
 							long lPlayerID = client.getPlayer().getID();
-							Vector<SWGEmail> vAllClientEmails = dbInterface
+							Stack<SWGEmail> vAllClientEmails = dbInterface
 									.getAllEmailsForPlayer(lPlayerID, client
 											.getPlayer().getServerID());
 							// System.out.println("Client Has " +
@@ -415,7 +416,7 @@ public class EmailServer implements Runnable {
 						ZoneClient client = CL.elements().nextElement();
 						if (client != null && client.getClientReadyStatus()) {
 
-							Vector<SWGEmail> EV = dbInterface
+							Stack<SWGEmail> EV = dbInterface
 									.getNewEmailsForPlayer(client.getPlayer()
 											.getID(), client.getServer()
 											.getServerID());
@@ -478,7 +479,7 @@ public class EmailServer implements Runnable {
 											// list.");
 											DataLogObject E = new DataLogObject(
 													"EmailServer::EmailThread::MTA",
-													"Error Ocurred while delivering a new message to a player. Could not add the new message to the SentMails Vector.",
+													"Error Ocurred while delivering a new message to a player. Could not add the new message to the SentMails Stack.",
 													Constants.LOG_SEVERITY_CRITICAL);
 											DataLog.qServerLog.add(E);
 										}
