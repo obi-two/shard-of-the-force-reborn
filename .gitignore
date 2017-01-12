@@ -34,3 +34,4 @@ SWGCombined/build/built-jar.properties
 *.xml
 SWGCombined/build/depcache/dependencies.txt
 SWGCombined/build/built-jar.properties
+/SWGCombined/dist/

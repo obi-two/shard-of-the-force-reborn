@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.Hashtable;
 //import java.util.Vector;
 import java.util.Stack;
@@ -8,8 +9,8 @@ import java.util.Stack;
  *
  */
 public class ResourceManager implements Runnable{
-	private Thread myThread;
-	private ZoneServer myServer;
+	private final Thread myThread;
+	private final ZoneServer myServer;
 	private DatabaseInterface dbInterface = null;
 	//private SWGGui SWGGui = null;
 	private Stack<SpawnedResourceData> vAllSpawnedResources;
@@ -24,13 +25,13 @@ public class ResourceManager implements Runnable{
 	private SpawnedResourceData spawnedPool1RadioactiveOre;
 	private SpawnedResourceData spawnedPool1SolidPetrochemical;
 	private SpawnedResourceData spawnedPool1LiquidPetrochemical;
-	private SpawnedResourceData[] spawnedPool1Polymer;
-	private SpawnedResourceData[] spawnedPool1LubricatingOil;
-	private Stack<SpawnedResourceData> spawnedPool2Resources;
-	private Stack<SpawnedResourceData> spawnedPool3Resources;
-	private Hashtable<Integer, Stack<SpawnedResourceData>> spawnedPool4ResourcesByPlanet;
+	private final SpawnedResourceData[] spawnedPool1Polymer;
+	private final SpawnedResourceData[] spawnedPool1LubricatingOil;
+	private final Stack<SpawnedResourceData> spawnedPool2Resources;
+	private final Stack<SpawnedResourceData> spawnedPool3Resources;
+	private final Hashtable<Integer, Stack<SpawnedResourceData>> spawnedPool4ResourcesByPlanet;
 	private Stack<SpawnedResourceData> vAllDespawnedResources;
-    private Stack<String> vAllResourceNames;
+    private final Stack<String> vAllResourceNames;
 	
 	private int iGeneratedResourceCount;
 	
@@ -244,9 +245,8 @@ public class ResourceManager implements Runnable{
 						vAllDespawnedResources.add(resource);
 					}
 				}
-			} catch (Exception e) {
+			} catch (InterruptedException e) {
 				System.out.println("Error in ResourceManager thread: " + e.toString());
-				e.printStackTrace();
 			}
 		}
 	}
@@ -533,9 +533,8 @@ public class ResourceManager implements Runnable{
 				}
 			}
 			client.insertPacket(PacketFactory.buildResourceListForSurveyMessage(item, vResources));
-		} catch (Exception e) {
+		} catch (IOException e) {
 			System.out.println("Error handling resource tool use item request: " + e.toString());
-			e.printStackTrace();
 		}
 	}
 	
@@ -695,32 +694,31 @@ public class ResourceManager implements Runnable{
 		Stack<SpawnedResourceData> vResourcesToReturn = new Stack<SpawnedResourceData>();
 		if(spawnedPool1LubricatingOil != null)
         {
-            for (int i = 0; i < spawnedPool1LubricatingOil.length; i++) {
-                if(spawnedPool1LubricatingOil[i]!=null)
-                {
-                    int[] iResourcePlanetID = spawnedPool1LubricatingOil[i].getAllSpawnedPlanets();
-                    boolean bFound = false;
-                    for (int j = 0; j < iResourcePlanetID.length && !bFound; j++) {
-                        if (iResourcePlanetID[j] == iPlanetID) {
-                            bFound = true;
-                            vResourcesToReturn.add(spawnedPool1LubricatingOil[i]);
+                    for (SpawnedResourceData spawnedPool1LubricatingOil1 : spawnedPool1LubricatingOil) {
+                        if (spawnedPool1LubricatingOil1 != null) {
+                            int[] iResourcePlanetID = spawnedPool1LubricatingOil1.getAllSpawnedPlanets();
+                            boolean bFound = false;
+                            for (int j = 0; j < iResourcePlanetID.length && !bFound; j++) {
+                                if (iResourcePlanetID[j] == iPlanetID) {
+                                    bFound = true;
+                                    vResourcesToReturn.add(spawnedPool1LubricatingOil1);
+                                }
+                            }
                         }
                     }
-                }
-            }
         }
         if(spawnedPool1Polymer != null)
         {
-            for (int i = 0; i < spawnedPool1Polymer.length; i++) {
-                int[] iResourcePlanetID = spawnedPool1Polymer[i].getAllSpawnedPlanets();
-                boolean bFound = false;
-                for (int j = 0; j < iResourcePlanetID.length && !bFound; j++) {
-                    if (iResourcePlanetID[j] == iPlanetID) {
-                        bFound = true;
-                        vResourcesToReturn.add(spawnedPool1Polymer[i]);
+                    for (SpawnedResourceData spawnedPool1Polymer1 : spawnedPool1Polymer) {
+                        int[] iResourcePlanetID = spawnedPool1Polymer1.getAllSpawnedPlanets();
+                        boolean bFound = false;
+                        for (int j = 0; j < iResourcePlanetID.length && !bFound; j++) {
+                            if (iResourcePlanetID[j] == iPlanetID) {
+                                bFound = true;
+                                vResourcesToReturn.add(spawnedPool1Polymer1);
+                            }
+                        }
                     }
-                }
-            }
         }
         if(spawnedPool1LiquidPetrochemical != null)
         {
@@ -864,20 +862,20 @@ public class ResourceManager implements Runnable{
 		if (spawnedPool1Steel != null && spawnedPool1Steel.getIsSpawnedOnPlanet(iPlanetID)) {
 			toReturn.add(spawnedPool1Steel);
 		}
-		for (int i = 0; i < spawnedPool1LubricatingOil.length; i++) {
-			if (spawnedPool1LubricatingOil[i] != null) {
-				if (spawnedPool1LubricatingOil[i].getIsSpawnedOnPlanet(iPlanetID)) {
-					toReturn.add(spawnedPool1LubricatingOil[i]);
-				}
-			}			
-		}
-		for (int i = 0; i < spawnedPool1Polymer.length; i++) {
-			if (spawnedPool1Polymer[i] != null) {
-				if (spawnedPool1Polymer[i].getIsSpawnedOnPlanet(iPlanetID)) {
-					toReturn.add(spawnedPool1Polymer[i]);
-				}
-			}			
-		}
+            for (SpawnedResourceData spawnedPool1LubricatingOil1 : spawnedPool1LubricatingOil) {
+                if (spawnedPool1LubricatingOil1 != null) {
+                    if (spawnedPool1LubricatingOil1.getIsSpawnedOnPlanet(iPlanetID)) {
+                        toReturn.add(spawnedPool1LubricatingOil1);
+                    }
+                }
+            }
+            for (SpawnedResourceData spawnedPool1Polymer1 : spawnedPool1Polymer) {
+                if (spawnedPool1Polymer1 != null) {
+                    if (spawnedPool1Polymer1.getIsSpawnedOnPlanet(iPlanetID)) {
+                        toReturn.add(spawnedPool1Polymer1);
+                    }
+                }
+            }
 		return toReturn;
 	}
 	

@@ -1,5 +1,6 @@
 import java.io.IOException;
-import java.util.Vector;
+//import java.util.Vector;
+import java.util.Stack;
 
 
 public class MedicalItem extends TangibleItem {
@@ -159,7 +160,7 @@ public class MedicalItem extends TangibleItem {
 		long targetID = player.getTargetID();
 		try {
 			
-			Vector<Player> vPlayersInRange = null;
+			Stack<Player> vPlayersInRange = null;
 			if (targetID == 0) {
 				vPlayersInRange = client.getServer().getPlayersAroundObject(this, false, AREA_HEAL_RADIUS);
 			} else {
@@ -233,7 +234,7 @@ public class MedicalItem extends TangibleItem {
 		long targetID = player.getTargetID();
 		int totalDamageHealed = 0;
 		try {
-			Vector<Player> vPlayersInRange = null;
+			Stack<Player> vPlayersInRange = null;
 			if (targetID == 0) {
 				// Heal objects around the player.
 				vPlayersInRange = client.getServer().getPlayersAroundObject(player, true, AREA_HEAL_RADIUS);
@@ -291,7 +292,7 @@ public class MedicalItem extends TangibleItem {
 		long targetID = player.getTargetID();
 		try {
 			
-			Vector<Player> vPlayersInRange = null;
+			Stack<Player> vPlayersInRange = null;
 			if (targetID == 0) {
 				vPlayersInRange = client.getServer().getPlayersAroundObject(this, false, AREA_HEAL_RADIUS);
 			} else {
@@ -344,7 +345,7 @@ public class MedicalItem extends TangibleItem {
 	private void handleHealAreaWounds(ZoneClient client, Player player) {
 		long targetID = player.getTargetID();
 		try {
-			Vector<Player> vPlayersInRange = null;
+			Stack<Player> vPlayersInRange = null;
 			if (targetID == 0) {
 				// Heal objects around the player.
 				vPlayersInRange = client.getServer().getPlayersAroundObject(player, true, AREA_HEAL_RADIUS);
