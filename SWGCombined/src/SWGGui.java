@@ -2,6 +2,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
+import java.awt.HeadlessException;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
@@ -17,6 +18,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
+import java.net.UnknownHostException;
 import java.util.Enumeration;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
@@ -145,68 +147,67 @@ public class SWGGui implements Runnable, KeyListener, MouseListener{
 
 		} catch(FatalConfigException e) {
 
-			//Fatal condition occurred, exit.
-			e.printStackTrace();
-			System.exit(0);
+//Fatal condition occurred, exit.
+                    			System.exit(0);
 		}
 
 		boolean bAuthorized = false;
 		if (bNeedAuthentication) {
-			// Very first thing you're going to do is authenticate with remote host.
-
-			System.out.println("Authenticating with remote server auth1.shardsoftheforce.co.cc");
-			Socket socket = null;
-			InetAddress[] remoteAddresses = new InetAddress[3];
-
-			remoteAddresses[0] = InetAddress.getByName("auth1.shardsoftheforce.co.cc");
-			remoteAddresses[1] = InetAddress.getByName("auth2.shardsoftheforce.co.cc");
-			remoteAddresses[2] = InetAddress.getByName("auth3.shardsoftheforce.co.cc");
-			for (int i = 0; i < remoteAddresses.length && !bAuthorized; i++) {
-				try {
-					socket = new Socket(remoteAddresses[i], 44410);
-					socket.setSoTimeout(2000);  // Wait 2 seconds on any read operation.
-					DataOutputStream dOut = new DataOutputStream(socket.getOutputStream());
-					DataInputStream dIn = new DataInputStream(socket.getInputStream());
-					dOut.writeByte(Constants.CONNECTION_REQUEST);
-					dOut.writeUTF(serverSettings.getRemoteAuthorizationUsername());
-					dOut.writeUTF(serverSettings.getRemoteAuthorizationPassword());
-					dOut.flush();
-					byte connectionResponse = dIn.readByte(); // Block here until you get a response.
-					if (connectionResponse == Constants.CONNECTION_RESPONSE) {
-						// Good
-						byte authorizationStatus = dIn.readByte();
-						switch (authorizationStatus) {
-						case Constants.AUTHENTICATION_STATUS_APPROVED: {
-							System.out.println("Authenticated successfully with remote host.");
-							bAuthorized = true;
-							remoteAuthSocket = socket;
-							remoteDataIn = dIn;
-							remoteDataOut = dOut;
-							break;
-						}case Constants.AUTHENTICATION_STATUS_INVALID_PASSWORD: {
-							System.out.println("Invalid password " + serverSettings.getRemoteAuthorizationPassword() + " for username " + serverSettings.getRemoteAuthorizationUsername());
-							break;
-						}
-						case Constants.AUTHENTICATION_STATUS_INVALID_USERNAME: {
-							System.out.println("Invalid username: " + serverSettings.getRemoteAuthorizationUsername());
-							break;
-						}
-						default:{
-							System.out.println("Unknown authorization status " + authorizationStatus);
-						}
-						}
-					} else {
-						// Bad
-						System.out.println("Unknown connnection response " + connectionResponse);
-					}
-
-				} catch (Exception e) {
-					// Unable to connect.
-				}
-			}
-		} else {
-			bAuthorized = true;
-		}
+                    // Very first thing you're going to do is authenticate with remote host.
+                    
+                    System.out.println("Authenticating with remote server auth1.shardsoftheforce.co.cc");
+                    Socket socket = null;
+                    InetAddress[] remoteAddresses = new InetAddress[3];
+                    
+                    remoteAddresses[0] = InetAddress.getByName("auth1.shardsoftheforce.co.cc");
+                    remoteAddresses[1] = InetAddress.getByName("auth2.shardsoftheforce.co.cc");
+                    remoteAddresses[2] = InetAddress.getByName("auth3.shardsoftheforce.co.cc");
+                    for (int i = 0; i < remoteAddresses.length && !bAuthorized; i++) {
+                        try {
+                            socket = new Socket(remoteAddresses[i], 44410);
+                            socket.setSoTimeout(2000);  // Wait 2 seconds on any read operation.
+                            DataOutputStream dOut = new DataOutputStream(socket.getOutputStream());
+                            DataInputStream dIn = new DataInputStream(socket.getInputStream());
+                            dOut.writeByte(Constants.CONNECTION_REQUEST);
+                            dOut.writeUTF(serverSettings.getRemoteAuthorizationUsername());
+                            dOut.writeUTF(serverSettings.getRemoteAuthorizationPassword());
+                            dOut.flush();
+                            byte connectionResponse = dIn.readByte(); // Block here until you get a response.
+                            if (connectionResponse == Constants.CONNECTION_RESPONSE) {
+                                // Good
+                                byte authorizationStatus = dIn.readByte();
+                                switch (authorizationStatus) {
+                                    case Constants.AUTHENTICATION_STATUS_APPROVED: {
+                                        System.out.println("Authenticated successfully with remote host.");
+                                        bAuthorized = true;
+                                        remoteAuthSocket = socket;
+                                        remoteDataIn = dIn;
+                                        remoteDataOut = dOut;
+                                        break;
+                                    }case Constants.AUTHENTICATION_STATUS_INVALID_PASSWORD: {
+                                        System.out.println("Invalid password " + serverSettings.getRemoteAuthorizationPassword() + " for username " + serverSettings.getRemoteAuthorizationUsername());
+                                        break;
+                                    }
+                                    case Constants.AUTHENTICATION_STATUS_INVALID_USERNAME: {
+                                        System.out.println("Invalid username: " + serverSettings.getRemoteAuthorizationUsername());
+                                        break;
+                                    }
+                                    default:{
+                                        System.out.println("Unknown authorization status " + authorizationStatus);
+                                    }
+                                }
+                            } else {
+                                // Bad
+                                System.out.println("Unknown connnection response " + connectionResponse);
+                            }
+                            
+                        } catch (IOException e) {
+                            // Unable to connect.
+                        }
+                    }
+                } else {
+                    bAuthorized = true;
+                }
 		if (!bAuthorized) {
 			System.out.println("Not authenticated.");
 			System.exit(0);
@@ -302,9 +303,8 @@ public class SWGGui implements Runnable, KeyListener, MouseListener{
 			//System.out.println("Using " + lUsedMemory + " bytes of " + lTotalMemory + " VM available.  Free: " + lFreeMemory + " bytes.");
 			DataLog.logEntry("Using " + lUsedMemory + " bytes of " + lTotalMemory + " VM available.  Free: " + lFreeMemory + " bytes.", "SWGGui", Constants.LOG_SEVERITY_INFO, true,true);
 
-		} catch (Exception e) {
+		} catch (HeadlessException e) {
 			System.out.println("Error caught: " + e.toString());
-			e.printStackTrace();
 		}
 
 	}
@@ -315,6 +315,8 @@ public class SWGGui implements Runnable, KeyListener, MouseListener{
 
 	/**
 	 * The main program.
+     * @param args
+     * @throws java.lang.Exception
 	 */
 	public static void main(String[] args) throws Exception {
 
@@ -424,7 +426,7 @@ public class SWGGui implements Runnable, KeyListener, MouseListener{
 			try {
 				InetAddress serverAddress = InetAddress.getByName(zoneServer.getHostName());
 				g.drawString("Zone Server raw address: " + serverAddress.getHostAddress(), currentX, currentY);
-			} catch (Exception e) {
+			} catch (UnknownHostException e) {
 				// D'oh!
 			}
 			if(zoneServerID!=0)
@@ -575,9 +577,8 @@ public class SWGGui implements Runnable, KeyListener, MouseListener{
 				ZoneClient client = vClientItr.nextElement();
 				try {
 					client.insertPacket(PacketFactory.buildChatSystemMessage(SHUTDOWN_ABORT));
-				} catch (Exception e) {
+				} catch (IOException e) {
 					System.out.println("Error sending shutdown abort packet to client." + e.toString());
-					e.printStackTrace();
 				}
 			}
 		} else if (isKeyPressed(KeyEvent.VK_S)) {
@@ -588,9 +589,8 @@ public class SWGGui implements Runnable, KeyListener, MouseListener{
 				configManager.handleLoadConfiguration();
 			} catch(FatalConfigException e) {
 
-				//Fatal condition occurred, exit.
-				e.printStackTrace();
-				System.exit(0);
+//Fatal condition occurred, exit.
+                            				System.exit(0);
 			}
 		}
 		if (bShuttingDown) {
@@ -603,9 +603,8 @@ public class SWGGui implements Runnable, KeyListener, MouseListener{
 						try {
 							client.insertPacket(PacketFactory.buildChatSystemMessage(SHUTDOWN_WARNING));
 							client.insertPacket(PacketFactory.buildChatSystemMessage(SHUTDOWN_TIME + "5 minutes."));
-						} catch (Exception e) {
+						} catch (IOException e) {
 							System.out.println("Error inserting shutdown packets into client: " + e.toString());
-							e.printStackTrace();
 						}
 					}
 				}
@@ -618,9 +617,8 @@ public class SWGGui implements Runnable, KeyListener, MouseListener{
 						try {
 							client.insertPacket(PacketFactory.buildChatSystemMessage(SHUTDOWN_WARNING));
 							client.insertPacket(PacketFactory.buildChatSystemMessage(SHUTDOWN_TIME + "4 minutes."));
-						} catch (Exception e) {
+						} catch (IOException e) {
 							System.out.println("Error inserting shutdown packets into client: " + e.toString());
-							e.printStackTrace();
 						}
 					}
 				}
@@ -633,9 +631,8 @@ public class SWGGui implements Runnable, KeyListener, MouseListener{
 						try {
 							client.insertPacket(PacketFactory.buildChatSystemMessage(SHUTDOWN_WARNING));
 							client.insertPacket(PacketFactory.buildChatSystemMessage(SHUTDOWN_TIME + "3 minutes."));
-						} catch (Exception e) {
+						} catch (IOException e) {
 							System.out.println("Error inserting shutdown packets into client: " + e.toString());
-							e.printStackTrace();
 						}
 					}
 				}
@@ -648,9 +645,8 @@ public class SWGGui implements Runnable, KeyListener, MouseListener{
 						try {
 							client.insertPacket(PacketFactory.buildChatSystemMessage(SHUTDOWN_WARNING));
 							client.insertPacket(PacketFactory.buildChatSystemMessage(SHUTDOWN_TIME + "2 minutes."));
-						} catch (Exception e) {
+						} catch (IOException e) {
 							System.out.println("Error inserting shutdown packets into client: " + e.toString());
-							e.printStackTrace();
 						}
 					}
 				}
@@ -663,9 +659,8 @@ public class SWGGui implements Runnable, KeyListener, MouseListener{
 						try {
 							client.insertPacket(PacketFactory.buildChatSystemMessage(SHUTDOWN_WARNING));
 							client.insertPacket(PacketFactory.buildChatSystemMessage(SHUTDOWN_TIME + "1 minutes."));
-						} catch (Exception e) {
+						} catch (IOException e) {
 							System.out.println("Error inserting shutdown packets into client: " + e.toString());
-							e.printStackTrace();
 						}
 					}
 				}
@@ -687,7 +682,7 @@ public class SWGGui implements Runnable, KeyListener, MouseListener{
 					remoteDataOut.close();
 					remoteDataIn.close();
 					remoteAuthSocket.close();
-				} catch (Exception e) {
+				} catch (IOException e) {
 					// Oh well, we're closing anyway.
 				}
 				System.exit(0);
@@ -743,7 +738,7 @@ public class SWGGui implements Runnable, KeyListener, MouseListener{
 								remoteDataOut.close();
 								remoteDataIn.close();
 								remoteAuthSocket.close();
-							} catch (Exception e) {
+							} catch (IOException e) {
 								// Oh well, we're closing anyway.
 							}
 
@@ -754,7 +749,7 @@ public class SWGGui implements Runnable, KeyListener, MouseListener{
 					}
 				}
 
-			}catch(Exception e){
+			}catch(InterruptedException e){
 				//who cares
 				System.out.println("We exploded while running the thread: " + e.toString());
 				e.printStackTrace();
@@ -944,7 +939,7 @@ public class SWGGui implements Runnable, KeyListener, MouseListener{
 	}
 
 	public final static int NUMDIGITS = 10;
-	private static int[] digits = new int[NUMDIGITS];
+	private static final int[] digits = new int[NUMDIGITS];
 
 	private final static String[] ALLDIGITS = {
 		"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ","

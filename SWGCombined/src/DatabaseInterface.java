@@ -1031,7 +1031,8 @@ public class DatabaseInterface implements Runnable {
 					Stack<TangibleItem> vAllPlayerItems = player
 							.getInventoryItems();
 					for (int i = 0; i < vAllPlayerItems.size(); i++) {
-						TangibleItem item = vAllPlayerItems.elementAt(i);
+						//TangibleItem item = vAllPlayerItems.elementAt(i);
+                                                TangibleItem item = vAllPlayerItems.get(i);
 						server.addObjectToAllObjects(item, false, false);
 
 						/*
@@ -1052,14 +1053,16 @@ public class DatabaseInterface implements Runnable {
 					Stack<Waypoint> vPlayerWaypoints = player.getPlayData()
 							.getWaypoints();
 					for (int i = 0; i < vPlayerWaypoints.size(); i++) {
-						Waypoint w = vPlayerWaypoints.elementAt(i);
+						//Waypoint w = vPlayerWaypoints.elementAt(i);
+                                                Waypoint w = vPlayerWaypoints.get(i);
 						server.addObjectToAllObjects(w, false, false);
 					}
 					Stack<IntangibleObject> vAllDatapadObjects = player
 							.getDatapad().getIntangibleObjects();
 					for (int i = 0; i < vAllDatapadObjects.size(); i++) {
 						server.addObjectToAllObjects(vAllDatapadObjects
-								.elementAt(i), false, false);
+								//.elementAt(i), false, false);
+                                                        .get(i), false, false);
 					}
 					server.addObjectToAllObjects(player.getBank(), false,false);
 					server.addObjectToAllObjects(player.getDatapad(), false,false);
@@ -1748,7 +1751,8 @@ public class DatabaseInterface implements Runnable {
 			Stack<DatabaseServerInfoContainer> vContainers = new Stack<DatabaseServerInfoContainer>();
 			for (int i = 0; i < vServerInfoContainer.size(); i++) {
 				DatabaseServerInfoContainer container = vServerInfoContainer
-						.elementAt(i);
+						//.elementAt(i);
+                                        .get(i);
 				if (!container.bDevOnlyServer) {
 					vContainers.add(container);
 				}
@@ -1767,7 +1771,8 @@ public class DatabaseInterface implements Runnable {
 
 		for (int i = 0; i < vServerInfoContainer.size(); i++) {
 			DatabaseServerInfoContainer container = vServerInfoContainer
-					.elementAt(i);
+				//	.elementAt(i);
+                                .get(i);
 			if (container.iServerID == iServerID) {
 				return container;
 			}
@@ -3376,31 +3381,36 @@ public class DatabaseInterface implements Runnable {
 		}
 		String sComparatorString = null;
 		for (int i = 0; i < vCharacterNameFilterDeveloper.size(); i++) {
-			sComparatorString = vCharacterNameFilterDeveloper.elementAt(i);
+			//sComparatorString = vCharacterNameFilterDeveloper.elementAt(i);
+                        sComparatorString = vCharacterNameFilterDeveloper.get(i);
 			if (str.contains(sComparatorString)) {
 				return Constants.NAME_DECLINED_IS_DEVELOPER;
 			}
 		}
 		for (int i = 0; i < vCharacterNameFilterCanonical.size(); i++) {
-			sComparatorString = vCharacterNameFilterCanonical.elementAt(i);
+			//sComparatorString = vCharacterNameFilterCanonical.elementAt(i);
+                        sComparatorString = vCharacterNameFilterCanonical.get(i);
 			if (str.contains(sComparatorString)) {
 				return Constants.NAME_DECLINED_IS_CANONICAL;
 			}
 		}
 		for (int i = 0; i < vCharacterNameFilterNumber.size(); i++) {
-			sComparatorString = vCharacterNameFilterNumber.elementAt(i);
+		//	sComparatorString = vCharacterNameFilterNumber.elementAt(i);
+                sComparatorString = vCharacterNameFilterNumber.get(i);
 			if (str.contains(sComparatorString)) {
 				return Constants.NAME_DECLINED_IS_NUMBER;
 			}
 		}
 		for (int i = 0; i < vCharacterNameFilterProfane.size(); i++) {
-			sComparatorString = vCharacterNameFilterProfane.elementAt(i);
+			//sComparatorString = vCharacterNameFilterProfane.elementAt(i);
+                        sComparatorString = vCharacterNameFilterProfane.get(i);
 			if (str.contains(sComparatorString)) {
 				return Constants.NAME_DECLINED_IS_PROFANE;
 			}
 		}
 		for (int i = 0; i < vCharacterNameFilterSyntax.size(); i++) {
-			sComparatorString = vCharacterNameFilterSyntax.elementAt(i);
+			//sComparatorString = vCharacterNameFilterSyntax.elementAt(i);
+                        sComparatorString = vCharacterNameFilterSyntax.get(i);
 			if (str.contains(sComparatorString)) {
 				return Constants.NAME_DECLINED_SYNTAXICALLY_WRONG;
 			}
@@ -3449,7 +3459,8 @@ public class DatabaseInterface implements Runnable {
 			// End exact match.
 			String sComparatorString = null;
 			for (int i = 0; i < vCharacterNameFilterDeveloper.size(); i++) {
-				sComparatorString = vCharacterNameFilterDeveloper.elementAt(i);
+				//sComparatorString = vCharacterNameFilterDeveloper.elementAt(i);
+                                sComparatorString = vCharacterNameFilterDeveloper.get(i);
 				if (sFirstName.contains(sComparatorString)
 						|| sLastName.contains(sComparatorString)) {
 					System.out.println("First or last name contains comparator string.");
@@ -3463,7 +3474,8 @@ public class DatabaseInterface implements Runnable {
 				}
 			}
 			for (int i = 0; i < vCharacterNameFilterCanonical.size(); i++) {
-				sComparatorString = vCharacterNameFilterCanonical.elementAt(i);
+			//	sComparatorString = vCharacterNameFilterCanonical.elementAt(i);
+                        sComparatorString = vCharacterNameFilterCanonical.get(i);
 				if (sFirstName.contains(sComparatorString)
 						|| sLastName.contains(sComparatorString)) {
 					return Constants.NAME_DECLINED_IS_CANONICAL;
@@ -3474,7 +3486,8 @@ public class DatabaseInterface implements Runnable {
 				}
 			}
 			for (int i = 0; i < vCharacterNameFilterNumber.size(); i++) {
-				sComparatorString = vCharacterNameFilterNumber.elementAt(i);
+			//	sComparatorString = vCharacterNameFilterNumber.elementAt(i);
+                        sComparatorString = vCharacterNameFilterNumber.get(i);
 				if (sFirstName.contains(sComparatorString)
 						|| sLastName.contains(sComparatorString)) {
 					return Constants.NAME_DECLINED_IS_NUMBER;
@@ -3485,7 +3498,8 @@ public class DatabaseInterface implements Runnable {
 				}
 			}
 			for (int i = 0; i < vCharacterNameFilterProfane.size(); i++) {
-				sComparatorString = vCharacterNameFilterProfane.elementAt(i);
+				//sComparatorString = vCharacterNameFilterProfane.elementAt(i);
+                                sComparatorString = vCharacterNameFilterProfane.get(i);
 				if (sFirstName.contains(sComparatorString)
 						|| sLastName.contains(sComparatorString)) {
 					return Constants.NAME_DECLINED_IS_PROFANE;
@@ -3496,7 +3510,8 @@ public class DatabaseInterface implements Runnable {
 				}
 			}
 			for (int i = 0; i < vCharacterNameFilterSyntax.size(); i++) {
-				sComparatorString = vCharacterNameFilterSyntax.elementAt(i);
+				//sComparatorString = vCharacterNameFilterSyntax.elementAt(i);
+                                sComparatorString = vCharacterNameFilterSyntax.get(i);
 				if (sFirstName.contains(sComparatorString)
 						|| sLastName.contains(sComparatorString)) {
 					return Constants.NAME_DECLINED_SYNTAXICALLY_WRONG;
@@ -3509,7 +3524,8 @@ public class DatabaseInterface implements Runnable {
 			}
 			Stack<String> vServerUsedNames = server.getUsedCharacterNames();
 			for (int i = 0; i < vServerUsedNames.size(); i++) {
-				if (sFirstName.equalsIgnoreCase(vServerUsedNames.elementAt(i))) {
+				//if (sFirstName.equalsIgnoreCase(vServerUsedNames.elementAt(i))) {
+                                if (sFirstName.equalsIgnoreCase(vServerUsedNames.get(i))) {
 					return Constants.NAME_DECLINED_IS_TAKEN;
 				}
 				if (sComparatorString.contains(sFirstName)
@@ -3610,7 +3626,8 @@ public class DatabaseInterface implements Runnable {
 				bOut = new ByteArrayOutputStream();
 				oOut = new ObjectOutputStream(bOut);
 				SpawnedResourceData resourceData = vSpawnedResources
-						.elementAt(i);
+					//	.elementAt(i);
+                                        .get(i);
 				String query = "Select * from `resources` where resource_id = "
 						+ resourceData.getID() + ";";
 				if (statement.execute(query)) {
@@ -6148,7 +6165,8 @@ protected static Stack<ItemTemplate> getItemTemplateWeaponGroup(int group) {
 			while (vSchematicItr.hasNext()) {
 				Stack<CraftingSchematic> vSchematics = vSchematicItr.next();
 				for (int j = 0; j < vSchematics.size(); j++) {
-					CraftingSchematic sch = vSchematics.elementAt(j);
+					//CraftingSchematic sch = vSchematics.elementAt(j);
+                                        CraftingSchematic sch = vSchematics.get(j);
 					vSchematicsByIndex[sch.getIndex()] = sch;
 				}
 			}
@@ -6511,7 +6529,8 @@ protected static Stack<ItemTemplate> getItemTemplateWeaponGroup(int group) {
 
 		c.setNumAttributes(vAttributes.size());
 		for (int i = 0; i < vAttributes.size(); i++) {
-			c.addAttribute(i, vAttributes.elementAt(i));
+			//c.addAttribute(i, vAttributes.elementAt(i));
+                        c.addAttribute(i, vAttributes.get(i));
 		}
 		// }
 	}
@@ -8562,7 +8581,8 @@ protected static Stack<ItemTemplate> getItemTemplateWeaponGroup(int group) {
 			case Constants.LOGIN_INTEGRATION_VBULLETIN: {
 				// Do stuff
 				for (int j = 0; j < vAccounts.size(); j++) {
-					AccountData data = vAccounts.elementAt(j);
+					//AccountData data = vAccounts.elementAt(j);
+                                        AccountData data = vAccounts.get(j);
 					String sUsername = data.getUsername();
 					String sPassword = data.getPassword();
 					if (sPassword.isEmpty()) {

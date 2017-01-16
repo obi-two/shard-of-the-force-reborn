@@ -501,7 +501,8 @@ public class ZoneClient implements Serializable{
                     Group g = (Group)myServer.getObjectFromAllObjects(player.getGroupID());
                     Stack<Player> vGroupPlayers = g.getPlayerObjectsInGroup();
                     for (int i = 0; i < vGroupPlayers.size(); i++) {
-                    	ZoneClient tarClient = vGroupPlayers.elementAt(i).getClient();
+                    	//ZoneClient tarClient = vGroupPlayers.elementAt(i).getClient();
+                        ZoneClient tarClient = vGroupPlayers.get(i).getClient();
                     	if (tarClient != null) {
                     		if (tarClient.getClientReadyStatus()) {
                     			vSendList.add(tarClient);
@@ -516,7 +517,8 @@ public class ZoneClient implements Serializable{
                     Group g = (Group)myServer.getObjectFromAllObjects(thePlayer.getGroupID());
                     Stack<Player> vGroupPlayers = g.getPlayerObjectsInGroup();
                     for (int i = 0; i < vGroupPlayers.size(); i++) {
-                    	Player tarPlayer = vGroupPlayers.elementAt(i);
+                    	//Player tarPlayer = vGroupPlayers.elementAt(i);
+                        Player tarPlayer = vGroupPlayers.get(i);
                     	if (thePlayer == null) {
                     		// "My" player is the sender.
                     		if (tarPlayer.getID() != player.getID()) {
@@ -588,7 +590,8 @@ public class ZoneClient implements Serializable{
                 		vAllPlayers = myServer.getAllPlayersOnPlanet(player.getPlanetID());
                 	}
                     for (int i = 0; i < vAllPlayers.size(); i++) {
-                    	ZoneClient tarClient = vAllPlayers.elementAt(i).getClient();
+                    	//ZoneClient tarClient = vAllPlayers.elementAt(i).getClient();
+                        ZoneClient tarClient = vAllPlayers.get(i).getClient();
                     	if (tarClient != null) {
                     		if (tarClient.getClientReadyStatus()) {
                     			vSendList .add(tarClient);
@@ -608,7 +611,8 @@ public class ZoneClient implements Serializable{
                 		vAllPlayers.remove(player);
                 	}
                     for (int i = 0; i < vAllPlayers.size(); i++) {
-                    	ZoneClient tarClient = vAllPlayers.elementAt(i).getClient();
+                    	//ZoneClient tarClient = vAllPlayers.elementAt(i).getClient();
+                        ZoneClient tarClient = vAllPlayers.get(i).getClient();
                     	if (tarClient != null) {
                     		if (tarClient.getClientReadyStatus()) {
                     			vSendList .add(tarClient);
@@ -623,7 +627,8 @@ public class ZoneClient implements Serializable{
                     {
                     	Stack<Player> vAllPlayers = myServer.getAllPlayersOnPlanet(i);
                         for (int j = 0; j < vAllPlayers.size(); j++) {
-                        	ZoneClient tarClient = vAllPlayers.elementAt(i).getClient();
+                        	//ZoneClient tarClient = vAllPlayers.elementAt(i).getClient();
+                                ZoneClient tarClient = vAllPlayers.get(i).getClient();
                         	if (tarClient != null) {
                         		if (tarClient.getClientReadyStatus()) {
                         			vSendList .add(tarClient);
@@ -639,7 +644,8 @@ public class ZoneClient implements Serializable{
                     {
                     	Stack<Player> vAllPlayers = myServer.getAllPlayersOnPlanet(i);
                         for (int j = 0; j < vAllPlayers.size(); j++) {
-                        	Player tarPlayer = vAllPlayers.elementAt(i);
+                        	//Player tarPlayer = vAllPlayers.elementAt(i);
+                                Player tarPlayer = vAllPlayers.get(i);
                         	ZoneClient tarClient = tarPlayer.getClient();
                         	if (tarClient != null) {
                         		if (tarClient.getClientReadyStatus()) {
@@ -739,7 +745,8 @@ public class ZoneClient implements Serializable{
 	 */
 	public void insertAllPackets(Stack<byte[]> packets) {
 		for (int i = 0; i < packets.size(); i++) {
-			insertPacket(packets.elementAt(i));
+			//insertPacket(packets.elementAt(i));
+                        insertPacket(packets.get(i));
 		}
 		//packets = null;
 	}

@@ -591,7 +591,8 @@ public final class Lair extends NPC{
                             boolean bFound = false;
                             if (boneType != -1) {
                             	for (int j = 0; j < vResourcesThisPlanet.size() && !bFound; j++) {
-                            		SpawnedResourceData data = vResourcesThisPlanet.elementAt(j);
+                            		//SpawnedResourceData data = vResourcesThisPlanet.elementAt(j);
+                                        SpawnedResourceData data = vResourcesThisPlanet.get(j);
                             		if (data.getIGenericResourceIndex() == (boneType + getPlanetID())) {
                             			// Found it.
                             			bFound = true;
@@ -602,7 +603,8 @@ public final class Lair extends NPC{
                             bFound = false;
                             if (hideType != -1) {
                             	for (int j = 0; j < vResourcesThisPlanet.size() && !bFound; j++) {
-                            		SpawnedResourceData data = vResourcesThisPlanet.elementAt(j);
+                            		//SpawnedResourceData data = vResourcesThisPlanet.elementAt(j);
+                                        SpawnedResourceData data = vResourcesThisPlanet.get(j);
                             		if (data.getIGenericResourceIndex() == (hideType + getPlanetID())) {
                             			// Found it.
                             			bFound = true;
@@ -614,7 +616,8 @@ public final class Lair extends NPC{
                             bFound = false;
                             if (meatType != -1) {
                             	for (int j = 0; j < vResourcesThisPlanet.size() && !bFound; j++) {
-                            		SpawnedResourceData data = vResourcesThisPlanet.elementAt(j);
+                            		//SpawnedResourceData data = vResourcesThisPlanet.elementAt(j);
+                                        SpawnedResourceData data = vResourcesThisPlanet.get(j);
                             		if (data.getIGenericResourceIndex() == (meatType + getPlanetID())) {
                             			// Found it.
                             			bFound = true;
@@ -625,7 +628,8 @@ public final class Lair extends NPC{
                             bFound = false;
                             if (milkType != -1) {
                             	for (int j = 0; j < vResourcesThisPlanet.size() && !bFound; j++) {
-                            		SpawnedResourceData data = vResourcesThisPlanet.elementAt(j);
+                            		//SpawnedResourceData data = vResourcesThisPlanet.elementAt(j);
+                                        SpawnedResourceData data = vResourcesThisPlanet.get(j);
                             		if (data.getIGenericResourceIndex() == (milkType + getPlanetID())) {
                             			// Found it.
                             			bFound = true;

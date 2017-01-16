@@ -176,7 +176,8 @@ public class EmailServer implements Runnable {
 							// vAllClientEmails.size() + " in his Mailbox.");
 							boolean bHeadsUpSent = false;
 							for (int i = 0; i < vAllClientEmails.size(); i++) {
-								SWGEmail E = vAllClientEmails.elementAt(i);
+								//SWGEmail E = vAllClientEmails.elementAt(i);
+                                                                SWGEmail E = vAllClientEmails.get(i);
 								// System.out.println("Sending Email at
 								// Position: " + i);
 								if (!E.getDeleteFlag()) {
@@ -392,7 +393,8 @@ public class EmailServer implements Runnable {
 						long lPlayerID = qClearSentEmails.element().getPlayer()
 								.getID();
 						for (int i = 0; i < vSentEmails.size(); i++) {
-							if (vSentEmails.elementAt(0).getRecipientID() == lPlayerID) {
+							//if (vSentEmails.elementAt(0).getRecipientID() == lPlayerID) {
+                                                        if (vSentEmails.get(0).getRecipientID() == lPlayerID) {
 								vSentEmails.remove(0);
 								i = 0;
 							}
@@ -427,14 +429,17 @@ public class EmailServer implements Runnable {
 							int m = 0;
 							while (EV.size() != 0) {
 								boolean bHeadsUpSent = false;
-								if (!EV.elementAt(m).isRead()) {
+								//if (!EV.elementAt(m).isRead()) {
+                                                                if (!EV.get(m).isRead()) {
 									// System.out.println("MTA Processing Unread
 									// Email ID: " +
 									// EV.elementAt(m).getEmailID() );
-									SWGEmail NE = EV.elementAt(m);
+									//SWGEmail NE = EV.elementAt(m);
+                                                                        SWGEmail NE = EV.get(m);
 									boolean eFound = false;
 									for (int f = 0; f < vSentEmails.size(); f++) {
-										SWGEmail TE = vSentEmails.elementAt(f);
+										//SWGEmail TE = vSentEmails.elementAt(f);
+                                                                                SWGEmail TE = vSentEmails.get(f);
 										// System.out.println("Iterating Sent
 										// Emails: " + f + " : ID: " +
 										// TE.getEmailID() + " : NE ID: " +

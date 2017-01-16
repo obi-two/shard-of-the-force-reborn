@@ -398,7 +398,8 @@ public class ZoneServer implements Runnable {
 			addObjectToAllObjects(adminTerminal, true, false);
 			if (!vElevatorTerminal.isEmpty()) {
 				for (int i = 0; i < vElevatorTerminal.size(); i++) {
-					addObjectToAllObjects(vElevatorTerminal.elementAt(i), true, false);
+				//	addObjectToAllObjects(vElevatorTerminal.elementAt(i), true, false);
+                                addObjectToAllObjects(vElevatorTerminal.get(i), true, false);
 				}
 			}
 			if (s instanceof Factory) {
@@ -416,13 +417,15 @@ public class ZoneServer implements Runnable {
 				if (!vContainedItems.isEmpty()) {
 					for (int i = 0; i < vContainedItems.size(); i++) {
 						
-						addObjectToAllObjects(vContainedItems.elementAt(i), false, false);
+						//addObjectToAllObjects(vContainedItems.elementAt(i), false, false);
+                                                addObjectToAllObjects(vContainedItems.get(i), false, false);
 					}
 				}
 				vContainedItems = outputHopper.getLinkedObjects();
 				if (!vContainedItems.isEmpty()) {
 					for (int i = 0; i < vContainedItems.size(); i++) {
-						addObjectToAllObjects(vContainedItems.elementAt(i), false, false);
+						//addObjectToAllObjects(vContainedItems.elementAt(i), false, false);
+                                                addObjectToAllObjects(vContainedItems.get(i), false, false);
 					}
 				}
 			}
@@ -473,7 +476,8 @@ public class ZoneServer implements Runnable {
 
 		if (!ServerShuttleList.isEmpty()) {
 			for (int i = 0; i < ServerShuttleList.size(); i++) {
-				Shuttle s = ServerShuttleList.elementAt(i);
+				//Shuttle s = ServerShuttleList.elementAt(i);
+                                Shuttle s = ServerShuttleList.get(i);
 				s.setID(getNextObjectID());
 				addObjectToAllObjects(s, true,false);
 			}
@@ -1040,6 +1044,7 @@ public class ZoneServer implements Runnable {
 	 * The main loop for the Zone Server. Packet reception occurs here, as well
 	 * as updates to the server weather.
 	 */
+        @Override
 	public void run() {
 		if(!bInitialized) {
 			initialize();
@@ -1503,7 +1508,8 @@ public class ZoneServer implements Runnable {
 		if (element != null) {
 			Stack<Player> vNearbyPlayers = element.getAllNearPlayers();
 			for (int i = 0; i < vNearbyPlayers.size(); i++) {
-				Player p = vNearbyPlayers.elementAt(i);
+				//Player p = vNearbyPlayers.elementAt(i);
+                                Player p = vNearbyPlayers.get(i);
 				if (isInRange(p, npc, Constants.CHATRANGE)) {
 					vPlayersToReturn.add(p);
 				}
@@ -1519,7 +1525,8 @@ public class ZoneServer implements Runnable {
 		if (element != null) {
 			Stack<SOEObject> vNearbyPlayers = element.getAllNearCreatures();
 			for (int i = 0; i < vNearbyPlayers.size(); i++) {
-				SOEObject obj = vNearbyPlayers.elementAt(i);
+				//SOEObject obj = vNearbyPlayers.elementAt(i);
+                                SOEObject obj = vNearbyPlayers.get(i);
 				if (isInRange(p, obj, Constants.CHATRANGE)) {
 					vCreaturesToReturn.add(p);
 				}
@@ -1803,7 +1810,8 @@ public class ZoneServer implements Runnable {
 			if (!bIncludePlayer) {
 				boolean bFound = false;
 				for (int i = 0; i < vPlayerList.size() && !bFound; i++) {
-					Player player = vPlayerList.elementAt(i);
+					//Player player = vPlayerList.elementAt(i);
+                                        Player player = vPlayerList.get(i);
 					if (player.getID() == p.getID()) {
 						vPlayerList.remove(i);
 						bFound = true;
@@ -1822,7 +1830,8 @@ public class ZoneServer implements Runnable {
 	protected Stack<Player> getPlayersAroundObject(SOEObject p, boolean bIncludePlayer, float range) {
 		Stack<Player> vPlayerList = getPlayersAroundObject(p, bIncludePlayer);
 		for (int i = 0; i < vPlayerList.size(); i++) {
-			if (!isInRange(p, vPlayerList.elementAt(i), range)) {
+			//if (!isInRange(p, vPlayerList.elementAt(i), range)) {
+                        if (!isInRange(p, vPlayerList.get(i), range)) {
 				vPlayerList.remove(i);
 				i--;
 			}
@@ -1964,7 +1973,8 @@ public class ZoneServer implements Runnable {
 		if (bInTree) {
 			Stack<Player> vInRangePlayers = getPlayersAroundObject(o, false);
 			for (int i = 0; i < vInRangePlayers.size(); i++) {
-				Player p = vInRangePlayers.elementAt(i);
+				//Player p = vInRangePlayers.elementAt(i);
+                                Player p = vInRangePlayers.get(i);
 				try {
 					p.despawnItem(o);
 				} catch (Exception e) {
@@ -2342,7 +2352,8 @@ public class ZoneServer implements Runnable {
 	protected String getTravelTerminalLocationName(int TerminalID){
 		TravelDestination t = null;
 		for (int i = 0; i < vAllTravelDestinations.size(); i++) {
-			t = vAllTravelDestinations.elementAt(i);
+			//t = vAllTravelDestinations.elementAt(i);
+                        t = vAllTravelDestinations.get(i);
 			if (t.getTerminalID() == TerminalID) {
 				return t.getDestinationName();
 			}
@@ -2415,7 +2426,8 @@ public class ZoneServer implements Runnable {
 		// System.out.println("Requested playerTravel Destination Sought " + Name);
 		for(int i = 0; i < vAllTravelDestinations.size(); i++)
 		{
-			TravelDestination t = vAllTravelDestinations.elementAt(i);
+			//TravelDestination t = vAllTravelDestinations.elementAt(i);
+                    TravelDestination t = vAllTravelDestinations.get(i);
 			if(t.getDestinationName().equalsIgnoreCase(Name) && t.getDestinationPlanet() == iPlanetID)
 			{
 				// System.out.println("Requested playerTravel Destination Found " + Name);
@@ -2841,7 +2853,8 @@ public class ZoneServer implements Runnable {
 
 		if (!V.isEmpty()) {
 			for (int i = 0; i < V.size(); i++) {
-				Terminal t = V.elementAt(i);
+				//Terminal t = V.elementAt(i);
+                                Terminal t = V.get(i);
 				long objectID = t.getID();
 				if (bIsObjectIDUsed(objectID)) {
 					objectID = getNextObjectID();
@@ -3956,7 +3969,8 @@ public class ZoneServer implements Runnable {
 		if (bUsingLoginServer) {
 			Stack<Player> vPlayers= lServer.getCharacterListForServer(serverID);
 			for (int i = 0; i < vPlayers.size(); i++) {
-				Player player = vPlayers.elementAt(i);
+				//Player player = vPlayers.elementAt(i);
+                                Player player = vPlayers.get(i);
 				if (player.getFirstName().equalsIgnoreCase(sFirstName)) {
 					return Constants.FRIEND_EXISTS_ON_SERVER;
 				}
@@ -4114,7 +4128,8 @@ public class ZoneServer implements Runnable {
             {
                 Stack<Player> vPlayersOnPlanet = getAllPlayersOnPlanet(generatingPlayer.getPlanetID());
             	for (int i = 0; i < vPlayersOnPlanet.size(); i++) {
-            		ZoneClient client = vPlayersOnPlanet.elementAt(i).getClient();
+            		//ZoneClient client = vPlayersOnPlanet.elementAt(i).getClient();
+                        ZoneClient client = vPlayersOnPlanet.get(i).getClient();
             		if (client != null) {
             			vSendList.add(client);
             		}
@@ -4125,9 +4140,11 @@ public class ZoneServer implements Runnable {
             {
                 Stack<Player> vPlayersOnPlanet = getAllPlayersOnPlanet(generatingPlayer.getPlanetID());
             	for (int i = 0; i < vPlayersOnPlanet.size(); i++) {
-            		Player tarPlayer = vPlayersOnPlanet.elementAt(i);
+            		//Player tarPlayer = vPlayersOnPlanet.elementAt(i);
+                        Player tarPlayer = vPlayersOnPlanet.get(i);
             		if (tarPlayer.getID() != generatingPlayer.getID()) {
-	            		ZoneClient client = vPlayersOnPlanet.elementAt(i).getClient();
+	            		//ZoneClient client = vPlayersOnPlanet.elementAt(i).getClient();
+                                ZoneClient client = vPlayersOnPlanet.get(i).getClient();
 	            		if (client != null) {
 	            			vSendList.add(client);
 	            		}
@@ -4193,7 +4210,8 @@ public class ZoneServer implements Runnable {
         {
             for(int i = 0; i < vSendList.size();i++)
             {
-            	ZoneClient recipient = vSendList.elementAt(i);
+            	//ZoneClient recipient = vSendList.elementAt(i);
+                ZoneClient recipient = vSendList.get(i);
             	if (recipient != null) {
             		recipient.insertPacket(packet);
             	}

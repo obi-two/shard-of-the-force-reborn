@@ -2,6 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+import java.io.IOException;
 import java.util.Enumeration;
 import java.util.concurrent.ConcurrentHashMap;
 /**
@@ -9,15 +10,19 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author Tomas Cruz
  */
 public final class TutorialObject extends Structure {
+
+    /**
+     *
+     */
     public final static long serialVersionUID = 1;       
-    private transient ZoneServer zServer;
-    private Terminal tutorialTravelTerminal;
+    private final transient ZoneServer zServer;
+    private final Terminal tutorialTravelTerminal;
     private boolean bHasCompleted;
     private Player owner;
-    private boolean [] partPlayed;
+    private final boolean [] partPlayed;
     private long lPlayDelay;
     //private long lPlaySubpartDelay;
-    private int iPartsToPlay;
+    private final int iPartsToPlay;
     private boolean bHasEnteredTutorial;
     private boolean bWelcomePlayed;
     private boolean bChatEvent;
@@ -32,6 +37,7 @@ public final class TutorialObject extends Structure {
      */
     private Terminal greetOfficer;
     private TangibleItem suppliesDrum;
+    
     // Objects End
 
     public TutorialObject(int TemplateID, ZoneServer zServer){
@@ -335,6 +341,7 @@ public final class TutorialObject extends Structure {
         return owner;
     }
 
+    @Override
     public void setOwner(Player owner) {
         this.owner = owner;
     }
@@ -370,7 +377,7 @@ public final class TutorialObject extends Structure {
                 owner.getClient().insertPacket(PacketFactory.buildPlaySoundFileMessage(0, "sound/tut_01_welcome.snd",Constants.PLAY_MUSIC_FILE_ONCE,(byte)0));
                 owner.getClient().insertPacket(PacketFactory.buildChatSystemMessage("newbie_tutorial/system_messages","welcome"));
             }
-        }catch(Exception e){
+        }catch(IOException e){
             DataLog.logException("Exception in Tutorial Object", "tutorialPlayWelcome", ZoneServer.ZoneRunOptions.bLogToConsole, true, e);
         }
     }
@@ -381,7 +388,7 @@ public final class TutorialObject extends Structure {
             owner.getClient().insertPacket(PacketFactory.buildChatSystemMessage("newbie_tutorial/system_messages","part_1"));
             owner.getClient().insertPacket(PacketFactory.buildChatSystemMessage("newbie_tutorial/system_messages","movement_keyboard"));
             owner.getClient().insertPacket(PacketFactory.buildChatSystemMessage("newbie_tutorial/system_messages","movement_mouse"));
-        }catch(Exception e){
+        }catch(IOException e){
             DataLog.logException("Exception in Tutorial Object", "tutorialPlayPartOne", ZoneServer.ZoneRunOptions.bLogToConsole, true, e);
         }
     }
@@ -390,7 +397,7 @@ public final class TutorialObject extends Structure {
         try{
             owner.getClient().insertPacket(PacketFactory.buildPlaySoundFileMessage(0, "sound/tut_03_scroll_out.snd",Constants.PLAY_MUSIC_FILE_ONCE,(byte)0));
             owner.getClient().insertPacket(PacketFactory.buildChatSystemMessage("newbie_tutorial/system_messages","mousewheel"));
-        }catch(Exception e){
+        }catch(IOException e){
             DataLog.logException("Exception in Tutorial Object", "tutorialPlayPartOneOne", ZoneServer.ZoneRunOptions.bLogToConsole, true, e);
         }
     }
@@ -399,16 +406,16 @@ public final class TutorialObject extends Structure {
         try{
             owner.getClient().insertPacket(PacketFactory.buildPlaySoundFileMessage(0, "sound/tut_04_chat.snd",Constants.PLAY_MUSIC_FILE_ONCE,(byte)0));
             owner.getClient().insertPacket(PacketFactory.buildChatSystemMessage("newbie_tutorial/system_messages","chatwindow"));
-        }catch(Exception e){
+        }catch(IOException e){
             DataLog.logException("Exception in Tutorial Object", "tutorialPlayPartOneOne", ZoneServer.ZoneRunOptions.bLogToConsole, true, e);
         }
     }
 
     public void tutorialPlayPartOneThree(){
         try{
-            //owner.getClient().insertPacket(PacketFactory.buildPlaySoundFileMessage(0, "sound/tut_05_remind_chat.snd",Constants.PLAY_MUSIC_FILE_ONCE,(byte)0));
+            owner.getClient().insertPacket(PacketFactory.buildPlaySoundFileMessage(0, "sound/tut_05_remind_chat.snd",Constants.PLAY_MUSIC_FILE_ONCE,(byte)0));
             owner.getClient().insertPacket(PacketFactory.buildChatSystemMessage("newbie_tutorial/system_messages","chatprompt"));
-        }catch(Exception e){
+        }catch(IOException e){
             DataLog.logException("Exception in Tutorial Object", "tutorialPlayPartOneOne", ZoneServer.ZoneRunOptions.bLogToConsole, true, e);
         }
     }
@@ -416,7 +423,7 @@ public final class TutorialObject extends Structure {
         try{
             owner.getClient().insertPacket(PacketFactory.buildPlaySoundFileMessage(0, "sound/tut_05_remind_chat.snd",Constants.PLAY_MUSIC_FILE_ONCE,(byte)0));
             owner.getClient().insertPacket(PacketFactory.buildChatSystemMessage("newbie_tutorial/system_messages","repeatchatprompt"));
-        }catch(Exception e){
+        }catch(IOException e){
             DataLog.logException("Exception in Tutorial Object", "tutorialPlayPartOneOne", ZoneServer.ZoneRunOptions.bLogToConsole, true, e);
         }
     }
@@ -425,7 +432,7 @@ public final class TutorialObject extends Structure {
         try{
             owner.getClient().insertPacket(PacketFactory.buildPlaySoundFileMessage(0, "sound/tut_08_imperialofficer.snd",Constants.PLAY_MUSIC_FILE_ONCE,(byte)0));
             owner.getClient().insertPacket(PacketFactory.buildChatSystemMessage("newbie_tutorial/system_messages","tut_08"));
-        }catch(Exception e){
+        }catch(IOException e){
             DataLog.logException("Exception in Tutorial Object", "tutorialPlayPartOneOne", ZoneServer.ZoneRunOptions.bLogToConsole, true, e);
         }
     }
@@ -514,7 +521,7 @@ public final class TutorialObject extends Structure {
 	             suppliesDrum.setMaxCondition(1000, false);             
 	             suppliesDrum.setCanBePickedUp(false);
 	             suppliesDrum.setEquipped(c, Constants.EQUIPPED_STATE_UNEQUIPPED);
-             } catch (Exception e) {
+             } catch (IOException e) {
             	 // Can't happen -- we're not actually building the packet.
              }
 

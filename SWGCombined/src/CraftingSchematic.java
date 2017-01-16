@@ -188,10 +188,12 @@ public class CraftingSchematic implements Serializable {
 	public void reduceFactoryItemsForCrafting() { 
 		
 		for (int i = 0; i < vFactoryItemsUsedToCraftCrate.length; i++) {
-			int numToReduce = vComponents.elementAt(i).getComponentQuantity();
+			//int numToReduce = vComponents.elementAt(i).getComponentQuantity();
+                        int numToReduce = vComponents.get(i).getComponentQuantity();
 			int iReducedBy = 0;
 			for (int j = 0; j < vFactoryItemsUsedToCraftCrate[i].size() && iReducedBy < numToReduce; j++) {
-				TangibleItem item = vFactoryItemsUsedToCraftCrate[i].elementAt(j);
+				//TangibleItem item = vFactoryItemsUsedToCraftCrate[i].elementAt(j);
+                                TangibleItem item = vFactoryItemsUsedToCraftCrate[i].get(j);
 				int itemStackSize = item.getStackQuantity();
 				iReducedBy += itemStackSize;
 				if (itemStackSize <= numToReduce) {

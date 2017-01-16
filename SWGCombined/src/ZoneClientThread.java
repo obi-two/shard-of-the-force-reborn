@@ -47,7 +47,8 @@ public class ZoneClientThread implements Runnable {
 			server.getGUI().getDB().updatePlayer(player, false, false);
 			Stack<PlayerFriends> vPlayerFriends = player.getPlayData().getFriendsList();
 			for (int i = 0; i < vPlayerFriends.size(); i++) {
-				Player friend = server.getPlayer(vPlayerFriends.elementAt(i).getName());
+				//Player friend = server.getPlayer(vPlayerFriends.elementAt(i).getName());
+                                Player friend = server.getPlayer(vPlayerFriends.get(i).getName());
 				ZoneClient friendClient = friend.getClient();
 				if (friendClient != null) {
 					try {
@@ -1671,7 +1672,8 @@ public class ZoneClientThread implements Runnable {
 		int roomID = dIn.readInt();
 		Stack<Player> vObjectsInRange = server.getPlayersAroundObject(player, false);
 		for (int i = 0; i < vObjectsInRange.size(); i++ ) {
-			Player o = vObjectsInRange.elementAt(i);
+			//Player o = vObjectsInRange.elementAt(i);
+                        Player o = vObjectsInRange.get(i);
 			ZoneClient client = o.getClient();
 			client.insertPacket(PacketFactory.buildChatRoomMessage(player, sMessage, roomID));
 		}
@@ -1737,12 +1739,14 @@ public class ZoneClientThread implements Runnable {
 		
 		Stack<Player> vConnectedPlayers = client.getServer().getAllOnlinePlayers();
 		for (int i = 0; i < vConnectedPlayers.size(); i++) {
-			Player tarPlayer = vConnectedPlayers.elementAt(i);
+			//Player tarPlayer = vConnectedPlayers.elementAt(i);
+                        Player tarPlayer = vConnectedPlayers.get(i);
 			Stack<PlayerFriends> tarPlayerFriends = tarPlayer.getFriendsList();
 			ZoneClient tarClient = tarPlayer.getClient();
 			if (tarClient != null) {
 				for (int j = 0; j < tarPlayerFriends.size(); j++) {
-					PlayerFriends friend = tarPlayerFriends.elementAt(j);
+					//PlayerFriends friend = tarPlayerFriends.elementAt(j);
+                                        PlayerFriends friend = tarPlayerFriends.get(j);
 					if (friend.getName().equalsIgnoreCase(player.getFirstName())) {
 						tarClient.insertPacket(PacketFactory.buildFriendOnlineStatusUpdate(tarPlayer, player));
 					}
@@ -4319,7 +4323,8 @@ public class ZoneClientThread implements Runnable {
 			
 			Player recipient = null;
 			for (int i = 0; i < vObjectsInRange.size(); i++) {
-				recipient = vObjectsInRange.elementAt(i);
+				//recipient = vObjectsInRange.elementAt(i);
+                                recipient = vObjectsInRange.get(i);
 				//System.out.println("Sending spatial message '" + sRealMessage + "' from " + player.getFirstName() + " to " + target.getFirstName() + ".  Person hearing: " + recipient.getFirstName());
 				// Note on this next line:
 				// "player" is the person who sent this spatial message.
@@ -4371,7 +4376,8 @@ public class ZoneClientThread implements Runnable {
 			player.setPerformedAnimation("skill_action_" + flourishID);
 			Stack<Player> vObjectsInRange = server.getPlayersAroundObject(player, true); // TODO:  False, or true?
 			for (int i = 0; i < vObjectsInRange.size(); i++) {
-				Player recipient = vObjectsInRange.elementAt(i);
+				//Player recipient = vObjectsInRange.elementAt(i);
+                                Player recipient = vObjectsInRange.get(i);
 				if(player.isDancing())
 				{
 					recipient.getClient().insertPacket(PacketFactory.buildCharacterAnimation(player,recipient,"skill_action_" + flourishID));
@@ -4896,7 +4902,8 @@ public class ZoneClientThread implements Runnable {
 		client.insertPacket(PacketFactory.buildObjectControllerMessage_PlayerEmote(player, target, player));
 		Stack<Player> vObjectsInRange = server.getPlayersAroundObject(player, false);
 		for (int i = 0; i < vObjectsInRange.size(); i++) {
-			Player recipient = vObjectsInRange.elementAt(i);
+			//Player recipient = vObjectsInRange.elementAt(i);
+                        Player recipient = vObjectsInRange.get(i);
 			recipient.getClient().insertPacket(PacketFactory.buildObjectControllerMessage_PlayerEmote(player, target, recipient));
 		}
 		//}
@@ -5422,7 +5429,8 @@ public class ZoneClientThread implements Runnable {
 			Stack<TangibleItem> vLinkedItems = tangibleContainer.getLinkedObjects();
 			if (!vLinkedItems.isEmpty()) {
 				for (int i = 0; i < vLinkedItems.size(); i++) {
-					player.despawnItem(vLinkedItems.elementAt(i));
+					//player.despawnItem(vLinkedItems.elementAt(i));
+                                        player.despawnItem(vLinkedItems.get(i));
 				}
 			}
 		}
@@ -5622,7 +5630,8 @@ public class ZoneClientThread implements Runnable {
 			vNearbyObjects.addAll(server.getStaticObjectsAroundObject(player, 6));
 			SOEObject o = null;
 			for (int i = 0; i < vNearbyObjects.size() && !bFoundStation; i++) {
-				o = vNearbyObjects.elementAt(i);
+				//o = vNearbyObjects.elementAt(i);
+                                o = vNearbyObjects.get(i);
 				System.out.println(o.getIFFFileName());
 				if (o.getIFFFileName().contains("shared_public_clothing_station")) {
 					bFoundStation = true;
@@ -5680,7 +5689,8 @@ public class ZoneClientThread implements Runnable {
 			vNearbyObjects.addAll(server.getStaticObjectsAroundObject(player, 6));
 			SOEObject o = null;
 			for (int i = 0; i < vNearbyObjects.size() && !bFoundStation; i++) {
-				o = vNearbyObjects.elementAt(i);
+				//o = vNearbyObjects.elementAt(i);
+                                o = vNearbyObjects.get(i);
 				System.out.println(o.getIFFFileName());
 				if (o.getIFFFileName().contains("shared_public_food_station")) {
 					bFoundStation = true;
@@ -5756,7 +5766,8 @@ public class ZoneClientThread implements Runnable {
 			vNearbyObjects.addAll(server.getStaticObjectsAroundObject(player, 6));
 			SOEObject o = null;
 			for (int i = 0; i < vNearbyObjects.size() && !bFoundStation; i++) {
-				o = vNearbyObjects.elementAt(i);
+				//o = vNearbyObjects.elementAt(i);
+                                o = vNearbyObjects.get(i);
 				System.out.println(o.getIFFFileName());
 				if (o.getIFFFileName().contains("shared_public_weapon_station")) {
 					bFoundStation = true;
@@ -5813,7 +5824,8 @@ public class ZoneClientThread implements Runnable {
 			vNearbyObjects.addAll(server.getStaticObjectsAroundObject(player, 6));
 			SOEObject o = null;
 			for (int i = 0; i < vNearbyObjects.size() && !bFoundStation; i++) {
-				o = vNearbyObjects.elementAt(i);
+				//o = vNearbyObjects.elementAt(i);
+                                o = vNearbyObjects.get(i);
 				System.out.println(o.getIFFFileName());
 				if (o.getIFFFileName().contains("shared_public_space_station")) {
 					bFoundStation = true;
@@ -5868,7 +5880,8 @@ public class ZoneClientThread implements Runnable {
 			vNearbyObjects.addAll(server.getStaticObjectsAroundObject(player, 6));
 			SOEObject o = null;
 			for (int i = 0; i < vNearbyObjects.size() && !bFoundStation; i++) {
-				o = vNearbyObjects.elementAt(i);
+				//o = vNearbyObjects.elementAt(i);
+                                o = vNearbyObjects.get(i);
 				System.out.println(o.getIFFFileName());
 				if (o.getIFFFileName().contains("shared_public_structure_station")) {
 					bFoundStation = true;
@@ -5924,7 +5937,8 @@ public class ZoneClientThread implements Runnable {
 			vNearbyObjects.addAll(server.getStaticObjectsAroundObject(player, 6));
 			SOEObject o = null;
 			for (int i = 0; i < vNearbyObjects.size() && !bFoundStation; i++) {
-				o = vNearbyObjects.elementAt(i);
+				//o = vNearbyObjects.elementAt(i);
+                                o = vNearbyObjects.get(i);
 				System.out.println(o.getIFFFileName());
 				if (o.getIFFFileName().contains("shared_public_weapon_station")) {
 					bFoundStation = true;
@@ -6566,7 +6580,8 @@ public class ZoneClientThread implements Runnable {
 			Stack<PlayerFriends> vPlayerFriends = player.getFriendsList();
 			System.out.println("Player friend list size: " + vPlayerFriends.size());
 			for (int i = 0; i < vPlayerFriends.size() && !bPlayerHasFriend; i++) { 
-				PlayerFriends friendName = vPlayerFriends.elementAt(i);
+				//PlayerFriends friendName = vPlayerFriends.elementAt(i);
+                                PlayerFriends friendName = vPlayerFriends.get(i);
 				System.out.println("Friend " + i + " " + friendName.getName());
 				if (friendName.getName().equalsIgnoreCase(sParamaters[0])) {
 					bPlayerHasFriend = true;
@@ -6576,7 +6591,8 @@ public class ZoneClientThread implements Runnable {
 				System.out.println("Player has friend");
 				Stack<PlayerFriends> vFriendPlayerFriends = friend.getFriendsList();
 				for (int i = 0; i < vFriendPlayerFriends.size() && !bFriendHasPlayerAsFriend; i++) {
-					PlayerFriends name = vFriendPlayerFriends.elementAt(i);
+					//PlayerFriends name = vFriendPlayerFriends.elementAt(i);
+                                        PlayerFriends name = vFriendPlayerFriends.get(i);
 					if (name.getName().equalsIgnoreCase(sParamaters[0])) {
 						bFriendHasPlayerAsFriend = true;
 					}
@@ -7128,15 +7144,18 @@ public class ZoneClientThread implements Runnable {
 		Stack<Player> vPlayersInRange = server.getPlayersAroundObject(player, false);
 		for (int i = 0; i < vPlayersInRange.size(); i++) {
 			try{
-				Player recipient = vPlayersInRange.elementAt(i);
+				//Player recipient = vPlayersInRange.elementAt(i);
+                                Player recipient = vPlayersInRange.get(i);
 				if(!recipient.equals(player))
 				{
 					recipient.spawnItem(player);
 				}
 			} catch (IOException e) {
 				try {
-					vPlayersInRange.elementAt(i).getClient().insertPacket(PacketFactory.buildChatSystemMessage("Error: Unable to spawn player " + player.getFullName() + " -- player will not be visible."));
-				} catch (IOException ee) {
+					//vPlayersInRange.elementAt(i).getClient().insertPacket(PacketFactory.buildChatSystemMessage("Error: Unable to spawn player " + player.getFullName() + " -- player will not be visible."));
+                                        vPlayersInRange.get(i).getClient().insertPacket(PacketFactory.buildChatSystemMessage("Error: Unable to spawn player " + player.getFullName() + " -- player will not be visible."));
+
+                                } catch (IOException ee) {
 					System.out.println("Unable to spawn player to a client, and unable to inform client of issue: ");
 					System.out.println(ee.toString());
 					ee.printStackTrace();
@@ -7158,7 +7177,8 @@ public class ZoneClientThread implements Runnable {
 			boolean bFoundServer = false;
 			int iServerID = 0;
 			for (int i = 0; i < vAllServers.size() && !bFoundServer; i++) {
-				DatabaseServerInfoContainer container = vAllServers.elementAt(i);
+				//DatabaseServerInfoContainer container = vAllServers.elementAt(i);
+                                DatabaseServerInfoContainer container = vAllServers.get(i);
 				String sClusterName = container.sServerName;
 				if (sClusterName.equalsIgnoreCase(serverName)) {
 					// Found the server!
@@ -7268,7 +7288,8 @@ public class ZoneClientThread implements Runnable {
 			Stack<PlayerFriends> itr = client.getPlayer().getFriendsList();
 			if (!itr.isEmpty()) {
 				for (int i = 0; i < itr.size(); i++) {
-					PlayerFriends F = itr.elementAt(i);
+					//PlayerFriends F = itr.elementAt(i);
+                                        PlayerFriends F = itr.get(i);
 					if(F.getName().compareToIgnoreCase(FriendToRemove)==0)
 					{
 						itr.remove(i);
@@ -7635,7 +7656,8 @@ public class ZoneClientThread implements Runnable {
 		player.setMoodString(sNewMood);
 		Stack<Player> vPlayersInRange = server.getPlayersAroundObject(player, true);
 		for (int i = 0; i < vPlayersInRange.size(); i++) {
-			ZoneClient theClient = vPlayersInRange.elementAt(i).getClient();
+			//ZoneClient theClient = vPlayersInRange.elementAt(i).getClient();
+                        ZoneClient theClient = vPlayersInRange.get(i).getClient();
 			theClient.insertPacket(PacketFactory.buildDeltasMessage(Constants.BASELINES_CREO, (byte)6,  (short)1, (short)4, player, sNewMood, false));
 			theClient.insertPacket(PacketFactory.buildDeltasMessage(Constants.BASELINES_CREO, (byte)6,  (short)1, (short)0x0A, player, moodID));
 		}
@@ -7719,8 +7741,10 @@ public class ZoneClientThread implements Runnable {
 
 			Stack<Player> vNearbyPlayers = server.getPlayersAroundObject(player, false);
 			for (int i = 0; i < vNearbyPlayers.size(); i++) {
-				Player thePlayer = vNearbyPlayers.elementAt(i);
-				ZoneClient client = vNearbyPlayers.elementAt(i).getClient();
+				//Player thePlayer = vNearbyPlayers.elementAt(i);
+                                Player thePlayer = vNearbyPlayers.get(i);
+				//ZoneClient client = vNearbyPlayers.elementAt(i).getClient();
+                                ZoneClient client = vNearbyPlayers.get(i).getClient();
 				if (client.getValidSession()) {
 					thePlayer.despawnItem(player);
 					if(player.getCurrentMount()!=0)
@@ -9586,7 +9610,8 @@ public class ZoneClientThread implements Runnable {
 						// They've selected a cloning facility;
 						System.out.print("Cloning the player");
 						Stack<MapLocationData> cloneMapLocations = player.getLastSeenCloneLocations();
-						MapLocationData theLocation = cloneMapLocations.elementAt(Integer.parseInt(sReceivedStrings[0]));
+						//MapLocationData theLocation = cloneMapLocations.elementAt(Integer.parseInt(sReceivedStrings[0]));
+                                                MapLocationData theLocation = cloneMapLocations.get(Integer.parseInt(sReceivedStrings[0]));
 						TravelDestination T = new TravelDestination("Cloning", theLocation.getPlanetID(), 0, false,theLocation.getCurrentX(),theLocation.getCurrentY(),0.0f);
 						System.out.println(" at " + Constants.PlanetNames[theLocation.getPlanetID()] + ", X["+theLocation.getCurrentX() + "], Y["+theLocation.getCurrentY()+"]");
 						int[] iHamWounds = player.getHamWounds();
@@ -9845,7 +9870,8 @@ public class ZoneClientThread implements Runnable {
 						Stack<TangibleItem> vInventoryItems = player.getInventoryItems();
 						for(int i =0; i < vInventoryItems.size();i++)
 						{
-							TangibleItem o = vInventoryItems.elementAt(i);
+							//TangibleItem o = vInventoryItems.elementAt(i);
+                                                    TangibleItem o = vInventoryItems.get(i);
 							if(o instanceof ResourceContainer)
 							{
 								vRCList.add((ResourceContainer)o);
@@ -10109,7 +10135,8 @@ public class ZoneClientThread implements Runnable {
 								client.insertPacket(currentSchematic.setContainer(player.getDatapad(), -1, true));
 								client.insertPacket(PacketFactory.buildChatSystemMessage("manf_station", "schematic_removed", 0, null, null, null, currentSchematic.getID(), Constants.STRING_ID_TABLE, null, null, 0, null, null, null, 0, 0f, false));
 							}
-							ManufacturingSchematic schematicToInstall = vSchematics.elementAt(iSelection);
+							//ManufacturingSchematic schematicToInstall = vSchematics.elementAt(iSelection);
+                                                        ManufacturingSchematic schematicToInstall = vSchematics.get(iSelection);
 							factory.setCurrentSchematic(schematicToInstall);
 							player.getDatapad().removeIntangibleObject(schematicToInstall);
 							client.insertPacket(schematicToInstall.setContainer(factory, 5, true));
@@ -13430,7 +13457,8 @@ public class ZoneClientThread implements Runnable {
 		int schematicIndex = Integer.parseInt(sParams[0]);
 		Stack<CraftingSchematic> vSentSchematics = player.getLastSentCraftingSchematicList();
 		try {
-			CraftingSchematic schematic = vSentSchematics.elementAt(schematicIndex);
+			//CraftingSchematic schematic = vSentSchematics.elementAt(schematicIndex);
+                        CraftingSchematic schematic = vSentSchematics.get(schematicIndex);
 			ManufacturingSchematic manuSchematic = schematic.createManufacturingSchematic();
 			if (manuSchematic == null) {
 				client.insertPacket(PacketFactory.buildChatSystemMessage("Manufacturing schematic not created due to internal server error."));
@@ -13785,7 +13813,8 @@ public class ZoneClientThread implements Runnable {
 			// So, we need to get whatever it is by ID.
 			long[] vSceneObjectIDs = schematic.getAllSceneObjectIDsInSlot(slotID);
 			long[] vSlotIngredientIDs=schematic.getAllObjectIDsInSlots()[slotID];
-			CraftingSchematicComponent component = schematic.getCraftingSchematic().getComponents().elementAt(slotID);
+			//CraftingSchematicComponent component = schematic.getCraftingSchematic().getComponents().elementAt(slotID);
+                        CraftingSchematicComponent component = schematic.getCraftingSchematic().getComponents().get(slotID);
 			if (component.getIsResource()) {
 				for (int i = 0; i < vSceneObjectIDs.length && vSceneObjectIDs[i] != 0; i++) {
 					//System.out.println("Checking scene object with ID " + Long.toHexString(vSceneObjectIDs[i]));
@@ -13796,7 +13825,8 @@ public class ZoneClientThread implements Runnable {
 						Stack<TangibleItem> vInventoryItems = player.getInventoryItems();
 						boolean bFound = false;
 						for (int j = 0; j < vInventoryItems.size() && !bFound; j++) {
-							TangibleItem item = vInventoryItems.elementAt(j);
+							//TangibleItem item = vInventoryItems.elementAt(j);
+                                                        TangibleItem item = vInventoryItems.get(j);
 							if (item instanceof ResourceContainer) {
 								ResourceContainer rContainer = (ResourceContainer)item;
 								if (rContainer.getID() == vSceneObjectIDs[i]) {
@@ -14760,7 +14790,8 @@ public class ZoneClientThread implements Runnable {
 		int iCRCToSend = 0;
 		if (vCRCs != null) {
 			if (!vCRCs.isEmpty()) {
-				iCRCToSend = vCRCs.elementAt(0);
+				//iCRCToSend = vCRCs.elementAt(0);
+                                iCRCToSend = vCRCs.get(0);
 			}
 		} else {
 			if (iWeaponType <= Constants.WEAPON_TYPE_POLEARM) {
@@ -14846,7 +14877,8 @@ public class ZoneClientThread implements Runnable {
 
 		Stack<Player> vPlayersInRange = server.getPlayersAroundObject(player, true);
 		for (int i = 0; i < vPlayersInRange.size(); i++) {
-			Player thePlayer = vPlayersInRange.elementAt(i);
+			//Player thePlayer = vPlayersInRange.elementAt(i);
+                        Player thePlayer = vPlayersInRange.get(i);
 			thePlayer.getClient().insertPacket(PacketFactory.buildCombatTextSpam(player, thePlayer, targetObject, "cbt_spam", specialAttack.getCombatSTFSpamArr()[iHitState], iTotalDamage));
 			client.insertPacket(PacketFactory.buildAttackFlyText(tarPlayer, thePlayer, "combat_effects", sHitEffect, r, g, b), Constants.PACKET_RANGE_CHAT_RANGE);
 		}
@@ -15083,7 +15115,8 @@ public class ZoneClientThread implements Runnable {
 		// If nobody does, we can remove the STATE_COMBAT from "me".  Otherwise, he needs to remain in combat.
 		Stack<SOEObject> vAllNearObjects = server.getCreaturesAroundPlayer(player);
 		for (int i = 0; i < vAllNearObjects.size(); i++) {
-			SOEObject o = vAllNearObjects.elementAt(i);
+			//SOEObject o = vAllNearObjects.elementAt(i);
+                        SOEObject o = vAllNearObjects.get(i);
 			if (o instanceof NPC) {
 				NPC npc = (NPC)o;
 				int currentNPCHateOfPlayer = npc.getCurrentHateRating(player);

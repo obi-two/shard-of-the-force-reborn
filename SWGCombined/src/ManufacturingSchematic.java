@@ -749,7 +749,8 @@ public class ManufacturingSchematic extends IntangibleObject {
 			System.out.println("No skill required to craft this object: " + itemBeingCrafted.getIFFFileName());
 		} else {
 			for (int i = 0; i < requisiteSkills.size() && !bHasAnyRequiredSkill; i++) {
-				int iSkillID = requisiteSkills.elementAt(i);
+				//int iSkillID = requisiteSkills.elementAt(i);
+                                int iSkillID = requisiteSkills.get(i);
 				if (player.hasSkill(iSkillID)) {
 					theSkill = client.getServer().getSkillFromIndex(iSkillID);
 					Skills noviceSkill = client.getServer().getSkillFromIndex(theSkill.getNoviceSkillID());
@@ -763,7 +764,8 @@ public class ManufacturingSchematic extends IntangibleObject {
 		}
 		SkillMods requiredSkillMod = null;
 		for (int i = 0; i < allSkillModsThisSkill.size() && requiredSkillMod == null; i++) {
-			SkillMods tempMod = allSkillModsThisSkill.elementAt(i);
+			//SkillMods tempMod = allSkillModsThisSkill.elementAt(i);
+                        SkillMods tempMod = allSkillModsThisSkill.get(i);
 			if (tempMod.getName().contains("assembly")) {
 				//System.out.println("Found skill mod " + tempMod.sName);
 				requiredSkillMod = tempMod;
@@ -816,9 +818,9 @@ public class ManufacturingSchematic extends IntangibleObject {
 			ResourceManager manager = client.getServer().getResourceManager();
 			// What's the total amount of resources we're putting in here?
 			int totalQuantityAllSlots = 0;
-			for (int k = 0; k < schematicComponentData.length; k++) {
-				totalQuantityAllSlots += schematicComponentData[k].getComponentQuantity();
-			}
+                    for (CraftingSchematicComponent schematicComponentData1 : schematicComponentData) {
+                        totalQuantityAllSlots += schematicComponentData1.getComponentQuantity();
+                    }
 			
 			vID12MaxExperimentationValue = new float[vExperimentalAttributes.length];
 			// For each attribute

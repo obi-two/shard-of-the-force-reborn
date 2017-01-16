@@ -90,7 +90,8 @@ public class NPCUpdateThread implements Runnable {
 					if (!vLairSpawns.isEmpty()) {
 						// This handles our lair spawns.
 						for (int i = 0; i < vLairSpawns.size(); i++) {
-							DynamicLairSpawn lairSpawn = vLairSpawns.elementAt(i);
+							//DynamicLairSpawn lairSpawn = vLairSpawns.elementAt(i);
+                                                        DynamicLairSpawn lairSpawn = vLairSpawns.get(i);
 							lairSpawn.update(lDeltaUpdateTimeMS);
 						}
 					}
@@ -100,7 +101,8 @@ public class NPCUpdateThread implements Runnable {
 
 				for (int i =0; i < vAllNPCs.size(); i++) {
 					try {
-						NPC npc = vAllNPCs.elementAt(i);
+						//NPC npc = vAllNPCs.elementAt(i);
+                                                NPC npc = vAllNPCs.get(i);
 						if (npc.getServer() == null) {
 							npc.setServer(server);
 						}

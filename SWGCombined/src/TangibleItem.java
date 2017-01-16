@@ -222,7 +222,8 @@ public class TangibleItem extends SOEObject implements Experimentable {
 		            				boolean bFound = false;
 		            				Stack<TangibleItem> vInventoryItems = player.getInventoryItems();
 		            				for (int i = 0; i < vInventoryItems.size() && !bFound; i++) {
-		            					TangibleItem item = vInventoryItems.elementAt(i);
+		            					//TangibleItem item = vInventoryItems.elementAt(i);
+                                                                TangibleItem item = vInventoryItems.get(i);
 		            					if (item instanceof ResourceContainer) {
 		            						ResourceContainer tempContainer = (ResourceContainer) item;
 		            						if (tempContainer.getResourceSpawnID() == resourceTypeID) {

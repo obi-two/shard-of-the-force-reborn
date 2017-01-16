@@ -568,7 +568,8 @@ public class SpawnedResourceData implements Serializable{
 	protected float getBestDensityAtLocation(float posX, float posY) {
 		float toReturn = 0;
 		for (int i = 0; i < spawnCoordinates.size(); i++) {
-			ResourceSpawnCoordinateData coords = spawnCoordinates.elementAt(i);
+			//ResourceSpawnCoordinateData coords = spawnCoordinates.elementAt(i);
+                        ResourceSpawnCoordinateData coords = spawnCoordinates.get(i);
 			int spawnPosX = (int)coords.getSpawnX();
 			int spawnPosY = (int)coords.getSpawnY();
 			int spawnRadius = (int)coords.getSpawnRadius();
@@ -612,12 +613,14 @@ public class SpawnedResourceData implements Serializable{
 	}
 	
 	protected float getDrawX(int index) {
-		ResourceSpawnCoordinateData data = spawnCoordinates.elementAt(index);
+		//ResourceSpawnCoordinateData data = spawnCoordinates.elementAt(index);
+                ResourceSpawnCoordinateData data = spawnCoordinates.get(index);
 		return data.getSpawnX() - (data.getSpawnRadius()/ 2);
 	}
 	
 	protected float getDrawY(int index) {
-		ResourceSpawnCoordinateData data = spawnCoordinates.elementAt(index);
+		//ResourceSpawnCoordinateData data = spawnCoordinates.elementAt(index);
+                ResourceSpawnCoordinateData data = spawnCoordinates.get(index);
 		return data.getSpawnY() - (data.getSpawnRadius()/ 2);
 	}
 	
@@ -633,7 +636,8 @@ public class SpawnedResourceData implements Serializable{
 		float wayX = 0;
 		float wayY = 0;
 		for (int i = 0; i < spawnCoordinates.size(); i++) {
-			ResourceSpawnCoordinateData coords = spawnCoordinates.elementAt(i);
+			//ResourceSpawnCoordinateData coords = spawnCoordinates.elementAt(i);
+                        ResourceSpawnCoordinateData coords = spawnCoordinates.get(i);
 			int spawnPosX = (int)coords.getSpawnX();
 			int spawnPosY = (int)coords.getSpawnY();
 			float distanceX = (x - spawnPosX);
