@@ -6,8 +6,7 @@
 import java.util.Date;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
-//import java.util.Vector;
-import java.util.Stack;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.text.SimpleDateFormat;
 
@@ -22,8 +21,8 @@ public class DataLog implements Runnable {
     private String PacketLogFileName;
     private String ServerLogFileName;
     private static boolean dataLogRun;
-    public static Stack<DataLogObject> qPacketLog;
-    public static Stack<DataLogObject> qServerLog;
+    public static ArrayList<DataLogObject> qPacketLog;
+    public static ArrayList<DataLogObject> qServerLog;
     //private DataLog LogServer;
     private Thread myThread;
     private BufferedWriter PacketLogFile;
@@ -39,11 +38,11 @@ public class DataLog implements Runnable {
        lLoopYieldTime = 10000;
        if(qPacketLog==null)
        {
-           qPacketLog = new Stack<DataLogObject>();
+           qPacketLog = new ArrayList<DataLogObject>();
        }
        if(qServerLog==null)
        {
-           qServerLog = new Stack<DataLogObject>();
+           qServerLog = new ArrayList<DataLogObject>();
        }
        dataLogRun = true;
        //start
@@ -62,11 +61,11 @@ public class DataLog implements Runnable {
        try {
            if(qPacketLog==null)
            {
-               qPacketLog = new Stack<DataLogObject>();
+               qPacketLog = new ArrayList<DataLogObject>();
            }
            if(qServerLog==null)
            {
-               qServerLog = new Stack<DataLogObject>();
+               qServerLog = new ArrayList<DataLogObject>();
            }
                                
            StartTime = new Date();

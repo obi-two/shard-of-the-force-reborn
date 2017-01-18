@@ -1,7 +1,6 @@
 import java.io.IOException;
 import java.util.Arrays;
-//import java.util.Vector;
-import java.util.Stack;
+import java.util.ArrayList;
 
 public class ManufacturingSchematic extends IntangibleObject {
 	public final static long serialVersionUID = 1l;
@@ -28,7 +27,7 @@ public class ManufacturingSchematic extends IntangibleObject {
 	
 	
 	// MSCO3 vID 5
-	private Stack<ManufacturingSchematicAttribute> vSchematicAttributes;
+	private ArrayList<ManufacturingSchematicAttribute> vSchematicAttributes;
 	private int iSchematicAttributeUpdateCount = 0;
 	private boolean bCanRecoverInstalledItems = true;
 	
@@ -109,7 +108,7 @@ public class ManufacturingSchematic extends IntangibleObject {
 		return null;
 	}
 	
-	protected byte[] addSchematicAttribute(Stack<ManufacturingSchematicAttribute> vAttribs, boolean bUpdateZone) throws IOException {
+	protected byte[] addSchematicAttribute(ArrayList<ManufacturingSchematicAttribute> vAttribs, boolean bUpdateZone) throws IOException {
 		vSchematicAttributes.addAll(vAttribs);
 		if (bUpdateZone) {
 			return PacketFactory.buildDeltasMSCO3SchematicAttribute(this, vAttribs.size(), Constants.DELTA_CREATING_ITEM);
@@ -117,7 +116,7 @@ public class ManufacturingSchematic extends IntangibleObject {
 		return null;
 	}
 	
-	protected Stack<ManufacturingSchematicAttribute> getSchematicAttributes(){
+	protected ArrayList<ManufacturingSchematicAttribute> getSchematicAttributes(){
 		return vSchematicAttributes;
 	}
 	
@@ -529,7 +528,7 @@ public class ManufacturingSchematic extends IntangibleObject {
 			// Can't happen here -- We're not actually building the packet.
 		}
 		setIFFFileName(template.getIFFFileName());
-		vSchematicAttributes = new Stack<ManufacturingSchematicAttribute>();
+		vSchematicAttributes = new ArrayList<ManufacturingSchematicAttribute>();
 	}
 	
 	protected float getBaseCraftingComplexity() {
@@ -553,7 +552,7 @@ public class ManufacturingSchematic extends IntangibleObject {
 
 	protected void setCraftingSchematic(CraftingSchematic schem) {
 		cSchematic = schem;
-		Stack<CraftingSchematicComponent> vComponentList = schem.getComponents();
+		ArrayList<CraftingSchematicComponent> vComponentList = schem.getComponents();
 		CraftingSchematicComponent[] vComponentArray = null;
 		if (vComponentList != null) {
 			vComponentArray = new CraftingSchematicComponent[vComponentList.size()];
@@ -739,18 +738,17 @@ public class ManufacturingSchematic extends IntangibleObject {
 	
 	protected int setExperimentalValues(ZoneClient client) {
 		// For each experiemental value, find the weight it has by percentage.
-		Stack<Integer> requisiteSkills = cSchematic.getRequiredSkillID();
+		ArrayList<Integer> requisiteSkills = cSchematic.getRequiredSkillID();
 		boolean bHasAnyRequiredSkill = false;
 		Player player = client.getPlayer(); 
 		Skills theSkill = null;
-		Stack<SkillMods> allSkillModsThisSkill = null;
+		ArrayList<SkillMods> allSkillModsThisSkill = null;
 		if (requisiteSkills.isEmpty()) {
 			// No required skill
 			System.out.println("No skill required to craft this object: " + itemBeingCrafted.getIFFFileName());
 		} else {
 			for (int i = 0; i < requisiteSkills.size() && !bHasAnyRequiredSkill; i++) {
-				//int iSkillID = requisiteSkills.elementAt(i);
-                                int iSkillID = requisiteSkills.get(i);
+				int iSkillID = requisiteSkills.elementAt(i);
 				if (player.hasSkill(iSkillID)) {
 					theSkill = client.getServer().getSkillFromIndex(iSkillID);
 					Skills noviceSkill = client.getServer().getSkillFromIndex(theSkill.getNoviceSkillID());
@@ -764,8 +762,7 @@ public class ManufacturingSchematic extends IntangibleObject {
 		}
 		SkillMods requiredSkillMod = null;
 		for (int i = 0; i < allSkillModsThisSkill.size() && requiredSkillMod == null; i++) {
-			//SkillMods tempMod = allSkillModsThisSkill.elementAt(i);
-                        SkillMods tempMod = allSkillModsThisSkill.get(i);
+			SkillMods tempMod = allSkillModsThisSkill.elementAt(i);
 			if (tempMod.getName().contains("assembly")) {
 				//System.out.println("Found skill mod " + tempMod.sName);
 				requiredSkillMod = tempMod;
@@ -818,9 +815,9 @@ public class ManufacturingSchematic extends IntangibleObject {
 			ResourceManager manager = client.getServer().getResourceManager();
 			// What's the total amount of resources we're putting in here?
 			int totalQuantityAllSlots = 0;
-                    for (CraftingSchematicComponent schematicComponentData1 : schematicComponentData) {
-                        totalQuantityAllSlots += schematicComponentData1.getComponentQuantity();
-                    }
+			for (int k = 0; k < schematicComponentData.length; k++) {
+				totalQuantityAllSlots += schematicComponentData[k].getComponentQuantity();
+			}
 			
 			vID12MaxExperimentationValue = new float[vExperimentalAttributes.length];
 			// For each attribute

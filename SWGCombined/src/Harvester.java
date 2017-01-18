@@ -1,8 +1,8 @@
 import java.io.IOException;
 import java.util.Enumeration;
 import java.util.Hashtable;
-//import java.util.Vector;
-import java.util.Stack;
+import java.util.ArrayList;
+
 
 public class Harvester extends Structure {
 	public final static long serialVersionUID = 1l;
@@ -10,7 +10,7 @@ public class Harvester extends Structure {
 	
     private SpawnedResourceData currentHarvestResource;
     private float currentResourceConcentration;
-    private transient Stack<ZoneClient> vSyncronizedListeners;
+    private transient ArrayList<ZoneClient> vSyncronizedListeners;
 
     private byte harvesterUpdateCounter;
     private int iHarvesterResourceUpdateCounter;
@@ -25,7 +25,7 @@ public class Harvester extends Structure {
     private ResourceContainer theResource;
     private transient int iTicks = 0;
     private Hashtable<Long, SOEObject> vOutputHopper;
-    private Stack<SpawnedResourceData> vResourcesAvailable;
+    private ArrayList<SpawnedResourceData> vResourcesAvailable;
     private byte iHarvesterType;
 
 	/**
@@ -413,7 +413,7 @@ public class Harvester extends Structure {
     public boolean addSyncronizedListener(ZoneClient client){
         if(vSyncronizedListeners == null)
         {
-            vSyncronizedListeners = new Stack<ZoneClient>();
+            vSyncronizedListeners = new ArrayList<ZoneClient>();
         }
         if(!vSyncronizedListeners.contains(client))
         {
@@ -425,7 +425,7 @@ public class Harvester extends Structure {
     public boolean removeSyncronizedListener(ZoneClient client){
         if(vSyncronizedListeners == null)
         {
-            vSyncronizedListeners = new Stack<ZoneClient>();
+            vSyncronizedListeners = new ArrayList<ZoneClient>();
         }
         if(vSyncronizedListeners.contains(client))
         {
@@ -495,8 +495,7 @@ public class Harvester extends Structure {
 	    	case Constants.HARVESTER_TYPE_FUSION: {
 	    		vResourcesAvailable = resourceManager.getResourceListForTool(14041, getPlanetID());
 	    		for (int i = 0; i < vResourcesAvailable.size(); i++) {
-	    			//SpawnedResourceData resource = vResourcesAvailable.elementAt(i);
-                                SpawnedResourceData resource = vResourcesAvailable.get(i);
+	    			SpawnedResourceData resource = vResourcesAvailable.elementAt(i);
 	    			int resourceIndex = resource.getIGenericResourceIndex();
 	    			if ((resourceIndex >= Constants.RESOURCE_START_RADIOACTIVE && resourceIndex <= Constants.RESOURCE_END_RADIOACTIVE )
 	    					|| resourceIndex == Constants.RESOURCE_TYPE_JTL_RADIOACTIVE_PLOYMETRIC
@@ -536,8 +535,7 @@ public class Harvester extends Structure {
     
     public void updateAvailableResources() {
     	for (int i = 0; i < vResourcesAvailable.size(); i++) {
-    		//SpawnedResourceData resource = vResourcesAvailable.elementAt(i);
-                SpawnedResourceData resource = vResourcesAvailable.get(i);
+    		SpawnedResourceData resource = vResourcesAvailable.elementAt(i);
     		if (resource.isSpawned()) {
     			// Do nothing -- still available.
     		} else {
@@ -551,7 +549,7 @@ public class Harvester extends Structure {
     	}
     }
     
-    public Stack<SpawnedResourceData> getResourcesAvailable() {
+    public ArrayList<SpawnedResourceData> getResourcesAvailable() {
     	return vResourcesAvailable;
     }
     public Hashtable<Long, SOEObject> getOutputHopper() {

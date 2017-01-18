@@ -18,7 +18,6 @@ public class StructureUpdateThread implements Runnable {
 	}
 	
 	
-        @Override
 	public void run() {
                 DataLog.logEntry("Structure Update thread Started","StructureUpdateThread",Constants.LOG_SEVERITY_INFO,true,true);
 		// TODO Auto-generated method stub
@@ -38,7 +37,7 @@ public class StructureUpdateThread implements Runnable {
 				lDeltaUpdateTimeMS = lCurrentUpdateTimeMS - lLastUpdateTimeMS;
 				update(lDeltaUpdateTimeMS);
 				lLastUpdateTimeMS = lCurrentUpdateTimeMS;
-			} catch (InterruptedException e) {
+			} catch (Exception e) {
 				// Ruh roh.
 			}
 		}

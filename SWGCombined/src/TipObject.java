@@ -1,7 +1,7 @@
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
- *  //int objectID, long sender, long receiver, String header, String body, Vector<Waypoint> attachments,boolean readFlag
+ *  //int objectID, long sender, long receiver, String header, String body, ArrayList<Waypoint> attachments,boolean readFlag
     //'base_player','escrow_withdraw_failed','%TO attempted to transfer %DI credits to you via bank wire.  The transfer from escrow to your bank account failed.  %TO has been refunded.')
     //'base_player','failed_escrow_refund','Your attempt to transfer %DI credits to %TO via a bank wire failed.  The attempt to refund the money to you from an escrow account also failed.  Please contact a CSR for a manual refund.')
     /**
@@ -25,8 +25,7 @@
      */
 
  
-//import java.util.Vector;
-import java.util.Stack;
+import java.util.ArrayList;
 /**
  * Tip Object is used for making bank tips.
  * It is passed to the SUI Window for information for the sui window.
@@ -52,7 +51,7 @@ public class TipObject extends SOEObject{ // This shouldn't extend SOEObject as 
             }
             String sHeader = "On behalf of " + player.getFullName();
             String sBody = iTipAmount + " credits from " + player.getFullName() + " have been successfully delivered from escrow to your bank account.";
-            Stack<Waypoint> attachments = new Stack<Waypoint>();
+            ArrayList<Waypoint> attachments = new ArrayList<Waypoint>();
             SWGEmail e = new SWGEmail(server.getNextEmailID(),EmailServer.BM.getID(),recipient.getID(),sHeader,sBody,attachments,false);
             server.queueEmailNewClientMessage(e);
             sHeader = "On behalf of " + player.getFullName();

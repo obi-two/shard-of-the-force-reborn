@@ -1,5 +1,4 @@
-//import java.util.Vector;
-import java.util.Stack;
+import java.util.ArrayList;
 
 /**
  * Container class for all items in the game.  This tells us everything we need to know to spawn an item, equip an item,
@@ -24,7 +23,7 @@ public class ItemTemplate {
 	private String sSTFLookAtIdentifier = "";
 	private boolean[][] bStarterItem = null;
 	private int iCellCount = 0;
-	private Stack<RadialMenuItem> vRadialMenuItems;
+	private ArrayList<RadialMenuItem> vRadialMenuItems;
 	private String sScriptName = "";
 	private int iScriptType = -1;
         private boolean isContainer;
@@ -53,7 +52,7 @@ public class ItemTemplate {
 	 */
 	public ItemTemplate() {
 		bStarterItem = new boolean[Constants.NUM_RACES][Constants.NUM_PROFESSIONS];
-		vRadialMenuItems = new Stack<RadialMenuItem>();
+		vRadialMenuItems = new ArrayList<RadialMenuItem>();
                 isContainer = false;
 	}
 
@@ -329,7 +328,7 @@ public class ItemTemplate {
 		iTangibleTemplateID = iTemplateID;
 	}
 
-	public Stack<RadialMenuItem> getRadialMenuItems() {
+	public ArrayList<RadialMenuItem> getRadialMenuItems() {
 		return vRadialMenuItems;
 	}
 

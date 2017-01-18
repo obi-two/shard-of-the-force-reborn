@@ -1,6 +1,5 @@
 import java.awt.geom.Rectangle2D;
-import java.util.Vector;
-import java.util.Stack;
+import java.util.ArrayList;
 
 
 public class DynamicLairSpawn {
@@ -20,7 +19,7 @@ public class DynamicLairSpawn {
 	private long lRespawnDelay;
 	private ZoneServer server;
 	//private long lTimeToNextSpawn;
-	private Vector<Lair> lairs;
+	private ArrayList<Lair> lairs;
 	private long lNextUpdateTime = UPDATE_TIMEOUT;
 	private int targetNumToSpawn;
 	private int iNumPlayersBeforeSpawn = 1;
@@ -68,8 +67,7 @@ public class DynamicLairSpawn {
 
 	protected void setMaxNumToSpawn(int maxNumToSpawn) {
 		iMaxNumToSpawn = maxNumToSpawn;
-                //problem BUG TODO: Fix this Stack will not go!
-		lairs = new Vector<Lair>(iMaxNumToSpawn);
+		lairs = new ArrayList<Lair>(iMaxNumToSpawn);
 	}
 
 	protected short getSpawnTemplateID() {
@@ -132,21 +130,19 @@ public class DynamicLairSpawn {
 		
 		lNextUpdateTime -= lDeltaTimeMS;
 		for (int i = 0; i < lairs.size(); i++) {
-			//lairs.elementAt(i).update(lDeltaTimeMS);
-                        lairs.get(i).update(lDeltaTimeMS);
+			lairs.elementAt(i).update(lDeltaTimeMS);
 		}
 		
 		
 		if (lNextUpdateTime <= 0) {
 			//System.out.println("Update dynamic spawn.");
 			lNextUpdateTime = UPDATE_TIMEOUT;
-			Stack<GridElement> vElements = theGrid.getAllContainedElements(spawnBoundaries);
+			ArrayList<GridElement> vElements = theGrid.getAllContainedElements(spawnBoundaries);
 			
-			//Vector<Player> vNearbyPlayers = new Vector<Player>(); 
+			//ArrayList<Player> vNearbyPlayers = new ArrayList<Player>(); 
 			int iNumPlayersInSpawn = 0;
 			for (int i =0; i < vElements.size(); i++) {
-				//iNumPlayersInSpawn+= vElements.elementAt(i).getAllPlayersContained().size();
-                                iNumPlayersInSpawn+= vElements.get(i).getAllPlayersContained().size();
+				iNumPlayersInSpawn+= vElements.elementAt(i).getAllPlayersContained().size();
 			}
 			//myElement.getAllNearPlayers();
 			if (iNumPlayersInSpawn < iNumPlayersBeforeSpawn) {

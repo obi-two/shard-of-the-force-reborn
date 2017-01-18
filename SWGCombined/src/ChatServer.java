@@ -1,5 +1,4 @@
-//import java.util.Vector;
-import java.util.Stack;
+import java.util.ArrayList;
 
 /**
  * A ChatServer is a server dedicated to handling all activity in ChatRooms for a given ZoneServer.
@@ -8,7 +7,7 @@ import java.util.Stack;
  *
  */
 public class ChatServer implements Runnable{
-        private Stack<Chatroom> vRoomsInServer;
+	private ArrayList<Chatroom> vRoomsInServer;
 	private int serverID;
 	private ZoneServer zServer;
 	private Thread myThread;
@@ -34,7 +33,7 @@ public class ChatServer implements Runnable{
 	 * Get a list of rooms on this ChatServer.
 	 * @return The list of ChatRooms currently created on this ChatServer.
 	 */
-        public Stack<Chatroom> getRooms() {
+	public ArrayList<Chatroom> getRooms() {
 		return vRoomsInServer;
 	}
 	

@@ -1,5 +1,4 @@
-//import java.util.Vector;
-import java.util.Stack;
+import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.Enumeration;
 /**
@@ -49,11 +48,11 @@ import java.util.Enumeration;
  */
 public final class Lair extends NPC{
     public final static long serialVersionUID = 1l;
-    //private Vector<TangibleItem> EquipmentList;
-    //private Vector<TangibleItem> PropList;
+    //private ArrayList<TangibleItem> EquipmentList;
+    //private ArrayList<TangibleItem> PropList;
     private ConcurrentHashMap<Long,NPC> vSpawnedChildren;
-    private Stack<SOEObject> vHateList;
-    //private Vector<TangibleItem> LootList;
+    private ArrayList<SOEObject> vHateList;
+    //private ArrayList<TangibleItem> LootList;
     private LairTemplate myLairTemplate;
     
     //private SWGGui gui;
@@ -109,11 +108,11 @@ public final class Lair extends NPC{
         bPositionSet = false;
     }
 
-    /*private Vector<TangibleItem> getEquipmentList() {
+    /*private ArrayList<TangibleItem> getEquipmentList() {
         return EquipmentList;
     }
 
-    private void setEquipmentList(Vector<TangibleItem> EquipmentList) {
+    private void setEquipmentList(ArrayList<TangibleItem> EquipmentList) {
         this.EquipmentList = EquipmentList;
     }
 
@@ -121,11 +120,11 @@ public final class Lair extends NPC{
         EquipmentList.add(t);
     }
     */
-    protected Stack<SOEObject> getHateList() {
+    protected ArrayList<SOEObject> getHateList() {
         return vHateList;
     }
 
-    protected void setHateList(Stack<SOEObject> HateList) {
+    protected void setHateList(ArrayList<SOEObject> HateList) {
         this.vHateList = HateList;
     }
 /*
@@ -133,19 +132,19 @@ public final class Lair extends NPC{
        HateList.add(h);
     }   
     
-    private Vector<TangibleItem> getLootList() {
+    private ArrayList<TangibleItem> getLootList() {
         return LootList;
     }
 
-    private void setLootList(Vector<TangibleItem> LootList) {
+    private void setLootList(ArrayList<TangibleItem> LootList) {
         this.LootList = LootList;
     }
 
-    private Vector<TangibleItem> getPropList() {
+    private ArrayList<TangibleItem> getPropList() {
         return PropList;
     }
 
-    private void setPropList(Vector<TangibleItem> PropList) {
+    private void setPropList(ArrayList<TangibleItem> PropList) {
         this.PropList = PropList;
     }
 
@@ -447,7 +446,7 @@ public final class Lair extends NPC{
     /**
      * Sets the template for this lair.
      * If the template requested is not valid this function returns null and will not spawn.
-     * @param lairTemplateID - The template we want for the lair - same template id as on the item_template talble but taken from the server lair_template Vector
+     * @param lairTemplateID - The template we want for the lair - same template id as on the item_template talble but taken from the server lair_template ArrayList
      * @param iPlanetID - The planet We want the lair on.
      * @return
      */
@@ -476,7 +475,7 @@ public final class Lair extends NPC{
      */
     public void setLairRandomTemplate(int planetID, boolean bSetSpecific){
         
-        Stack<LairTemplate> vLairSelections = server.getLairTemplatesForPlanet(planetID, bSetSpecific);
+        ArrayList<LairTemplate> vLairSelections = server.getLairTemplatesForPlanet(planetID, bSetSpecific);  
         int it = 0;
         while(myLairTemplate == null && it < vLairSelections.size())
         {
@@ -505,11 +504,11 @@ public final class Lair extends NPC{
                     iWaveID = 0;            
                     iMaxChildren = myLairTemplate.getIMaxWaves() + myLairTemplate.getIMaxPerWave() + 1;            
                     iBabyCount = 0;        
-                    //EquipmentList = new Vector<TangibleItem>();
-                    //PropList = new Vector<TangibleItem>();
+                    //EquipmentList = new ArrayList<TangibleItem>();
+                    //PropList = new ArrayList<TangibleItem>();
                     vSpawnedChildren = new ConcurrentHashMap<Long,NPC>();
-                    vHateList = new Stack<SOEObject>();
-                    //LootList = new Vector<TangibleItem>();
+                    vHateList = new ArrayList<SOEObject>();
+                    //LootList = new ArrayList<TangibleItem>();
                     bIsLairSpawned = false;            
                     //iLairId = -1;            
                     setTemplateID(myLairTemplate.getILairTemplate());
@@ -546,7 +545,7 @@ public final class Lair extends NPC{
                     /* This HAS TO BE LAST!!!!!*/            
                     bIsLairSpawned = true;
                     //System.out.println("Lair Spawned " + bIsLairSpawned );
-                     Stack<Player> vPL = server.getPlayersAroundNPC(this);
+                     ArrayList<Player> vPL = server.getPlayersAroundNPC(this);
                     if(!vPL.isEmpty())
                     {
                         for(int c =0; c < vPL.size();c++)
@@ -571,7 +570,7 @@ public final class Lair extends NPC{
                     //adult spawn
         			int maxPerWave = getIMaxPerWave();
                     int maxChildrenForLair = getIMaxChildren();
-                    Stack<SpawnedResourceData> vResourcesThisPlanet = server.getResourceManager().getResourcesByPlanetID(getPlanetID());
+                    ArrayList<SpawnedResourceData> vResourcesThisPlanet = server.getResourceManager().getResourcesByPlanetID(getPlanetID());
                     for(int i = 0; i < maxPerWave; i++)
                     {
                         //System.out.println("Spawn Number " + i + "of " + getIMaxPerWave());
@@ -591,8 +590,7 @@ public final class Lair extends NPC{
                             boolean bFound = false;
                             if (boneType != -1) {
                             	for (int j = 0; j < vResourcesThisPlanet.size() && !bFound; j++) {
-                            		//SpawnedResourceData data = vResourcesThisPlanet.elementAt(j);
-                                        SpawnedResourceData data = vResourcesThisPlanet.get(j);
+                            		SpawnedResourceData data = vResourcesThisPlanet.elementAt(j);
                             		if (data.getIGenericResourceIndex() == (boneType + getPlanetID())) {
                             			// Found it.
                             			bFound = true;
@@ -603,8 +601,7 @@ public final class Lair extends NPC{
                             bFound = false;
                             if (hideType != -1) {
                             	for (int j = 0; j < vResourcesThisPlanet.size() && !bFound; j++) {
-                            		//SpawnedResourceData data = vResourcesThisPlanet.elementAt(j);
-                                        SpawnedResourceData data = vResourcesThisPlanet.get(j);
+                            		SpawnedResourceData data = vResourcesThisPlanet.elementAt(j);
                             		if (data.getIGenericResourceIndex() == (hideType + getPlanetID())) {
                             			// Found it.
                             			bFound = true;
@@ -616,8 +613,7 @@ public final class Lair extends NPC{
                             bFound = false;
                             if (meatType != -1) {
                             	for (int j = 0; j < vResourcesThisPlanet.size() && !bFound; j++) {
-                            		//SpawnedResourceData data = vResourcesThisPlanet.elementAt(j);
-                                        SpawnedResourceData data = vResourcesThisPlanet.get(j);
+                            		SpawnedResourceData data = vResourcesThisPlanet.elementAt(j);
                             		if (data.getIGenericResourceIndex() == (meatType + getPlanetID())) {
                             			// Found it.
                             			bFound = true;
@@ -628,8 +624,7 @@ public final class Lair extends NPC{
                             bFound = false;
                             if (milkType != -1) {
                             	for (int j = 0; j < vResourcesThisPlanet.size() && !bFound; j++) {
-                            		//SpawnedResourceData data = vResourcesThisPlanet.elementAt(j);
-                                        SpawnedResourceData data = vResourcesThisPlanet.get(j);
+                            		SpawnedResourceData data = vResourcesThisPlanet.elementAt(j);
                             		if (data.getIGenericResourceIndex() == (milkType + getPlanetID())) {
                             			// Found it.
                             			bFound = true;
@@ -776,7 +771,7 @@ public final class Lair extends NPC{
                                 }   
                                 server.addObjectToAllObjects(LairChild,true,false);
                                 iDefenderCount = vSpawnedChildren.size();
-                                Stack<Player> vPL = server.getPlayersAroundNPC(this);
+                                ArrayList<Player> vPL = server.getPlayersAroundNPC(this);
                                 if(!vPL.isEmpty())
                                 {
                                     for(int c =0; c < vPL.size();c++)
@@ -916,7 +911,7 @@ public final class Lair extends NPC{
                                 server.addObjectToAllObjects(LairChild,true,false);
                                 iDefenderCount = vSpawnedChildren.size();
                                 
-                                Stack<Player> vPL = server.getPlayersAroundNPC(this);
+                                ArrayList<Player> vPL = server.getPlayersAroundNPC(this);
                                 if(!vPL.isEmpty())
                                 {
                                     for(int c =0; c < vPL.size();c++)

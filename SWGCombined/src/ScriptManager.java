@@ -3,8 +3,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Hashtable;
 import java.util.Enumeration;
-//import java.util.Vector;
-import java.util.Stack;
+import java.util.ArrayList;
 import javax.script.Compilable;
 import javax.script.CompiledScript;
 import javax.script.ScriptContext;
@@ -26,7 +25,7 @@ import javax.script.SimpleScriptContext;
 public class ScriptManager {
 	private static Hashtable<Long, Integer> cItemScripts;
 	private static Hashtable<Integer, Integer> cSystemScripts;
-	private static Stack<File> vScriptFiles;
+	private static ArrayList<File> vScriptFiles;
 	private static Hashtable<Integer, CompiledScript> cCompiledScripts;
 	private ScriptEngine engine;
 	private ZoneServer server;
@@ -44,7 +43,7 @@ public class ScriptManager {
 		server = z;
 		cItemScripts = new Hashtable<Long, Integer>();
 		cSystemScripts = new Hashtable<Integer, Integer>();
-		vScriptFiles = new Stack<File>();
+		vScriptFiles = new ArrayList<File>();
 		cCompiledScripts = new Hashtable<Integer, CompiledScript>();
 		itemScriptAPI = new ItemScriptAPI(server);
 		scriptAPI = new ScriptAPI(server);

@@ -1,7 +1,6 @@
 import java.util.Enumeration;
 import java.util.Hashtable;
-//import java.util.Vector;
-import java.util.Stack;
+import java.util.ArrayList;
 
 
 
@@ -18,7 +17,7 @@ public final class CreatureAnimal extends NPC {
     private SpawnedResourceData hideResource;
     private SpawnedResourceData milkResource;
     private byte iResourceHealthRating;
-    private final long[] lPlayersHarvested;
+    private long[] lPlayersHarvested;
     private int iHarvestCount;
     
     public CreatureAnimal(){
@@ -241,7 +240,6 @@ public final class CreatureAnimal extends NPC {
 		return milkResource;
 	}
 	
-        @Override
 	public Hashtable<Character, RadialMenuItem> getRadialMenus(ZoneClient c) {
 		Player player = c.getPlayer();
 		Hashtable<Character, RadialMenuItem> menus = super.getRadialMenus(c);
@@ -351,10 +349,9 @@ public final class CreatureAnimal extends NPC {
 					} 
 					if (!bCouldUpdate){
 						boolean bFound = false;
-                                                Stack<TangibleItem> vInventoryItems = player.getInventoryItems();
+						ArrayList<TangibleItem> vInventoryItems = player.getInventoryItems();
 						for (int i = 0; i < vInventoryItems.size() && !bFound; i++) {
-							//TangibleItem item = vInventoryItems.elementAt(i);
-                                                        TangibleItem item = vInventoryItems.get(i);
+							TangibleItem item = vInventoryItems.elementAt(i);
 							if (item instanceof ResourceContainer) {
 								ResourceContainer tempContainer = (ResourceContainer) item;
 								if (tempContainer.getResourceSpawnID() == resourceTypeID) {

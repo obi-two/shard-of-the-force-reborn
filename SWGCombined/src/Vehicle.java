@@ -1,5 +1,4 @@
-//import java.util.Vector;
-import java.util.Stack;
+import java.util.ArrayList;
 
 
 /**
@@ -80,7 +79,7 @@ public final class Vehicle extends NPC{
         if(getDamage() >= 1 && this.getIsVehicle())
         {
             //System.out.println("-------------------------------------------------------------");
-            Stack<SOEObject> vO = myMaster.getServer().getStaticObjectsAroundObject(this,30);
+            ArrayList<SOEObject> vO = myMaster.getServer().getStaticObjectsAroundObject(this,30);
             boolean foundgarage = false;
             for(int i = 0; i < vO.size();i++)
             {
@@ -203,7 +202,7 @@ public final class Vehicle extends NPC{
                             sList[1] = "Repair";
                             client.getPlayer().setLastSuiWindowTypeInt(Constants.SUI_WINDOW_TYPE_ScriptmessageBox);
                             client.getPlayer().setLastSuiWindowTypeString("@pet/pet_menu:confirm_repairs_t");
-                            //SUIScriptListBox(ZoneClient client, String WindowTypeString, String DataListTitle, String DataListPrompt, String sList[], Vector<SOEObject> ObjectList,long ObjectID, long PlayerID)
+                            //SUIScriptListBox(ZoneClient client, String WindowTypeString, String DataListTitle, String DataListPrompt, String sList[], ArrayList<SOEObject> ObjectList,long ObjectID, long PlayerID)
                             client.insertPacket(W.SUIScriptListBox(client, "handleSUI", "@pet/pet_menu:confirm_repairs_t", "It will cost " + iRepairCost + " credits to repair your vehicle.\r\nChoose Option Form the List Below",sList,null, 0, 0));
                             break;
                         }

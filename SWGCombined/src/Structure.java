@@ -1,7 +1,6 @@
 import java.io.IOException;
 import java.util.Hashtable;
-//import java.util.Vector;
-import java.util.Stack;
+import java.util.ArrayList;
 import java.util.Enumeration;
 /**
  * The Structure class represents Buildings in the SWG game.
@@ -29,13 +28,12 @@ public class Structure extends TangibleItem {
     //private int currentCondition;
     private long structureOwnerID;
     
-
-    private Stack<Long> vAdminList;
-    private Stack<Long> vEnterList;
-    private Stack<Long> vBanList;
-    private Stack<Long> vHopperAdminList;
-
-    //private Vector<Long> vHopperList;
+    private ArrayList<Long> vAdminList;
+    private ArrayList<Long> vEnterList;
+    private ArrayList<Long> vBanList;
+    private ArrayList<Long> vHopperAdminList;
+    
+    //private ArrayList<Long> vHopperList;
     private short structureStatus;
     //private boolean bUpdateThreadIsUsing;
     private int iStructureMaxItemsCapacity;
@@ -58,7 +56,7 @@ public class Structure extends TangibleItem {
     private long lGuildTickTime;
     //private boolean isStructureMarker;
     //private long lNextMovementUpdate; //LOL YES STRUCTURES MOVE BELIEVE ME !!!! PF
-    private Stack<Terminal> vElevatorTerminals;
+    private ArrayList<Terminal> vElevatorTerminals;
 
     private transient long constructionMarkerID;
     private transient Structure constructionMarkerObject;
@@ -71,10 +69,10 @@ public class Structure extends TangibleItem {
 		super();
 		sIFFName = "";
 		cellsInBuilding = new Hashtable<Long, Cell>();
-        //world structures need admin lists too for restricting access to them and not to cause null pointers hehe.;
-        vAdminList = new Stack<Long>();
-        vEnterList = new Stack<Long>();
-        vBanList = new Stack<Long>();
+        //world structures need admin lists too for restricting access to them and not to cause null pointers hehe.
+        vAdminList = new ArrayList<Long>();
+        vEnterList = new ArrayList<Long>();
+        vBanList = new ArrayList<Long>();
         structureStatus = Constants.STRUCTURE_PERMISSIONS_PUBLIC;
 	}
 
@@ -88,9 +86,9 @@ public class Structure extends TangibleItem {
         this.deedID = deedID;                
         sIFFName = sName;
         //world structures need admin lists too for restricting access to them and not to cause null pointers hehe.
-        vAdminList = new Stack<Long>();
-        vEnterList = new Stack<Long>();
-        vBanList = new Stack<Long>();
+        vAdminList = new ArrayList<Long>();
+        vEnterList = new ArrayList<Long>();
+        vBanList = new ArrayList<Long>();
         structureStatus = Constants.STRUCTURE_PERMISSIONS_PUBLIC;
 	}
 	
@@ -107,10 +105,11 @@ public class Structure extends TangibleItem {
                 iPowerRate = d.getIEnergyMaintenanceRate();//need to get this from the template
                 this.iFacingDirection = iFacingDirection;
                 this.structureOwnerID = lStructureOwnerID;
-                vAdminList = new Stack<Long>();
-                vEnterList = new Stack<Long>();
-                vBanList = new Stack<Long>();
-                vHopperAdminList = new Stack<Long>();
+                //vHopperList = new ArrayList<Long>();
+                vAdminList = new ArrayList<Long>();
+                vEnterList = new ArrayList<Long>();
+                vBanList = new ArrayList<Long>();
+                vHopperAdminList = new ArrayList<Long>();
                 structureStatus = Constants.STRUCTURE_PERMISSIONS_PRIVATE;
                 //bUpdateThreadIsUsing = false;
                 iStructureMaxItemsCapacity = dT.getStructure_items_capacity();
@@ -405,7 +404,7 @@ public class Structure extends TangibleItem {
                     //that are not guild halls and not all guild halls use elevators.
                     if(dT.getIElevatorTerminalCount()!=0)
                     {
-                        vElevatorTerminals = new Stack<Terminal>();
+                        vElevatorTerminals = new ArrayList<Terminal>();
                         for(int i = 0;i < dT.getIElevatorTerminalCount(); i++)
                         {
                             Terminal et = new Terminal();
@@ -564,8 +563,8 @@ public class Structure extends TangibleItem {
                          Message += "X:" + this.getX() + "\r\n";
                          Message += "Y:" + this.getY() + "\r\n";
                          Message += "Planet: " + Constants.PlanetNames[this.getPlanetID()] + "\r\n";                         
-                         Stack<Waypoint> WL = new Stack<Waypoint>();
-                         SWGEmail E = new SWGEmail(-1,Constants.SERVER_STRUCTURE_MANAGER_OBJECT_ID,this.structureOwnerID,"Structure Damaged!",Message,WL,false);
+                         ArrayList<Waypoint> WL = new ArrayList<Waypoint>();                 
+                         SWGEmail E = new SWGEmail(-1,Constants.SERVER_STRUCTURE_MANAGER_OBJECT_ID,this.structureOwnerID,"Structure Damaged!",Message,WL,false);                 
                          server.queueEmailNewClientMessage(E);        
                     }
                     //--------------------------------
@@ -584,7 +583,7 @@ public class Structure extends TangibleItem {
                             Message += "X:" + this.getX() + "\r\n";
                             Message += "Y:" + this.getY() + "\r\n";
                             Message += "Planet: " + Constants.PlanetNames[this.getPlanetID()] + "\r\n";                         
-                            Stack<Waypoint> WL = new Stack<Waypoint>();
+                            ArrayList<Waypoint> WL = new ArrayList<Waypoint>();                 
                             SWGEmail E = new SWGEmail(-1,Constants.SERVER_STRUCTURE_MANAGER_OBJECT_ID,this.structureOwnerID,"Structure Out of Power",Message,WL,false);                 
                             server.queueEmailNewClientMessage(E); 
                         }
@@ -629,7 +628,7 @@ public class Structure extends TangibleItem {
                     
                     player.addWaypoint(this.getStructureWaypoint(),true);
                     String Message = "Construction of your Structure is now complete. You have " + player.getFreeLots() + " lots remaining. ";
-                    Stack<Waypoint> WL = new Stack<Waypoint>();
+                    ArrayList<Waypoint> WL = new ArrayList<Waypoint>();
                     WL.add(this.structureWaypoint);
                     SWGEmail E = new SWGEmail(-1,Constants.SERVER_STRUCTURE_MANAGER_OBJECT_ID,player.getID(),"Construction Complete",Message,WL,false);
                     E.setTransactionRequester(player.getClient());
@@ -649,7 +648,7 @@ public class Structure extends TangibleItem {
                 {
                     //lets update everyone around us.
                     structurenamechanged = false;
-                    Stack<Player> vPL = server.getPlayersAroundObject(this, false);
+                    ArrayList<Player> vPL = server.getPlayersAroundObject(this, false);
                     for(int i = 0; i < vPL.size();i ++)
                     {
                         Player p = vPL.get(i);
@@ -1468,7 +1467,7 @@ public class Structure extends TangibleItem {
                                 if(this.isAdmin(client.getPlayer().getID()))
                                 {
                                     int iPowerOnHand = 0;
-                                    Stack<ResourceContainer> vRCList = new Stack<ResourceContainer>();
+                                    ArrayList<ResourceContainer> vRCList = new ArrayList<ResourceContainer>();
                                     for(int i =0; i < client.getPlayer().getInventoryItems().size();i++)
                                     {
                                         TangibleItem o = client.getPlayer().getInventoryItems().get(i);
@@ -1686,21 +1685,21 @@ public class Structure extends TangibleItem {
             this.iOutputHopperSize = iOutputHopperSize;
         }
 
-         public Stack<Long> getVAdminList() {
-             return vAdminList;
+        public ArrayList<Long> getVAdminList() {
+            return vAdminList;
         }
 
-         public Stack<Long> getVBanList() {
+        public ArrayList<Long> getVBanList() {
             return vBanList;
         }
 
-         public Stack<Long> getVEnterList() {
+        public ArrayList<Long> getVEnterList() {
             return vEnterList;
         }
         
         public void updateStructureCellPermissions(ZoneClient client){
             try{
-                Stack<Player> vPL = client.getServer().getPlayersAroundObject(this,true);
+                ArrayList<Player> vPL = client.getServer().getPlayersAroundObject(this,true);
                 Hashtable<Long,Cell> vCells = this.getCellsInBuilding();
                 for(int i = 0; i < vPL.size();i++)
                 {
@@ -1730,11 +1729,11 @@ public class Structure extends TangibleItem {
             this.server = server;
         }
 
-        public Stack<Long> getVHopperAdminList() {
+        public ArrayList<Long> getVHopperAdminList() {
             return vHopperAdminList;
         }
 
-        public void setVHopperAdminList(Stack<Long> vHopperAdminList) {
+        public void setVHopperAdminList(ArrayList<Long> vHopperAdminList) {
             this.vHopperAdminList = vHopperAdminList;
         }
         
@@ -1830,10 +1829,10 @@ public class Structure extends TangibleItem {
             return isGuild;
         }
 
-        public Stack<Terminal> getVElevatorTerminals() {
+        public ArrayList<Terminal> getVElevatorTerminals() {
             if(vElevatorTerminals==null)
             {
-                vElevatorTerminals = new Stack<Terminal>();
+                vElevatorTerminals = new ArrayList<Terminal>();
             }
             return vElevatorTerminals;
         }
@@ -1934,8 +1933,7 @@ public class Structure extends TangibleItem {
         }
         if (!vElevatorTerminals.isEmpty()) {
 	        for (int i = 0; i < vElevatorTerminals.size(); i++) {
-	        	//Terminal evelatorTerminal = vElevatorTerminals.elementAt(i);
-                        Terminal evelatorTerminal = vElevatorTerminals.get(i);
+	        	Terminal evelatorTerminal = vElevatorTerminals.elementAt(i);
 	        	evelatorTerminal.setStructure(this);
 	        }
         }

@@ -1,6 +1,5 @@
 import java.io.Serializable;
-//import java.util.Vector;
-import java.util.Stack;
+import java.util.ArrayList;
 
 /**
  * The CraftingSchematic class contains the CRC, ID, etc. of any Crafting Schematic which the Player knows.
@@ -13,26 +12,26 @@ public class CraftingSchematic implements Serializable {
 	private int iCRC;
 	private int index;
 	private int iSchematicType;
-        private Stack<Integer> iRequiredSkillID; // Need to support 2 (or more) skills here -- if the player gains ANY skill, they can have this schematic.
+	private ArrayList<Integer> iRequiredSkillID; // Need to support 2 (or more) skills here -- if the player gains ANY skill, they can have this schematic.
 	private int iExperienceGainedFromCrafting;
 	private int iExperienceTypeToGrant;
 	private int iComplexity;
 	private int iToolTabBitmask;
-        private Stack<CraftingSchematicComponent> vComponents;
+	private ArrayList<CraftingSchematicComponent> vComponents;
 	private int iCraftedItemType;
 	private CraftingExperimentationAttribute[] vAttributes;
 	private String sCraftedItemIFFFilename;
 	private TangibleItem itemToCraft;
-        private Stack<TangibleItem>[] vFactoryItemsUsedToCraftCrate;
+	private ArrayList<TangibleItem>[] vFactoryItemsUsedToCraftCrate;
 	
 	
 	/**
 	 * Constructs a new Crafting Schematic.
 	 */
 	public CraftingSchematic() {
-            vComponents = new Stack<CraftingSchematicComponent>();
+		vComponents = new ArrayList<CraftingSchematicComponent>();
         iToolTabBitmask = 1;
-        iRequiredSkillID = new Stack<Integer>();
+        iRequiredSkillID = new ArrayList<Integer>();
         
 	}
 
@@ -56,7 +55,7 @@ public class CraftingSchematic implements Serializable {
 		return iSchematicType;
 	}
 	
-        public Stack<Integer> getRequiredSkillID() {
+	public ArrayList<Integer> getRequiredSkillID() {
 		return iRequiredSkillID;
 	}
 
@@ -96,7 +95,7 @@ public class CraftingSchematic implements Serializable {
 		vComponents.add(comp);
 	}
 	
-        protected Stack<CraftingSchematicComponent> getComponents() {
+	protected ArrayList<CraftingSchematicComponent> getComponents() {
 		return vComponents;
 	}
 	protected void setComplexity(int i) {
@@ -177,7 +176,7 @@ public class CraftingSchematic implements Serializable {
 	
 	public void addFactoryItemForCrafting(TangibleItem item, int slotID) {
 		if (vFactoryItemsUsedToCraftCrate == null) {
-                    vFactoryItemsUsedToCraftCrate = new Stack[vComponents.size()];
+			vFactoryItemsUsedToCraftCrate = new ArrayList[vComponents.size()];
 		}
 		vFactoryItemsUsedToCraftCrate[slotID].add(item);
 	}
@@ -188,12 +187,10 @@ public class CraftingSchematic implements Serializable {
 	public void reduceFactoryItemsForCrafting() { 
 		
 		for (int i = 0; i < vFactoryItemsUsedToCraftCrate.length; i++) {
-			//int numToReduce = vComponents.elementAt(i).getComponentQuantity();
-                        int numToReduce = vComponents.get(i).getComponentQuantity();
+			int numToReduce = vComponents.elementAt(i).getComponentQuantity();
 			int iReducedBy = 0;
 			for (int j = 0; j < vFactoryItemsUsedToCraftCrate[i].size() && iReducedBy < numToReduce; j++) {
-				//TangibleItem item = vFactoryItemsUsedToCraftCrate[i].elementAt(j);
-                                TangibleItem item = vFactoryItemsUsedToCraftCrate[i].get(j);
+				TangibleItem item = vFactoryItemsUsedToCraftCrate[i].elementAt(j);
 				int itemStackSize = item.getStackQuantity();
 				iReducedBy += itemStackSize;
 				if (itemStackSize <= numToReduce) {
@@ -207,9 +204,9 @@ public class CraftingSchematic implements Serializable {
 	
 	public void clearFactoryItemForCrafting() {
 		if (vFactoryItemsUsedToCraftCrate == null) {
-                    vFactoryItemsUsedToCraftCrate = new Stack[vComponents.size()];
+			vFactoryItemsUsedToCraftCrate = new ArrayList[vComponents.size()];
 			for (int i = 0; i < vFactoryItemsUsedToCraftCrate.length; i++) {
-                            vFactoryItemsUsedToCraftCrate[i] = new Stack<TangibleItem>();
+				vFactoryItemsUsedToCraftCrate[i] = new ArrayList<TangibleItem>();
 			}
 		} else {
 			for (int i = 0; i < vFactoryItemsUsedToCraftCrate.length; i++) {

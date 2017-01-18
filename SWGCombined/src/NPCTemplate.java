@@ -1,5 +1,5 @@
-//import java.util.Vector;
-import java.util.Stack;
+import java.util.ArrayList;
+
 
 public class NPCTemplate {
 	private int iTemplateID = -1;
@@ -11,10 +11,10 @@ public class NPCTemplate {
 	private String sSTFDetailIdentifier = "";
 	private String sSTFLookAtName = "";
 	private String sSTFLookAtIdentifier = "";
-	private Stack<RadialMenuItem> vRadialMenuItems;
+	private ArrayList<RadialMenuItem> vRadialMenuItems;
 	private String sScriptName = "";
 	private int iScriptType = -1;
-	private Stack<Attribute> vAttributeList;
+	private ArrayList<Attribute> vAttributeList;
 	private int[] iHAMs;
         private String appearance_cdf;
         private int crc_cdf;
@@ -32,8 +32,8 @@ public class NPCTemplate {
         
         
 	public NPCTemplate() {
-		vRadialMenuItems = new Stack<RadialMenuItem>();
-		vAttributeList = new Stack<Attribute>();
+		vRadialMenuItems = new ArrayList<RadialMenuItem>();
+		vAttributeList = new ArrayList<Attribute>();
 		iHAMs = new int[9];
 	}
 
@@ -125,11 +125,11 @@ public class NPCTemplate {
 		sSTFLookAtName = lookAtName;
 	}
 
-	protected Stack<RadialMenuItem> getRadialMenuItems() {
+	protected ArrayList<RadialMenuItem> getRadialMenuItems() {
 		return vRadialMenuItems;
 	}
 
-	protected void addRadialMenuItem(Stack<RadialMenuItem> radialMenuItems) {
+	protected void addRadialMenuItem(ArrayList<RadialMenuItem> radialMenuItems) {
 		vRadialMenuItems.addAll(radialMenuItems);
 	}
 	
@@ -137,11 +137,11 @@ public class NPCTemplate {
 		vRadialMenuItems.add(item);
 	}
 	
-	protected Stack<Attribute> getAttributes() {
+	protected ArrayList<Attribute> getAttributes() {
 		return vAttributeList;
 	}
 
-	protected void addAttribute(Stack<Attribute> radialMenuItems) {
+	protected void addAttribute(ArrayList<Attribute> radialMenuItems) {
 		vAttributeList.addAll(radialMenuItems);
 	}
 	

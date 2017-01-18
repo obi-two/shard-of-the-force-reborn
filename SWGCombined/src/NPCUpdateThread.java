@@ -1,5 +1,5 @@
-//import java.util.Vector;
-import java.util.Stack;
+import java.util.ArrayList;
+
 /**
  * The NPC update thread is responsible for updating the movement, status, combat and dialog states for all NPCs across
  * the game.  Only one NPC update thread per Zone Server (or per planet, in the Combined server) should be active at any given time.
@@ -7,7 +7,7 @@ import java.util.Stack;
  *
  */
 public class NPCUpdateThread implements Runnable {
-	private Stack<NPC> vAllNPCs;
+	private ArrayList<NPC> vAllNPCs;
 	private ZoneServer server;
 	private Thread myThread;
 	private long lLastUpdateTimeMS;
@@ -15,7 +15,7 @@ public class NPCUpdateThread implements Runnable {
 	private long lDeltaUpdateTimeMS;
 	private int iClusterID;
 	//private NPCSpawnManager manager;
-	private Stack<DynamicLairSpawn> vLairSpawns;
+	private ArrayList<DynamicLairSpawn> vLairSpawns;
 	
 	/**
 	 * Construct a new NPC Update Thread for the given Zone Server.
@@ -24,11 +24,11 @@ public class NPCUpdateThread implements Runnable {
 	public NPCUpdateThread(ZoneServer server, int clusterID) {
 		this.server = server;
 		iClusterID = clusterID;
-		vAllNPCs = new Stack<NPC>();
+		vAllNPCs = new ArrayList<NPC>();
 		lLastUpdateTimeMS = System.currentTimeMillis();
 		lCurrentUpdateTimeMS = lLastUpdateTimeMS;
 		lDeltaUpdateTimeMS = 0;
-		vLairSpawns = new Stack<DynamicLairSpawn>();
+		vLairSpawns = new ArrayList<DynamicLairSpawn>();
 	}
 	
 	public void startThread() {
@@ -53,7 +53,7 @@ public class NPCUpdateThread implements Runnable {
 	 */
 	public void removeRandomNPC(NPC npc) {
 		vAllNPCs.remove(npc);
-		Stack<Player> vPlayersAroundNPC = server.getPlayersAroundNPC(npc);
+		ArrayList<Player> vPlayersAroundNPC = server.getPlayersAroundNPC(npc);
 		for (int i = 0; i < vPlayersAroundNPC.size(); i++) {
 			Player player = vPlayersAroundNPC.elementAt(i);
 			try {
@@ -90,8 +90,7 @@ public class NPCUpdateThread implements Runnable {
 					if (!vLairSpawns.isEmpty()) {
 						// This handles our lair spawns.
 						for (int i = 0; i < vLairSpawns.size(); i++) {
-							//DynamicLairSpawn lairSpawn = vLairSpawns.elementAt(i);
-                                                        DynamicLairSpawn lairSpawn = vLairSpawns.get(i);
+							DynamicLairSpawn lairSpawn = vLairSpawns.elementAt(i);
 							lairSpawn.update(lDeltaUpdateTimeMS);
 						}
 					}
@@ -101,13 +100,12 @@ public class NPCUpdateThread implements Runnable {
 
 				for (int i =0; i < vAllNPCs.size(); i++) {
 					try {
-						//NPC npc = vAllNPCs.elementAt(i);
-                                                NPC npc = vAllNPCs.get(i);
+						NPC npc = vAllNPCs.elementAt(i);
 						if (npc.getServer() == null) {
 							npc.setServer(server);
 						}
 						// TODO -- This will be / is handled by the Grid system.
-						//Vector<Player> vObjectsBeforeMovement = server.getPlayersAroundNPC(npc);
+						//ArrayList<Player> vObjectsBeforeMovement = server.getPlayersAroundNPC(npc);
                         if(npc.isTerminal() && !npc.IsSkillTrainer())
                         {
                            
@@ -118,8 +116,8 @@ public class NPCUpdateThread implements Runnable {
                         }
                         
                         
-						/*Vector<Player> vObjectsAfterMovement = server.getPlayersAroundNPC(npc);
-						Vector<Player> vStillSpawned = new Vector<Player>();
+						/*ArrayList<Player> vObjectsAfterMovement = server.getPlayersAroundNPC(npc);
+						ArrayList<Player> vStillSpawned = new ArrayList<Player>();
 						
 						for (int j = 0; j < vObjectsBeforeMovement.size(); j++) {
 							Player p = vObjectsBeforeMovement.elementAt(j);
