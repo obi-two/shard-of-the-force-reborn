@@ -130,7 +130,7 @@ public class DynamicLairSpawn {
 		
 		lNextUpdateTime -= lDeltaTimeMS;
 		for (int i = 0; i < lairs.size(); i++) {
-			lairs.elementAt(i).update(lDeltaTimeMS);
+			lairs.get(i).update(lDeltaTimeMS);
 		}
 		
 		
@@ -142,7 +142,7 @@ public class DynamicLairSpawn {
 			//ArrayList<Player> vNearbyPlayers = new ArrayList<Player>(); 
 			int iNumPlayersInSpawn = 0;
 			for (int i =0; i < vElements.size(); i++) {
-				iNumPlayersInSpawn+= vElements.elementAt(i).getAllPlayersContained().size();
+				iNumPlayersInSpawn+= vElements.get(i).getAllPlayersContained().size();
 			}
 			//myElement.getAllNearPlayers();
 			if (iNumPlayersInSpawn < iNumPlayersBeforeSpawn) {

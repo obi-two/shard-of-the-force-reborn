@@ -505,7 +505,7 @@ public class IntangibleObject extends SOEObject {
                         ArrayList<Player> vPlayersInRange = client.getServer().getPlayersAroundObject(theVehicle, true);
                         if(!vPlayersInRange.isEmpty()) {
                                 for (int i = 0; i < vPlayersInRange.size(); i++) {
-                                        vPlayersInRange.elementAt(i).spawnItem(theVehicle);
+                                        vPlayersInRange.get(i).spawnItem(theVehicle);
                                 }
                         }
                 } catch (Exception e) {

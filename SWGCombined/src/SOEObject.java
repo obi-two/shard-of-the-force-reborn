@@ -1879,7 +1879,7 @@ public class SOEObject implements Serializable, Comparable<SOEObject> {
 	 */
 	public boolean isSlotTaken(byte slot) {
 		for (int i = 0; i < vEquippedItems.size(); i++) {
-			if (vEquippedItems.elementAt(i).getSlotID() == slot) {
+			if (vEquippedItems.get(i).getSlotID() == slot) {
 				return true;
 			}
 		}
@@ -1896,8 +1896,8 @@ public class SOEObject implements Serializable, Comparable<SOEObject> {
 	 */
 	public SOEObject getObjectInSlot(byte slot) {
 		for (int i = 0; i < vEquippedItems.size(); i++) {
-			if (vEquippedItems.elementAt(i).getSlotID() == slot) {
-				return vEquippedItems.elementAt(i);
+			if (vEquippedItems.get(i).getSlotID() == slot) {
+				return vEquippedItems.get(i);
 			}
 		}
 		return null;

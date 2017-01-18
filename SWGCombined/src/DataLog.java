@@ -109,7 +109,7 @@ public class DataLog implements Runnable {
                 {
                     DataLogObject L = null;
                     try{
-                        L = qPacketLog.firstElement();
+                        L = qPacketLog.get(0);
                     }catch(Exception qe){
                         if(qe instanceof java.util.NoSuchElementException)
                         {

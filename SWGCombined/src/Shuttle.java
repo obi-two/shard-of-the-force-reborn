@@ -83,7 +83,7 @@ public class Shuttle extends NPC{
                     {
                         for(int i = 0; i < playerList.size(); i++)
                         {
-                        	Player player = playerList.elementAt(i);
+                        	Player player = playerList.get(i);
                         	//System.out.println("Send flyout to player with first name " + player.getFirstName());
                         	try{
                                 this.flyShuttle(player.getClient());

@@ -212,7 +212,7 @@ public class Skills {
 	 */
 	public SkillMods getSkillMod(String sMod) {
 		for (int i =0; i < vSkillMods.size(); i++) {
-			SkillMods mod = vSkillMods.elementAt(i);
+			SkillMods mod = vSkillMods.get(i);
 			if (mod.getName().equalsIgnoreCase(sMod)) {
 				return mod;
 			}

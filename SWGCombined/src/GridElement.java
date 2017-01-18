@@ -86,8 +86,8 @@ public class GridElement {
 					ArrayList<Player> players = getAllNearPlayers(); 
 					for (int i = 0; i < players.size(); i++) {
 						try {
-							players.elementAt(i).spawnItem(o);
-							ZoneClient client = players.elementAt(i).getClient();
+							players.get(i).spawnItem(o);
+							ZoneClient client = players.get(i).getClient();
 							if (o.getCellID() == 0) {
 								client.insertPacket(PacketFactory.buildNPCUpdateTransformMessage(o));
 							} else {
@@ -121,7 +121,7 @@ public class GridElement {
 			if (!o.getIsStaticObject()) {
 				ArrayList<Player> players = getAllNearPlayers(); 
 				for (int i = 0; i < players.size(); i++) {
-					Player player = (Player)players.elementAt(i);
+					Player player = (Player)players.get(i);
 					try {
 						// If we're forcibly removing the item, or if the item is no longer in range of the Player, remove it.
 						if (!ZoneServer.isInRange(o, player)) {

@@ -763,7 +763,7 @@ public class PacketUtils {
 		int totalPacketSize = packet.size();
 		int iNumberOfFragments = totalPacketSize / MAX_PACKET_SIZE;
 		for (int i = 0; i < packet.size(); i++) {
-			byte[] fragPacket = packet.elementAt(i);
+			byte[] fragPacket = packet.get(i);
 
 			SOEInputStream dIn = new SOEInputStream(new ByteArrayInputStream(
 					fragPacket));
@@ -831,7 +831,7 @@ public class PacketUtils {
 		SOEOutputStream sOut = new SOEOutputStream(new ByteArrayOutputStream());
 
 		SOEInputStream sIn = new SOEInputStream(new ByteArrayInputStream(
-				packetDatas.elementAt(0)));
+				packetDatas.get(0)));
 		short opcode = sIn.getOpcode();
 		if (opcode != Constants.SOE_CHL_DATA_A) {
 			// /System.out.println("Error:  Trying to DATA_A_MULTIPACKET a non-SOE_CHL_DATA_A packet");
@@ -843,7 +843,7 @@ public class PacketUtils {
 		sOut.setSequence(sequence);
 		sOut.setUpdateType(Constants.DATA_A_MULTI_PKT);
 		for (int i = 0; i < iTotalPackets; i++) {
-			byte[] data = packetDatas.elementAt(i);
+			byte[] data = packetDatas.get(i);
 			if (data.length + sOut.written < 487) {
 				sOut.writeByte((byte) data.length);
 				iBytesWrittenThisPacket++;
@@ -887,7 +887,7 @@ public class PacketUtils {
 		SOEOutputStream dOut = new SOEOutputStream(new ByteArrayOutputStream());
 		dOut.setOpcode(Constants.SOE_MULTI_PKT);
 		for (int i = 0; i < iTotalPackets; i++) {
-			byte[] aPacket = vPackets.elementAt(i);
+			byte[] aPacket = vPackets.get(i);
 			if (aPacket.length + iBytesInMulti > 492) {
 				dOut.flush();
 				vReadyPackets.add(dOut.getBuffer());

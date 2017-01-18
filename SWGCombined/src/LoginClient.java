@@ -1184,7 +1184,7 @@ public class LoginClient implements Runnable {
 			dOut.writeInt(serverContainers.size());
 			//dOut.writeInt(1); // Number of servers.
 			for (int i = 0; i < serverContainers.size(); i++) {
-				DatabaseServerInfoContainer server = serverContainers.elementAt(i);
+				DatabaseServerInfoContainer server = serverContainers.get(i);
 				dOut.writeInt(server.iServerID);
 				dOut.writeUTF(server.sServerName);
 				dOut.writeInt(server.iTimeOffset * 3600);
@@ -1213,7 +1213,7 @@ public class LoginClient implements Runnable {
 			
 			dOut.writeInt(serverContainers.size());
 			for (int i = 0; i < serverContainers.size(); i++) {
-				DatabaseServerInfoContainer server = serverContainers.elementAt(i);
+				DatabaseServerInfoContainer server = serverContainers.get(i);
 				dOut.writeInt(server.iServerID);
 				InetAddress serverAddress = InetAddress.getByName(server.sLocalAddress);
 				dOut.writeUTF(serverAddress.getHostAddress());
@@ -1259,7 +1259,7 @@ public class LoginClient implements Runnable {
 			dOut.writeInt(lCharacterList.size());
 			if (!lCharacterList.isEmpty()) {
 				for (int i = 0; i < lCharacterList.size(); i++) {
-					Player character = lCharacterList.elementAt(i);
+					Player character = lCharacterList.get(i);
 					dOut.writeUTF16(character.getFullName());
 					dOut.writeInt(character.getCRC());
 					dOut.writeLong(character.getID());
@@ -1315,7 +1315,7 @@ public class LoginClient implements Runnable {
 		long playerID = dIn.readLong();
 		ArrayList<Player> vPlayerList = myServer.getCharacterListForServer(serverID);
 		for (int i = 0; i < vPlayerList.size(); i++) {
-			Player player = vPlayerList.elementAt(i);
+			Player player = vPlayerList.get(i);
 			if (player.getID() == playerID) {
 				// Found him
 				player.setIsDeleted(true);

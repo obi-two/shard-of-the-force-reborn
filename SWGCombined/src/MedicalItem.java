@@ -174,7 +174,7 @@ public class MedicalItem extends TangibleItem {
 			if (vPlayersInRange != null) {
 				if (!vPlayersInRange.isEmpty()) {
 					for (int i = 0; i < vPlayersInRange.size(); i++) {
-						Player tarPlayer= vPlayersInRange.elementAt(i);
+						Player tarPlayer= vPlayersInRange.get(i);
 						tarPlayer.applyDisease(this);
 					}
 				}
@@ -249,7 +249,7 @@ public class MedicalItem extends TangibleItem {
 			if (vPlayersInRange != null) {
 				if (!vPlayersInRange.isEmpty()) {
 					for (int i = 0; i < vPlayersInRange.size(); i++) {
-						Player tarPlayer= vPlayersInRange.elementAt(i);
+						Player tarPlayer= vPlayersInRange.get(i);
 						totalDamageHealed += tarPlayer.healDamage(this);
 					}
 				}
@@ -306,7 +306,7 @@ public class MedicalItem extends TangibleItem {
 			if (vPlayersInRange != null) {
 				if (!vPlayersInRange.isEmpty()) {
 					for (int i = 0; i < vPlayersInRange.size(); i++) {
-						Player tarPlayer= vPlayersInRange.elementAt(i);
+						Player tarPlayer= vPlayersInRange.get(i);
 						if (tarPlayer.getID() != player.getID()) {
 							tarPlayer.applyPoison(this);
 						}
@@ -360,7 +360,7 @@ public class MedicalItem extends TangibleItem {
 			if (vPlayersInRange != null) {
 				if (!vPlayersInRange.isEmpty()) {
 					for (int i = 0; i < vPlayersInRange.size(); i++) {
-						Player tarPlayer= vPlayersInRange.elementAt(i);
+						Player tarPlayer= vPlayersInRange.get(i);
 						tarPlayer.healWounds(this);
 					}
 				}

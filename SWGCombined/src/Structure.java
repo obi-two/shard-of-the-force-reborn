@@ -1933,7 +1933,7 @@ public class Structure extends TangibleItem {
         }
         if (!vElevatorTerminals.isEmpty()) {
 	        for (int i = 0; i < vElevatorTerminals.size(); i++) {
-	        	Terminal evelatorTerminal = vElevatorTerminals.elementAt(i);
+	        	Terminal evelatorTerminal = vElevatorTerminals.get(i);
 	        	evelatorTerminal.setStructure(this);
 	        }
         }

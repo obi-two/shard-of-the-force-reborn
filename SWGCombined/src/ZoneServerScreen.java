@@ -559,7 +559,7 @@ public class ZoneServerScreen implements KeyListener, MouseListener, MouseMotion
 			vLairSpawns[iPlanetToView] = server.getLairSpawnForPlanet(iPlanetToView);
 			ArrayList<LairTemplate> lairs = vLairTemplates[iPlanetToView];
 			for (int i = 0; i < lairs.size(); i++) {
-				LairTemplate lairTemplate = lairs.elementAt(i);
+				LairTemplate lairTemplate = lairs.get(i);
 				String sLairType = server.getTemplateData(lairTemplate.getIMob1Template()).getIFFFileName();
 				lairTemplateBubbleWidth = Math.max(
 						menuBubbleWidth, 
@@ -809,7 +809,7 @@ public class ZoneServerScreen implements KeyListener, MouseListener, MouseMotion
 				g.fillRect(leftX, topY, gridDimension, gridDimension);
 			}
 			for (int i = 0; i < vLairSpawns[iPlanetToView].size(); i++) {
-				DynamicLairSpawn spawn = vLairSpawns[iPlanetToView].elementAt(i);
+				DynamicLairSpawn spawn = vLairSpawns[iPlanetToView].get(i);
 				if ((numFrames % 2) != 0) {
 					g.setColor(ColorManager.getColor(spawn.getColor()));
 					Rectangle2D rectangle = spawn.getBoundaries();
@@ -910,7 +910,7 @@ public class ZoneServerScreen implements KeyListener, MouseListener, MouseMotion
 				for (int j = 0; j < vAllGridElements[i].length; j++) {
 					ArrayList<Player> vCreaturesThisElement = vAllGridElements[i][j].getAllPlayersContained();
 					for (int k = 0; k < vCreaturesThisElement.size(); k++) {
-						Player player = vCreaturesThisElement.elementAt(i);
+						Player player = vCreaturesThisElement.get(i);
 						if (!vPlayersSortedByPlanet[iPlanetToView].contains(player)) {
 							vPlayersSortedByPlanet[iPlanetToView].add(player);
 						}
@@ -999,12 +999,12 @@ public class ZoneServerScreen implements KeyListener, MouseListener, MouseMotion
 			int currentY;
 			int resourceRadiusDiv2;
 			for (int i = 0; i < vResourcesSortedByPlanet[iPlanetToView].size(); i++){
-				SpawnedResourceData resource = vResourcesSortedByPlanet[iPlanetToView].elementAt(i);
+				SpawnedResourceData resource = vResourcesSortedByPlanet[iPlanetToView].get(i);
 				ArrayList<ResourceSpawnCoordinateData> vCoordinates = resource.getCoordinates();
 				Color drawColor = ColorManager.getColor(resource.getDrawColor());
 				
 				for (int j = 0; j < vCoordinates.size(); j++) {
-					ResourceSpawnCoordinateData coords = vCoordinates.elementAt(i);
+					ResourceSpawnCoordinateData coords = vCoordinates.get(i);
 					g.setColor(drawColor);
 					resourceRadius = (int)coords.getSpawnRadius();
 					resourceRadiusDiv2 = resourceRadius / 2;
@@ -1160,7 +1160,7 @@ public class ZoneServerScreen implements KeyListener, MouseListener, MouseMotion
 		} else if (isKeyPressed(KeyEvent.VK_DOWN)) {
 			iMenuIndex++;
 		} else if (isKeyPressed(KeyEvent.VK_ENTER)) {
-			lairTemplate = vLairTemplates[iPlanetToView].elementAt(iMenuIndex);
+			lairTemplate = vLairTemplates[iPlanetToView].get(iMenuIndex);
 			changeState(STATE_PLACING_DYNAMIC_SPAWNS);
 			gridElementIndexX = 200;
 			gridElementIndexY = 200;
@@ -1187,7 +1187,7 @@ public class ZoneServerScreen implements KeyListener, MouseListener, MouseMotion
 		for (int i = iFirstItem; i<= iLastItem; i++) {
 			
 			index = (lairTemplatesThisPlanet.size() + i) % lairTemplatesThisPlanet.size();
-			LairTemplate template = lairTemplatesThisPlanet.elementAt(index);
+			LairTemplate template = lairTemplatesThisPlanet.get(index);
 			ItemTemplate creatureTemplate = server.getTemplateData(template.getIMob1Template());
 			String sLairName = creatureTemplate.getIFFFileName();
 			iStringWidth = (int)getStringWidth(sLairName, font);

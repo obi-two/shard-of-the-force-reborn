@@ -557,7 +557,7 @@ public class ManufacturingSchematic extends IntangibleObject {
 		if (vComponentList != null) {
 			vComponentArray = new CraftingSchematicComponent[vComponentList.size()];
 			for (int i = 0; i < vComponentList.size(); i++) {
-				vComponentArray[i] = vComponentList.elementAt(i);
+				vComponentArray[i] = vComponentList.get(i);
 			}
 		}
 		setSchematicComponentData(vComponentArray);
@@ -748,7 +748,7 @@ public class ManufacturingSchematic extends IntangibleObject {
 			System.out.println("No skill required to craft this object: " + itemBeingCrafted.getIFFFileName());
 		} else {
 			for (int i = 0; i < requisiteSkills.size() && !bHasAnyRequiredSkill; i++) {
-				int iSkillID = requisiteSkills.elementAt(i);
+				int iSkillID = requisiteSkills.get(i);
 				if (player.hasSkill(iSkillID)) {
 					theSkill = client.getServer().getSkillFromIndex(iSkillID);
 					Skills noviceSkill = client.getServer().getSkillFromIndex(theSkill.getNoviceSkillID());
@@ -762,7 +762,7 @@ public class ManufacturingSchematic extends IntangibleObject {
 		}
 		SkillMods requiredSkillMod = null;
 		for (int i = 0; i < allSkillModsThisSkill.size() && requiredSkillMod == null; i++) {
-			SkillMods tempMod = allSkillModsThisSkill.elementAt(i);
+			SkillMods tempMod = allSkillModsThisSkill.get(i);
 			if (tempMod.getName().contains("assembly")) {
 				//System.out.println("Found skill mod " + tempMod.sName);
 				requiredSkillMod = tempMod;

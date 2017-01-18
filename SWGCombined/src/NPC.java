@@ -509,7 +509,7 @@ public class NPC extends Player {
 	    		float fClosestObjectRange = 0;
     			SOEObject tarObject = null;
 	    		for (int i = 0; i < vObjectsInRange.size(); i++) {
-	    			tarObject = vObjectsInRange.elementAt(i);
+	    			tarObject = vObjectsInRange.get(i);
 	    			if (tarObject instanceof Player) {
 	    				Player tarPlayer = (Player)tarObject;
 	    				// Can't hate something of your own exact species.
@@ -681,7 +681,7 @@ public class NPC extends Player {
 		    		float fClosestObjectRange = 0;
 	    			SOEObject tarObject = null;
 		    		for (int i = 0; i < vObjectsInRange.size(); i++) {
-		    			tarObject = vObjectsInRange.elementAt(i);
+		    			tarObject = vObjectsInRange.get(i);
 		    			if (tarObject instanceof Player) {
 		    				Player tarPlayer = (Player)tarObject;
 		    				// Can't hate something of your own exact species.
@@ -1012,7 +1012,7 @@ public class NPC extends Player {
 		equipWeapon(unarmedWeapon, false);
 		ArrayList<Player> vNearbyPlayers = getServer().getPlayersAroundNPC(this);
 		for (int i = 0; i < vNearbyPlayers.size(); i++) {
-			Player nearPlayer = vNearbyPlayers.elementAt(i);
+			Player nearPlayer = vNearbyPlayers.get(i);
 			nearPlayer.spawnItem(unarmedWeapon);
 		}
 		getServer().sendToRange(PacketFactory.buildDeltasMessage(Constants.BASELINES_CREO, (byte)6, (short)1, (short)5, this, unarmedWeapon.getID()), Constants.PACKET_RANGE_CHAT_RANGE_EXCLUDE_SENDER, this);
@@ -1268,7 +1268,7 @@ public class NPC extends Player {
 		int iCRCToSend = 0;
 		if (vCRCs != null) {
 			if (!vCRCs.isEmpty()) {
-				iCRCToSend = vCRCs.elementAt(0);
+				iCRCToSend = vCRCs.get(0);
 			}
 		} else {
 			if (iWeaponType <= Constants.WEAPON_TYPE_POLEARM) {
@@ -1312,7 +1312,7 @@ public class NPC extends Player {
 		}
 		ArrayList<Player> vPlayersInRange = getServer().getPlayersAroundObject(this, true);
 		for (int i = 0; i < vPlayersInRange.size(); i++) {
-			Player thePlayer = vPlayersInRange.elementAt(i);
+			Player thePlayer = vPlayersInRange.get(i);
 			thePlayer.getClient().insertPacket(PacketFactory.buildCombatTextSpam(this, thePlayer, tarPlayer, "cbt_spam", specialAttack.getCombatSTFSpamArr()[iHitState], iTotalDamage));
 		}
 		if (client != null) {

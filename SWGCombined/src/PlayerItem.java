@@ -109,7 +109,7 @@ public class PlayerItem extends SOEObject implements Serializable {
 		ArrayList<SkillMods> vSkillMods = server.getSkillModsFromSkillIndex(skillID);
 		//System.out.println("Got skill mods for skill index " + s.getSkillID() + ", name " + s.getName());
 		for (int i = 0; i < vSkillMods.size(); i++) {
-			System.out.println("Skill " + s.getName() + "has mod " + i + " " + vSkillMods.elementAt(i).getName() + " with value " + vSkillMods.elementAt(i).getSkillModModdedValue());
+			System.out.println("Skill " + s.getName() + "has mod " + i + " " + vSkillMods.get(i).getName() + " with value " + vSkillMods.get(i).getSkillModModdedValue());
 		}
 		ArrayList<CraftingSchematic> vSchematics = DatabaseInterface.getAllSchematicsForSkill(s.getSkillID());
 		if (bGainingSkill) {
@@ -170,7 +170,7 @@ public class PlayerItem extends SOEObject implements Serializable {
 				skillPointsLeft -= s.getPointsCost();
 				if (vSchematics != null) {
 					for (int i = 0; i < vSchematics.size(); i++) {
-						CraftingSchematic schematic = vSchematics.elementAt(i);
+						CraftingSchematic schematic = vSchematics.get(i);
 						vSchematicList.set(schematic.getIndex(), true);
 					}
 				}
@@ -182,10 +182,10 @@ public class PlayerItem extends SOEObject implements Serializable {
 					if (vSkillMods != null) {
 						if (!vSkillMods.isEmpty()) {
 							for (int i = 0; i < vSkillMods.size(); i++) {
-								SkillMods mod = vSkillMods.elementAt(i);
+								SkillMods mod = vSkillMods.get(i);
 								boolean bFound = false;
 								for (int j = 0; j < vPlayerMods.size() && !bFound; j++) {
-									SkillMods playerMod = vPlayerMods.elementAt(j);
+									SkillMods playerMod = vPlayerMods.get(j);
 									if (mod.getName().equals(playerMod.getName())) {
 										if (mod.getName().contains("language")) {
 											System.out.println("Incrementing "+ mod.getName() + " by " + mod.getSkillModModdedValue() + " for skill " + s.getName());
@@ -223,11 +223,11 @@ public class PlayerItem extends SOEObject implements Serializable {
 				boolean needSchematicUpdate = false;
 				if (vSchematics != null) {
 					for (int i = 0; i < vSchematics.size(); i++) {
-						CraftingSchematic schematic = vSchematics.elementAt(i);
+						CraftingSchematic schematic = vSchematics.get(i);
 						ArrayList<Integer> vSkillIDForSchematic = schematic.getRequiredSkillID();
 						boolean bStillCanUseSchematic = false;
 						for (int j = 0; j < vSkillIDForSchematic.size() && !bStillCanUseSchematic; j++) {
-							bStillCanUseSchematic = hasSkill(vSkillIDForSchematic.elementAt(j));
+							bStillCanUseSchematic = hasSkill(vSkillIDForSchematic.get(j));
 						}
 						if (vSchematicList.get(schematic.getIndex()) && !bStillCanUseSchematic) {
 							vSchematicList.set(schematic.getIndex(), false);
@@ -252,10 +252,10 @@ public class PlayerItem extends SOEObject implements Serializable {
 					if (vSkillMods != null) {
 						if (!vSkillMods.isEmpty()) {
 							for (int i = 0; i < vSkillMods.size(); i++) {
-								SkillMods mod = vSkillMods.elementAt(i);
+								SkillMods mod = vSkillMods.get(i);
 								boolean bFound = false;
 								for (int j = 0; j < vPlayerMods.size() && !bFound; j++) {
-									SkillMods playerMod = vPlayerMods.elementAt(j);
+									SkillMods playerMod = vPlayerMods.get(j);
 									if (mod.getName().equals(playerMod.getName())) {
 										myOwner.increaseSkillModValue(mod.getName(), -mod.getSkillModModdedValue(), updateZone);
 										bFound = true;
@@ -617,7 +617,7 @@ public class PlayerItem extends SOEObject implements Serializable {
 	 */
 	protected Waypoint getWaypoint(long ID) {
 		for (int i = 0; i < vWaypointList.size(); i++) {
-			Waypoint w = vWaypointList.elementAt(i);
+			Waypoint w = vWaypointList.get(i);
 			if (w.getID() == ID) {
 				return w;
 			}

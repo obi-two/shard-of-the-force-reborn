@@ -495,7 +495,7 @@ public class Harvester extends Structure {
 	    	case Constants.HARVESTER_TYPE_FUSION: {
 	    		vResourcesAvailable = resourceManager.getResourceListForTool(14041, getPlanetID());
 	    		for (int i = 0; i < vResourcesAvailable.size(); i++) {
-	    			SpawnedResourceData resource = vResourcesAvailable.elementAt(i);
+	    			SpawnedResourceData resource = vResourcesAvailable.get(i);
 	    			int resourceIndex = resource.getIGenericResourceIndex();
 	    			if ((resourceIndex >= Constants.RESOURCE_START_RADIOACTIVE && resourceIndex <= Constants.RESOURCE_END_RADIOACTIVE )
 	    					|| resourceIndex == Constants.RESOURCE_TYPE_JTL_RADIOACTIVE_PLOYMETRIC
@@ -535,7 +535,7 @@ public class Harvester extends Structure {
     
     public void updateAvailableResources() {
     	for (int i = 0; i < vResourcesAvailable.size(); i++) {
-    		SpawnedResourceData resource = vResourcesAvailable.elementAt(i);
+    		SpawnedResourceData resource = vResourcesAvailable.get(i);
     		if (resource.isSpawned()) {
     			// Do nothing -- still available.
     		} else {

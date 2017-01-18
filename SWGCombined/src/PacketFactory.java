@@ -703,7 +703,7 @@ public class PacketFactory {
 			sOut.writeInt(vSkillMods.size());
 			sOut.writeInt(player.getSkillModsUpdateCounter(false));
 			for (int i = 0; i < vSkillMods.size(); i++) {
-				SkillMods s = vSkillMods.elementAt(i);
+				SkillMods s = vSkillMods.get(i);
 				sOut.writeByte(Constants.DELTA_CREATING_ITEM);
 				sOut.writeUTF(s.getName());
 				sOut.writeInt(s.getSkillModModdedValue());
@@ -773,7 +773,7 @@ public class PacketFactory {
 		ArrayList<TangibleItem> vEquippedItems = player.getEquippedItems();
 		if (vEquippedItems != null) {
 			for (int i = 0; i < vEquippedItems.size(); i++) {
-				TangibleItem t = vEquippedItems.elementAt(i);
+				TangibleItem t = vEquippedItems.get(i);
 
 				if (t == null) {
 					vEquippedItems.remove(i);
@@ -865,7 +865,7 @@ public class PacketFactory {
 			// EQUIPMENT LIST
 
 			for (int i = 0; i < vEquippedItems.size(); i++) {
-				TangibleItem item = vEquippedItems.elementAt(i);
+				TangibleItem item = vEquippedItems.get(i);
 				byte[] customizationData = item.getCustomData();
 				if (customizationData != null) {
 					dOut.writeShort(customizationData.length);
@@ -1004,7 +1004,7 @@ public class PacketFactory {
 		int PacketSize = 58; // Size without xp or waypoints
 		ArrayList<Waypoint> vWaypoints = player.getWaypoints();
 		for (int i = 0; i < vWaypoints.size(); i++) {
-			PacketSize += ((vWaypoints.elementAt(i).getName().length() * 2) + 51);
+			PacketSize += ((vWaypoints.get(i).getName().length() * 2) + 51);
 		}
 		int iExperienceCount = 0;
 		Hashtable<Integer, PlayerExperience> vExperienceList = player
@@ -1044,7 +1044,7 @@ public class PacketFactory {
 		dOut.writeInt(vWaypoints.size());
 		dOut.writeInt(player.getWaypointUpdateCount(false));
 		for (int i = 0; i < vWaypoints.size(); i++) {
-			Waypoint w = vWaypoints.elementAt(i);
+			Waypoint w = vWaypoints.get(i);
 			dOut.writeByte(Constants.DELTA_CREATING_ITEM);
 			dOut.writeLong(w.getID());
 			dOut.writeInt(0);
@@ -1096,7 +1096,7 @@ public class PacketFactory {
 			ArrayList<String> vCertificationsThisSkill = skill
 					.getCertificationList();
 			for (int j = 0; j < vCertificationsThisSkill.size(); j++) {
-				String cert = vCertificationsThisSkill.elementAt(j);
+				String cert = vCertificationsThisSkill.get(j);
 				packetSize += (cert.length() + 2);
 			}
 			vCertifications.addAll(vCertificationsThisSkill);
@@ -1110,11 +1110,11 @@ public class PacketFactory {
 		packetSize += (8 * schematicCount);
 
 		for (int i = 0; i < vFriendsList.size(); i++) {
-			packetSize += (vFriendsList.elementAt(i).getName().length() + 2);
+			packetSize += (vFriendsList.get(i).getName().length() + 2);
 		}
 
 		for (int i = 0; i < vIgnoreList.size(); i++) {
-			packetSize += (vIgnoreList.elementAt(i).getName().length() + 2);
+			packetSize += (vIgnoreList.get(i).getName().length() + 2);
 		}
 		sOut.setOpcode(Constants.SOE_CHL_DATA_A);
 		sOut.setSequence(0); // Sequence
@@ -1128,7 +1128,7 @@ public class PacketFactory {
 		sOut.writeInt(vCertifications.size()); // vID 0
 		sOut.writeInt(player.getCertificationsListUpdateCount(false));
 		for (int i = 0; i < vCertifications.size(); i++) {
-			String str = vCertifications.elementAt(i);
+			String str = vCertifications.get(i);
 			sOut.writeUTF(str);
 		}
 		sOut.writeInt(0); // vID 1 -- Experimentation / manufacturing schematic
@@ -1162,7 +1162,7 @@ public class PacketFactory {
 		sOut.writeInt(player.getFriendsListUpdateCount(false));
 		PlayerFriends f;
 		for (int i = 0; i < vFriendsList.size(); i++) {
-			f = vFriendsList.elementAt(i);
+			f = vFriendsList.get(i);
 			sOut.writeUTF(f.getName());
 		}
 
@@ -1170,7 +1170,7 @@ public class PacketFactory {
 		sOut.writeInt(vIgnoreList.size());
 		sOut.writeInt(player.getIgnoreListUpdateCount(false));
 		for (int i = 0; i < vIgnoreList.size(); i++) {
-			f = vFriendsList.elementAt(i);
+			f = vFriendsList.get(i);
 			sOut.writeUTF(f.getName());
 		}
 
@@ -2684,7 +2684,7 @@ public class PacketFactory {
 		ArrayList<Attribute> vList = theResource.getAttributes();
 		dOut.writeInt(vList.size());
 		for (int i = 0; i < vList.size(); i++) {
-			Attribute a = vList.elementAt(i);
+			Attribute a = vList.get(i);
 			dOut.writeUTF(a.getAttributeName());
 			dOut.writeUTF16(a.getAttributeValue());
 		}
@@ -3289,7 +3289,7 @@ public class PacketFactory {
 		// actually telling "me" about the Radials of an object.
 		dOut.writeInt(vRadials.size());
 		for (byte i = 0; i < vRadials.size(); i++) {
-			RadialMenuItem r = vRadials.elementAt(i);
+			RadialMenuItem r = vRadials.get(i);
 			dOut.writeByte(r.getButtonNumber());
 			dOut.writeByte(r.getParentButton());
 			dOut.writeByte(r.getCommandID());
@@ -3326,7 +3326,7 @@ public class PacketFactory {
 		// actually telling "me" about the Radials of an object.
 		dOut.writeInt(vRadials.size());
 		for (int i = 0; i < vRadials.size(); i++) {
-			RadialMenuItem r = vRadials.elementAt(i);
+			RadialMenuItem r = vRadials.get(i);
 			dOut.writeByte(r.getButtonNumber());
 			dOut.writeByte(r.getParentButton());
 			dOut.writeByte(r.getCommandID());
@@ -4034,7 +4034,7 @@ public class PacketFactory {
 		boolean bFound = false;
 		PlayerFriends f;
 		for (int i = 0; i < v.size() && !bFound; i++) {
-			f = v.elementAt(i);
+			f = v.get(i);
 			bFound = f.getName().equalsIgnoreCase(s);
 		}
 		dOut.writeBoolean(bFound);
@@ -4356,12 +4356,12 @@ public class PacketFactory {
 		if (v != null) {
 			int attachmentCount = 0;
 			for (int i = 0; i < v.size(); i++) {
-				Waypoint w = v.elementAt(i);
+				Waypoint w = v.get(i);
 				attachmentCount += 25 + w.getName().length();
 			}
 			dOut.writeInt(attachmentCount);
 			for (int i = 0; i < v.size(); i++) {
-				Waypoint w = v.elementAt(i);
+				Waypoint w = v.get(i);
 				dOut.writeShort(1);
 				dOut.writeByte(4);
 				dOut.writeInt(0xFFFFFFFD);
@@ -4469,7 +4469,7 @@ public class PacketFactory {
 		SpawnedResourceData resource = null;
 
 		for (int i = 0; i < vResources.size(); i++) {
-			resource = vResources.elementAt(i);
+			resource = vResources.get(i);
 			String sName = resource.getName();
 			String sIFFFileName = resource.getIffFileName();
 
@@ -4731,7 +4731,7 @@ public class PacketFactory {
 	}
 
 	protected static byte[] buildNPCConversationOptions(Player player,
-			VectArrayListor<DialogOption> vOptions) throws IOException {
+			ArrayList<DialogOption> vOptions) throws IOException {
 		SOEOutputStream dOut = new SOEOutputStream(new ByteArrayOutputStream());
 		dOut.setOpcode(Constants.SOE_CHL_DATA_A);
 		dOut.setSequence(0);
@@ -5012,13 +5012,13 @@ public class PacketFactory {
 		ArrayList<Chatroom> vRooms;
 		Chatroom r;
 		for (int i = 0; i < vServers.size(); i++) {
-			s = vServers.elementAt(i);
+			s = vServers.get(i);
 			dOut.writeInt(s.getID());
 			vRooms = s.getRooms();
 			dOut.writeInt(vRooms.size());
 			dOut.writeByte(1); // Unknown.
 			for (int j = 0; j < vRooms.size(); j++) {
-				r = vRooms.elementAt(i);
+				r = vRooms.get(i);
 				dOut.writeUTF(r.getRoomName());
 				dOut.writeUTF(Constants.GAME_NAME);
 				dOut.writeUTF(r.getCreator());
@@ -5031,11 +5031,11 @@ public class PacketFactory {
 				ArrayList<String> vUsers = r.getPlayersInRoom();
 				dOut.writeInt(1);
 				for (int k = 0; k < vModerators.size(); k++) {
-					dOut.writeUTF(vModerators.elementAt(k));
+					dOut.writeUTF(vModerators.get(k));
 				}
 				dOut.writeInt(0);
 				for (int k = 0; k < vUsers.size(); k++) {
-					dOut.writeUTF(vUsers.elementAt(i));
+					dOut.writeUTF(vUsers.get(i));
 				}
 			}
 		}
@@ -5469,9 +5469,9 @@ public class PacketFactory {
 		float bestY = 0;
 		for (int i = 0; i < numberOfPoints; i++) {
 			j = i * 3;
-			float x = vDensitiesAndLocations.elementAt(j);
-			float y = vDensitiesAndLocations.elementAt(j + 1);
-			float density = vDensitiesAndLocations.elementAt(j + 2) / 100f;
+			float x = vDensitiesAndLocations.get(j);
+			float y = vDensitiesAndLocations.get(j + 1);
+			float density = vDensitiesAndLocations.get(j + 2) / 100f;
 			dOut.writeFloat(x);
 			dOut.writeFloat(0);
 			dOut.writeFloat(y);
@@ -5523,7 +5523,7 @@ public class PacketFactory {
 		if (vStaticLocations != null) {
 			dOut.writeInt(vStaticLocations.size());
 			for (int i = 0; i < vStaticLocations.size(); i++) {
-				MapLocationData data = vStaticLocations.elementAt(i);
+				MapLocationData data = vStaticLocations.get(i);
 				dOut.writeLong(data.getObjectID());
 				dOut.writeUTF16(data.getName());
 				dOut.writeFloat(data.getCurrentX());
@@ -5542,7 +5542,7 @@ public class PacketFactory {
 		if (vPlayerMadeLocations != null) {
 			dOut.writeInt(vPlayerMadeLocations.size());
 			for (int i = 0; i < vPlayerMadeLocations.size(); i++) {
-				MapLocationData data = vPlayerMadeLocations.elementAt(i);
+				MapLocationData data = vPlayerMadeLocations.get(i);
 				dOut.writeLong(data.getObjectID());
 				dOut.writeUTF16(data.getName());
 				dOut.writeFloat(data.getCurrentX());
@@ -5930,11 +5930,11 @@ public class PacketFactory {
 		} else {
 			for (int i = 0; i < vFactionList.size(); i++) {
 				dOut.writeInt(i + 1);
-				dOut.writeUTF(vFactionList.elementAt(i).getFactionName());
+				dOut.writeUTF(vFactionList.get(i).getFactionName());
 			}
 			for (int i = 0; i < vFactionList.size(); i++) {
 				dOut.writeInt(i + 1);
-				dOut.writeFloat(vFactionList.elementAt(i).getFactionValue());
+				dOut.writeFloat(vFactionList.get(i).getFactionValue());
 			}
 		}
 		dOut.flush();
@@ -6677,7 +6677,7 @@ public class PacketFactory {
 		}
 		int packetSize = 13;
 		for (int i = 0; i < mods.size(); i++) {
-			packetSize += 11 + mods.elementAt(i).getName().length();
+			packetSize += 11 + mods.get(i).getName().length();
 		}
 
 		SOEOutputStream dOut = new SOEOutputStream(new ByteArrayOutputStream());
@@ -6698,7 +6698,7 @@ public class PacketFactory {
 		p.setSkillModsUpdateCounter(updateCounter);
 		dOut.writeInt(updateCounter); // 12
 		for (int i = 0; i < mods.size(); i++) {
-			SkillMods mod = mods.elementAt(i);
+			SkillMods mod = mods.get(i);
 			dOut.writeByte(deltaType); // 13
 			dOut.writeUTF(mod.getName()); // 15
 			dOut.writeInt(mod.getSkillModModdedValue()); // 19
@@ -6768,7 +6768,7 @@ public class PacketFactory {
 
 		int packetSize = 12;
 		for (int i = 0; i < certification.size(); i++) {
-			packetSize += (5 + certification.elementAt(i).length());
+			packetSize += (5 + certification.get(i).length());
 		}
 		SOEOutputStream dOut = new SOEOutputStream(new ByteArrayOutputStream());
 		dOut.setOpcode(Constants.SOE_CHL_DATA_A);
@@ -6789,7 +6789,7 @@ public class PacketFactory {
 		for (int i = 0; i < certification.size(); i++) {
 			dOut.writeByte(updateType); // Is a 1 in the packet cap from Core 3?
 			dOut.writeShort(0); // Hmm? Why are you here?
-			dOut.writeUTF(certification.elementAt(i));
+			dOut.writeUTF(certification.get(i));
 		}
 		dOut.flush();
 		return dOut.getBuffer();
@@ -6803,7 +6803,7 @@ public class PacketFactory {
 
 		int packetSize = 15;
 		for (int i = 0; i < certification.size(); i++) {
-			packetSize += (2 + certification.elementAt(i).length());
+			packetSize += (2 + certification.get(i).length());
 		}
 		SOEOutputStream dOut = new SOEOutputStream(new ByteArrayOutputStream());
 		dOut.setOpcode(Constants.SOE_CHL_DATA_A);
@@ -6824,7 +6824,7 @@ public class PacketFactory {
 		dOut.writeByte(3);
 		dOut.writeShort(certification.size());
 		for (int i = 0; i < certification.size(); i++) {
-			dOut.writeUTF(certification.elementAt(i));
+			dOut.writeUTF(certification.get(i));
 		}
 		dOut.flush();
 		return dOut.getBuffer();
@@ -7969,7 +7969,7 @@ public class PacketFactory {
 				dOut.writeInt(schematics.size());
 				CraftingSchematic cs;
 				for (int i = 0; i < schematics.size(); i++) {
-					cs = schematics.elementAt(i);
+					cs = schematics.get(i);
 					// System.out.println("Schematic index " + i + " -- CRC: " +
 					// Integer.toHexString(cs.getCRC()));
 					dOut.writeInt(cs.getCRC()); // Could also be the CRC?
@@ -8544,7 +8544,7 @@ public class PacketFactory {
 				dOut.writeInt(vComponents.size());
 				for (int i = 0; i < vComponents.size(); i++) {
 					CraftingSchematicComponent component = vComponents
-							.elementAt(i);
+							.get(i);
 					dOut.writeUTF(component.getSTFFileName());
 					dOut.writeInt(0);
 					dOut.writeUTF(component.getSTFFileIdentifier());
@@ -8598,7 +8598,7 @@ public class PacketFactory {
 				dOut.writeInt(vComponents.size());
 				for (int i = 0; i < vComponents.size(); i++) {
 					CraftingSchematicComponent component = vComponents
-							.elementAt(i);
+							.get(i);
 					dOut.writeUTF(component.getSTFFileName());
 					dOut.writeInt(0);
 					dOut.writeUTF(component.getSTFFileIdentifier());
@@ -8656,7 +8656,7 @@ public class PacketFactory {
 				dOut.writeInt(vComponents.size());
 				for (int i = 0; i < vComponents.size(); i++) {
 					CraftingSchematicComponent component = vComponents
-							.elementAt(i);
+							.get(i);
 					dOut.writeUTF(component.getSTFFileName());
 					dOut.writeInt(0);
 					dOut.writeUTF(component.getSTFFileIdentifier());

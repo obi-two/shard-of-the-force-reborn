@@ -1106,8 +1106,8 @@ public class Player extends SOEObject {
 			}
 
 			for (int i = 0; i < vInventoryItemsList.size(); i++) {
-				if (vInventoryItemsList.elementAt(i) != null) {
-					vInventoryItemsList.elementAt(i).update(lDeltaTimeMS,
+				if (vInventoryItemsList.get(i) != null) {
+					vInventoryItemsList.get(i).update(lDeltaTimeMS,
 							server, client, this);
 				}
 			}
@@ -1134,10 +1134,10 @@ public class Player extends SOEObject {
 					// it inside the ArrayList.
 					if (lNextDelayedSpawn.get(i) <= System.currentTimeMillis()) {
 						// do this
-						lNextDelayedSpawn.removeElementAt(i);
+						lNextDelayedSpawn.remove(i);
 						SOEObject o = this.vDelayedSpawnObjects.get(i);
 						if (o != null) {
-							vDelayedSpawnObjects.removeElementAt(i);
+							vDelayedSpawnObjects.remove(i);
 							switch (o.getDelayedSpawnAction()) {
 							case (byte) 0x01:// spawn
 							{
@@ -1221,7 +1221,7 @@ public class Player extends SOEObject {
 							.getFriendsList();
 					for (int i = 0; i < vPlayerFriends.size(); i++) {
 						Player friend = server.getPlayer(vPlayerFriends
-								.elementAt(i).getName());
+								.get(i).getName());
 						ZoneClient friendClient = friend.getClient();
 						if (friendClient != null) {
 							friendClient.insertPacket(PacketFactory
@@ -1723,7 +1723,7 @@ public class Player extends SOEObject {
 							.getStaticMapLocations(Constants.PlanetNames[getPlanetID()]);
 					for (int i = 0; i < vStaticLocationsThisPlanet.size(); i++) {
 						MapLocationData staticPoint = vStaticLocationsThisPlanet
-								.elementAt(i);
+								.get(i);
 						if (staticPoint.getObjectType() == Constants.MAP_LOCATION_ID.CLONING_FACILITY
 								.ordinal()
 								|| staticPoint.getObjectSubType() == Constants.MAP_LOCATION_ID.CLONING_FACILITY
@@ -2032,7 +2032,7 @@ public class Player extends SOEObject {
 		setVelocity(fVelocity);
 		ArrayList<IntangibleObject> vDatapadItems = tDatapad.getIntangibleObjects();
 		for (int i = 0; i < vDatapadItems.size(); i++) {
-			IntangibleObject o = vDatapadItems.elementAt(i);
+			IntangibleObject o = vDatapadItems.get(i);
 			NPC theCalledObject = o.getAssociatedCreature();
 			if (theCalledObject != null) {
 				o.setRadialCondition(Constants.RADIAL_CONDITION.INTANGIBLE_VEHICLE_SPAWNED.ordinal());
@@ -2042,7 +2042,7 @@ public class Player extends SOEObject {
 			
 		}
 		for (int i = 0; i < vInventoryItemsList.size(); i++) {
-			TangibleItem inventoryItem = vInventoryItemsList.elementAt(i);
+			TangibleItem inventoryItem = vInventoryItemsList.get(i);
 			inventoryItem.setRadialCondition(Constants.RADIAL_CONDITION.NORMAL.ordinal());
 		}
 	}
@@ -2107,7 +2107,7 @@ public class Player extends SOEObject {
 			// Get every object on the Player, set them to an appropriate value.
 			ArrayList<IntangibleObject> vDatapadItems = tDatapad.getIntangibleObjects();
 			for (int i = 0; i < vDatapadItems.size(); i++) {
-				IntangibleObject o = vDatapadItems.elementAt(i);
+				IntangibleObject o = vDatapadItems.get(i);
 				NPC theCalledObject = o.getAssociatedCreature();
 				if (theCalledObject != null) {
 					o.setRadialCondition(Constants.RADIAL_CONDITION.INTANGIBLE_VEHICLE_SPAWNED.ordinal());
@@ -2117,7 +2117,7 @@ public class Player extends SOEObject {
 				
 			}
 			for (int i = 0; i < vInventoryItemsList.size(); i++) {
-				TangibleItem inventoryItem = vInventoryItemsList.elementAt(i);
+				TangibleItem inventoryItem = vInventoryItemsList.get(i);
 				inventoryItem.setRadialCondition(Constants.RADIAL_CONDITION.NORMAL.ordinal());
 			}
 			return;
@@ -2212,7 +2212,7 @@ public class Player extends SOEObject {
 				.getWorldObjectsAroundObject(this);
 		ArrayList<SOEObject> vStillSpawned = new ArrayList<SOEObject>();
 		for (int i = 0; i < vObjectsBeforeMovement.size(); i++) {
-			SOEObject p = vObjectsBeforeMovement.elementAt(i);
+			SOEObject p = vObjectsBeforeMovement.get(i);
 			if (!vObjectsAfterMovement.contains(p)) {
 				// System.out.println("Player " + p.getFullName() +
 				// " no longer seen by " + getFullName());
@@ -2229,7 +2229,7 @@ public class Player extends SOEObject {
 			}
 		}
 		for (int i = 0; i < vObjectsAfterMovement.size(); i++) {
-			SOEObject p = vObjectsAfterMovement.elementAt(i);
+			SOEObject p = vObjectsAfterMovement.get(i);
 			if (!vObjectsBeforeMovement.contains(p)) {
 				if (p instanceof Player && !(p instanceof NPC)
 						&& !(p instanceof Terminal)) {
@@ -2302,7 +2302,7 @@ public class Player extends SOEObject {
 		setVelocity(fVelocity);
 		ArrayList<IntangibleObject> vDatapadItems = tDatapad.getIntangibleObjects();
 		for (int i = 0; i < vDatapadItems.size(); i++) {
-			IntangibleObject o = vDatapadItems.elementAt(i);
+			IntangibleObject o = vDatapadItems.get(i);
 			NPC theCalledObject = o.getAssociatedCreature();
 			if (theCalledObject != null) {
 				o.setRadialCondition(Constants.RADIAL_CONDITION.INTANGIBLE_VEHICLE_SPAWNED.ordinal());
@@ -2312,7 +2312,7 @@ public class Player extends SOEObject {
 			
 		}
 		for (int i = 0; i < vInventoryItemsList.size(); i++) {
-			TangibleItem inventoryItem = vInventoryItemsList.elementAt(i);
+			TangibleItem inventoryItem = vInventoryItemsList.get(i);
 			inventoryItem.setRadialCondition(Constants.RADIAL_CONDITION.TANGIBLE_ITEM_INDOORS.ordinal());
 		}
 	}
@@ -2389,7 +2389,7 @@ public class Player extends SOEObject {
 		if (oldCellID == 0) {
 			ArrayList<IntangibleObject> vDatapadItems = tDatapad.getIntangibleObjects();
 			for (int i = 0; i < vDatapadItems.size(); i++) {
-				IntangibleObject o = vDatapadItems.elementAt(i);
+				IntangibleObject o = vDatapadItems.get(i);
 				NPC theCalledObject = o.getAssociatedCreature();
 				if (theCalledObject != null) {
 					o.setRadialCondition(Constants.RADIAL_CONDITION.INTANGIBLE_VEHICLE_SPAWNED.ordinal());
@@ -2399,7 +2399,7 @@ public class Player extends SOEObject {
 				
 			}
 			for (int i = 0; i < vInventoryItemsList.size(); i++) {
-				TangibleItem inventoryItem = vInventoryItemsList.elementAt(i);
+				TangibleItem inventoryItem = vInventoryItemsList.get(i);
 				inventoryItem.setRadialCondition(Constants.RADIAL_CONDITION.TANGIBLE_ITEM_INDOORS.ordinal());
 			}
 			
@@ -2470,7 +2470,7 @@ public class Player extends SOEObject {
 		ArrayList<SOEObject> vStillSpawned = new ArrayList<SOEObject>();
 
 		for (int i = 0; i < vObjectsBeforeMovement.size(); i++) {
-			SOEObject p = vObjectsBeforeMovement.elementAt(i);
+			SOEObject p = vObjectsBeforeMovement.get(i);
 			if (!vObjectsAfterMovement.contains(p)) {
 				// System.out.println("Player " + p.getFullName() +
 				// " no longer seen by " + getFullName());
@@ -2483,7 +2483,7 @@ public class Player extends SOEObject {
 			}
 		}
 		for (int i = 0; i < vObjectsAfterMovement.size(); i++) {
-			SOEObject p = vObjectsAfterMovement.elementAt(i);
+			SOEObject p = vObjectsAfterMovement.get(i);
 			if (!vObjectsBeforeMovement.contains(p)) {
 				if (p instanceof Player && !(p instanceof NPC)
 						&& !(p instanceof Terminal)) {
@@ -3389,7 +3389,7 @@ public class Player extends SOEObject {
 	public SkillMods getSkillMod(String skillModName) {
 		try {
 			for (int i = 0; i < vSkillModsList.size(); i++) {
-				SkillMods mod = vSkillModsList.elementAt(i);
+				SkillMods mod = vSkillModsList.get(i);
 				if (mod.getName().equalsIgnoreCase(skillModName)) {
 					return mod;
 				}
@@ -3416,7 +3416,7 @@ public class Player extends SOEObject {
 				+ sModName + " by " + iDeltaValue);
 		try {
 			for (int i = 0; i < vSkillModsList.size(); i++) {
-				SkillMods existMod = vSkillModsList.elementAt(i);
+				SkillMods existMod = vSkillModsList.get(i);
 				if (existMod.getName().equals(sModName)) {
 					int iSkillModValue = existMod.getSkillModModdedValue();
 					iSkillModValue += iDeltaValue;
@@ -4040,7 +4040,7 @@ public class Player extends SOEObject {
 			server.addObjectToAllObjects(tMissionBag, false, false);
 			ArrayList<MissionObject> vML = tMissionBag.getVMissionList();
 			for (int i = 0; i < vML.size(); i++) {
-				MissionObject m = vML.elementAt(i);
+				MissionObject m = vML.get(i);
 				// tMissionBag.addIntangibleObject(m);
 				// System.out.println("Spawn the MissionObject Item.");
 				spawnItem(m);
@@ -4056,7 +4056,7 @@ public class Player extends SOEObject {
 			server.addObjectToAllObjects(tBank, false, false);
 
 			for (int i = 0; i < vInventoryItemsList.size() /* && i < 1 */; i++) {
-				TangibleItem e = vInventoryItemsList.elementAt(i);
+				TangibleItem e = vInventoryItemsList.get(i);
 				if (e instanceof Deed) {
 					Deed d = (Deed) e;
 					d.setServer(server);
@@ -4124,7 +4124,7 @@ public class Player extends SOEObject {
 			ArrayList<IntangibleObject> datapadItems = tDatapad
 					.getIntangibleObjects();
 			for (int i = 0; i < datapadItems.size(); i++) {
-				IntangibleObject itno = datapadItems.elementAt(i);
+				IntangibleObject itno = datapadItems.get(i);
 				//System.out.println("Spawn Datapad Item with iff name "
 				//		+ itno.getIFFFileName());
 				// if (itno instanceof ManufacturingSchematic) {
@@ -4240,11 +4240,11 @@ public class Player extends SOEObject {
 		long itemID = i.getID();
 		boolean bFound = false;
 		for (int I = 0; I < vAllSpawnedObjectIDs.size() && !bFound; I++) {
-			long lCompareID = vAllSpawnedObjectIDs.elementAt(I);
+			long lCompareID = vAllSpawnedObjectIDs.get(I);
 			if (lCompareID == itemID) {
 				bFound = true;
 				client.insertPacket(PacketFactory.buildSceneDestroyObject(i));
-				vAllSpawnedObjectIDs.removeElementAt(I);
+				vAllSpawnedObjectIDs.get(I);
 				return;
 			}
 		}
@@ -4315,7 +4315,7 @@ public class Player extends SOEObject {
 			// System.out.println("Searching list for if spawned.");
 
 			for (int I = 0; I < vAllSpawnedObjectIDs.size(); I++) {
-				long lCompareID = vAllSpawnedObjectIDs.elementAt(I);
+				long lCompareID = vAllSpawnedObjectIDs.get(I);
 				// System.out.println("ID: " + itemID + ", comparator: " +
 				// lCompareID + ", equal? " + (lCompareID == itemID));
 				if (lCompareID == itemID) {
@@ -4566,7 +4566,7 @@ public class Player extends SOEObject {
 						spawnItem(adminTerminal);
 						if (!vElevatorTerminal.isEmpty()) {
 							for (int j = 0; j < vElevatorTerminal.size(); j++) {
-								spawnItem(vElevatorTerminal.elementAt(j));
+								spawnItem(vElevatorTerminal.get(j));
 							}
 						}
 /*
@@ -4992,7 +4992,7 @@ public class Player extends SOEObject {
 	protected ArrayList<TangibleItem> getEquippedItems() {
 		ArrayList<TangibleItem> toReturn = new ArrayList<TangibleItem>();
 		for (int i = 0; i < vInventoryItemsList.size(); i++) {
-			TangibleItem t = vInventoryItemsList.elementAt(i);
+			TangibleItem t = vInventoryItemsList.get(i);
 			if (t.getContainerID() == getID()) {
 				toReturn.add(t);
 			}
@@ -5421,7 +5421,7 @@ public class Player extends SOEObject {
 
 	protected void updateFaction(String sFactionName, float newValue) {
 		for (int i = 0; i < vFactionList.size(); i++) {
-			PlayerFactions faction = vFactionList.elementAt(i);
+			PlayerFactions faction = vFactionList.get(i);
 			if (faction.getFactionName().equals(sFactionName)) {
 				faction.setFactionValue(newValue);
 				return;
@@ -5612,7 +5612,7 @@ public class Player extends SOEObject {
 
 	protected void clearSpawnedItems() {
 		if (vAllSpawnedObjectIDs != null) {
-			vAllSpawnedObjectIDs.removeAllElements();
+			vAllSpawnedObjectIDs.clear();
 		}
 	}
 
@@ -7640,7 +7640,7 @@ public class Player extends SOEObject {
 			return vDatapadSchematics;
 		}
 		for (int i = 0; i < vAllDatapadIntangibles.size(); i++) {
-			IntangibleObject itno = vAllDatapadIntangibles.elementAt(i);
+			IntangibleObject itno = vAllDatapadIntangibles.get(i);
 			if (itno instanceof ManufacturingSchematic) {
 				ManufacturingSchematic msco = (ManufacturingSchematic) itno;
 				CraftingSchematic craftingSchematic = msco
