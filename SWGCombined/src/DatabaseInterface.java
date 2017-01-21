@@ -5732,9 +5732,10 @@ public class DatabaseInterface implements Runnable {
 
 	// TODO: Make static
 	public static DeedTemplate getDeedTemplateByID(int templateID) {
-		Enumeration<DeedTemplate> dTEnum = vDeedTemplates.elements();
-		while (dTEnum.hasMoreElements()) {
-			DeedTemplate t = dTEnum.nextElement();
+		//Enumeration<DeedTemplate> dTEnum = vDeedTemplates.elements();
+                Iterator<DeedTemplate> dTEnum = vDeedTemplates.iterator();
+		while (dTEnum.hasNext()) {
+			DeedTemplate t = dTEnum.next();
 			if (t.getTemplateid() == templateID) {
 				return t;
 			}
@@ -5743,9 +5744,10 @@ public class DatabaseInterface implements Runnable {
 	}
 
 	public static DeedTemplate getDeedTemplateByObjectTemplateID(int templateID) {
-		Enumeration<DeedTemplate> dTEnum = vDeedTemplates.elements();
-		while (dTEnum.hasMoreElements()) {
-			DeedTemplate t = dTEnum.nextElement();
+		//Enumeration<DeedTemplate> dTEnum = vDeedTemplates.elements();
+                Iterator<DeedTemplate> dTEnum = vDeedTemplates.iterator();
+		while (dTEnum.hasNext()) {
+			DeedTemplate t = dTEnum.next();
 			if (t.getObject_template_id() == templateID) {
 				return t;
 			}

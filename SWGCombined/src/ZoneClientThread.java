@@ -3312,10 +3312,11 @@ public class ZoneClientThread implements Runnable {
 							String sDelimiter = sRealBuffer[1];
 							ArrayList<SpawnedResourceData> vSRD = server.getResourceManager().getResourcesByPlanetID(i);
 							System.out.println("-----------Resources for " + Constants.PlanetNames[i] + "---------------------");
-							Enumeration<SpawnedResourceData> rdEnum = vSRD.elements();
-							while(rdEnum.hasMoreElements())
+							//Enumeration<SpawnedResourceData> rdEnum = vSRD.elements();
+                                                        Iterator<SpawnedResourceData> rdEnum = vSRD.iterator();
+							while(rdEnum.hasNext())
 							{
-								SpawnedResourceData rd = rdEnum.nextElement();
+								SpawnedResourceData rd = rdEnum.next();
 								if(rd.getResourceType().toLowerCase().contains(sDelimiter) && rd.getIsSpawnedOnPlanet(i))
 								{
 									System.out.println("Type: " + rd.getResourceType() + " Name: " + rd.getName() + " On Planet: " + rd.getIsSpawnedOnPlanet(i) + " : " + Constants.PlanetNames[i]);
@@ -4200,13 +4201,14 @@ public class ZoneClientThread implements Runnable {
 						if(targetObject != null) {
 							
 							//Get a list of players.
-							Enumeration<Player> list = server.getPlayersAroundObject(targetObject, false).elements();
-							
+							//Enumeration<Player> list = server.getPlayersAroundObject(targetObject, false).elements();
+							Iterator<Player> list = server.getPlayersAroundObject(targetObject, false).iterator();
+                                                        
 							//Print out a list of the players.
-							while(list.hasMoreElements()) {
+							while(list.hasNext()) {
 								
 								//Get the current player.
-								Player currentPlayer = list.nextElement();
+								Player currentPlayer = list.next();
 								
 								//Print the current player.
 								server.broadcastSystemMessage(player, String.format("Player #%s: %s", count, currentPlayer.getFullName()));
@@ -7558,7 +7560,6 @@ public class ZoneClientThread implements Runnable {
 			SWGEmail E = new SWGEmail(-1,senderID,recipID,Subject,Message,WL,false);
 			E.setTransactionRequester(client);
 			client.getServer().queueEmailNewClientMessage(E);
-			return;
 		}
 		catch (IOException e) {
 			System.out.println("IOException in ClientSendEmailRequest: " + e.toString());

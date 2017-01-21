@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 
 public class Harvester extends Structure {
@@ -338,10 +339,11 @@ public class Harvester extends Structure {
 	        /**
 	         * @todo send updates about the harvester to any clients in this list!
 	         */
-	            Enumeration<ZoneClient> zcEnum = this.vSyncronizedListeners.elements();
-	            while(zcEnum.hasMoreElements())
+	            //Enumeration<ZoneClient> zcEnum = this.vSyncronizedListeners.elements();
+                    Iterator<ZoneClient> zcEnum = this.vSyncronizedListeners.iterator();
+	            while(zcEnum.hasNext())
 	            {
-	                ZoneClient client = zcEnum.nextElement();
+	                ZoneClient client = zcEnum.next();
 	                if(client.bHasActiveThread())
 	                {
 	                   client.insertPacket(PacketFactory.buildBaselineHINO7(this, vResourcesAvailable));

@@ -3992,12 +3992,13 @@ public class ZoneServer implements Runnable {
 	public void broadcastAreaMessage(SOEObject sourceObject, String message, boolean bIncludeObject) {
 		
 		//Get the object and all players around the object.
-		Enumeration<Player> ePlayerList = getPlayersAroundObject(sourceObject, bIncludeObject).elements();
-
+		//Enumeration<Player> ePlayerList = getPlayersAroundObject(sourceObject, bIncludeObject).elements();
+                Iterator<Player> ePlayerList = getPlayersAroundObject(sourceObject, bIncludeObject).iterator();
+                
 		//While we have more players to send a message to.
-		while (ePlayerList.hasMoreElements()) {	
+		while (ePlayerList.hasNext()) {	
 			//Get the player and client.
-			Player targetPlayer = ePlayerList.nextElement();
+			Player targetPlayer = ePlayerList.next();
 
 			//Send the message.
 			broadcastSystemMessage(targetPlayer, message);
@@ -4007,13 +4008,14 @@ public class ZoneServer implements Runnable {
 	public void broadcastPlanetaryMessage(int planetID, String message) {
 		
 		//Get the object and all players around the object.
-		Enumeration<Player> ePlayerList = getAllPlayersOnPlanet(planetID).elements();
-
+		//Enumeration<Player> ePlayerList = getAllPlayersOnPlanet(planetID).elements();
+                Iterator<Player> ePlayerList = getAllPlayersOnPlanet(planetID).iterator();
+                
 		//While we have more players to send a message to.
-		while (ePlayerList.hasMoreElements()) {	
+		while (ePlayerList.hasNext()) {	
 			
 			//Get the player and client.
-			Player targetPlayer = ePlayerList.nextElement();
+			Player targetPlayer = ePlayerList.next();
 
 			//Send the message.
 			broadcastSystemMessage(targetPlayer, message);
@@ -4023,14 +4025,15 @@ public class ZoneServer implements Runnable {
 	public void broadcastServerWideMessage(String message) {
 		
 		//Get all players on the servers.
-		Enumeration<Player> ePlayerList = getAllOnlinePlayers().elements();
+		//Enumeration<Player> ePlayerList = getAllOnlinePlayers().elements();
+                Iterator<Player> ePlayerList = getAllOnlinePlayers().iterator();
 		
 
 		//While we have more players to send a message to.
-		while (ePlayerList.hasMoreElements()) {
+		while (ePlayerList.hasNext()) {
 				
 			//Get the player and client.
-			Player currentPlayer = ePlayerList.nextElement();
+			Player currentPlayer = ePlayerList.next();
 			
 				
 			//Send the message.
