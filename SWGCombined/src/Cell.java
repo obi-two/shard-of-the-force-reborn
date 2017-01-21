@@ -1,4 +1,5 @@
-import java.util.Hashtable;
+//import java.util.Hashtable;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.Enumeration;
 
 /**
@@ -12,7 +13,7 @@ public class Cell extends SOEObject {
 	public final static long serialVersionUID = 1;
 	private Structure parent;
 	private boolean bIsSpawned;
-	private Hashtable<Long, SOEObject> vObjectsInCell;
+	private ConcurrentHashMap<Long, SOEObject> vObjectsInCell;
 	private int iCellNum = 0;
 	private boolean bCanEnter = true;
 	private final int cellObjectCRC = 0x0C5401EE;
@@ -33,7 +34,7 @@ public class Cell extends SOEObject {
 		setParentID(building.getID());
 		//setID(parentBuildingID + cellOffset);
 		iCellNum = (int) cellOffset;
-		vObjectsInCell = new Hashtable<Long, SOEObject>();
+		vObjectsInCell = new ConcurrentHashMap<Long, SOEObject>();
 
 		this.setCRC(cellObjectCRC);
 	}
@@ -120,7 +121,7 @@ public class Cell extends SOEObject {
 	 * 
 	 * @return The list of objects in this Cell.
 	 */
-	public Hashtable<Long, SOEObject> getCellObjects() {
+	public ConcurrentHashMap<Long, SOEObject> getCellObjects() {
 		return vObjectsInCell;
 	}
 

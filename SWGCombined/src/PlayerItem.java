@@ -1,5 +1,6 @@
 import java.util.BitSet;
-import java.util.Hashtable;
+//import java.util.Hashtable;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.ArrayList;
 import java.io.IOException;
 import java.io.Serializable;
@@ -25,7 +26,7 @@ public class PlayerItem extends SOEObject implements Serializable {
 	
 	private ArrayList<Waypoint> vWaypointList;
 	//private BitSet vCertificationsList; // TODO:  Convert to bitset. -- Doesn't even need to exist.
-	private Hashtable<Integer, PlayerExperience> vExperienceList;
+	private ConcurrentHashMap<Integer, PlayerExperience> vExperienceList;
 	private ArrayList<PlayerFriends> vFriendsList; // This is convenient...
 	private ArrayList<PlayerFriends> vIgnoreList; // This is convenient
 	private BitSet vSchematicList; 
@@ -59,7 +60,7 @@ public class PlayerItem extends SOEObject implements Serializable {
 		myOwner = p;
 		sTitle = "";
 		vWaypointList = new ArrayList<Waypoint>();
-		vExperienceList = new Hashtable<Integer, PlayerExperience>();
+		vExperienceList = new ConcurrentHashMap<Integer, PlayerExperience>();
 		setIFFFileName("object/player/shared_player.iff");
 		setCRC(PacketUtils.SWGCrc(getIFFFileName()));
 		vFriendsList = new ArrayList<PlayerFriends>();
@@ -366,7 +367,7 @@ public class PlayerItem extends SOEObject implements Serializable {
 	 * Gets the list of Experience values for the Player.
 	 * @return The Experience list.
 	 */
-	public Hashtable<Integer, PlayerExperience> getExperienceList() {
+	public ConcurrentHashMap<Integer, PlayerExperience> getExperienceList() {
 		return vExperienceList;
 	}
 

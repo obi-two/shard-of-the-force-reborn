@@ -3,10 +3,12 @@ import java.io.IOException;
 import java.util.BitSet;
 import java.util.Collection;
 import java.util.Enumeration;
-import java.util.Hashtable;
+//import java.util.Hashtable;
+import java.util.concurrent.ConcurrentHashMap;
 //import java.util.ArrayList;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 public class PacketFactory {
 
@@ -1007,7 +1009,7 @@ public class PacketFactory {
 			PacketSize += ((vWaypoints.get(i).getName().length() * 2) + 51);
 		}
 		int iExperienceCount = 0;
-		Hashtable<Integer, PlayerExperience> vExperienceList = player
+		ConcurrentHashMap<Integer, PlayerExperience> vExperienceList = player
 				.getExperienceList();
 		Enumeration<PlayerExperience> vExperienceEnum = vExperienceList
 				.elements();
@@ -2653,7 +2655,7 @@ public class PacketFactory {
 		dOut.setUpdateType(Constants.SERVER_UPDATE);
 		dOut.writeInt(Constants.AttributesList);
 		dOut.writeLong(o.getID());
-		Hashtable<Integer, Attribute> vList = o.getAttributeList(c);
+		ConcurrentHashMap<Integer, Attribute> vList = o.getAttributeList(c);
 		// ArrayList<Attribute> vList = o.getAttributeList(c);
 		dOut.writeInt(vList.size());
 		Enumeration<Attribute> vItr = vList.elements();
@@ -4352,7 +4354,7 @@ public class PacketFactory {
 		dOut.writeBoolean(false);
 		dOut.writeUTF16(message.getBody());
 		dOut.writeUTF16(message.getHeader());
-		ArrayList<Waypoint> v = message.getAttachments();
+		List<Waypoint> v = message.getAttachments();
 		if (v != null) {
 			int attachmentCount = 0;
 			for (int i = 0; i < v.size(); i++) {
@@ -7343,7 +7345,7 @@ public class PacketFactory {
 
 		int iPacketSize = 74;
 		int iResourceCount = vSRD.size();
-		Hashtable<Long, SOEObject> vOutputHopper = s.getOutputHopper();
+		ConcurrentHashMap<Long, SOEObject> vOutputHopper = s.getOutputHopper();
 		int iHopperContents = vOutputHopper.size();
 		float fTotalHopperContents = 0;
 

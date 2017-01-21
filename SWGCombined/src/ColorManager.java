@@ -1,12 +1,13 @@
 import java.awt.Color;
-import java.util.Hashtable;
+import java.util.concurrent.ConcurrentHashMap;
+//import java.util.Hashtable;
 
 
 
 
 public class ColorManager {
 	
-	private static Hashtable<Long, Color> vColorMap;
+	private static ConcurrentHashMap<Long, Color> vColorMap;
 	private static int iGradientSize;
 	private static boolean bInitialize = false;
 	/** 
@@ -20,7 +21,7 @@ public class ColorManager {
 		
 		iGradientSize = gradient;
 		int iNumColors = (iGradientSize * iGradientSize * iGradientSize * 2);
-		vColorMap = new Hashtable<Long, Color>(iNumColors);
+		vColorMap = new ConcurrentHashMap<Long, Color>(iNumColors);
 		Color color = null;
 		long colorKey = 0;
 		int iAlpha = 0;

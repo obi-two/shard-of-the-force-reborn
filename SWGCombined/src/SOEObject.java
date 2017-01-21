@@ -1,5 +1,6 @@
 import java.io.Serializable;
-import java.util.Hashtable;
+//import java.util.Hashtable;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.ArrayList;
 import java.awt.geom.Point2D;
 
@@ -27,8 +28,8 @@ public class SOEObject implements Serializable, Comparable<SOEObject> {
 	private String sIFFFileName;
 	private long objectID;
 	private long lSerialNumber;
-	private Hashtable<Integer, Attribute> vAttributes;
-	private Hashtable<Character, RadialMenuItem> vRadials;
+	private ConcurrentHashMap<Integer, Attribute> vAttributes;
+	private ConcurrentHashMap<Character, RadialMenuItem> vRadials;
 	private byte[] iCustomizationData;
 	private float currentX = 0;
 	private float currentZ = 0;
@@ -107,8 +108,8 @@ public class SOEObject implements Serializable, Comparable<SOEObject> {
 		STFFileName = DEFAULT_STF;
 		sSTFFileIdentifier = DEFAULT_NAME;
 		objectID = -1;
-		vAttributes = new Hashtable<Integer, Attribute>();
-		vRadials = new Hashtable<Character, RadialMenuItem>();
+		vAttributes = new ConcurrentHashMap<Integer, Attribute>();
+		vRadials = new ConcurrentHashMap<Character, RadialMenuItem>();
 		vEquippedItems = new ArrayList<SOEObject>();
 		iRadialCondition =  Constants.RADIAL_CONDITION.NORMAL.ordinal();
 		bCanBePickedUp = true;
@@ -132,7 +133,7 @@ public class SOEObject implements Serializable, Comparable<SOEObject> {
 		sSTFFileIdentifier = objectName;
 		this.objectID = objectID;
 		vEquippedItems = new ArrayList<SOEObject>();
-		vAttributes = new Hashtable<Integer, Attribute>();
+		vAttributes = new ConcurrentHashMap<Integer, Attribute>();
 		iRadialCondition  = Constants.RADIAL_CONDITION.NORMAL.ordinal();
 		bCanBePickedUp = true;
 		// ScriptObject = new Script();
@@ -393,13 +394,13 @@ public class SOEObject implements Serializable, Comparable<SOEObject> {
 	 * 
 	 * @return The Attributes.
 	 */
-	public Hashtable<Integer, Attribute> getAttributeList(ZoneClient c) {
+	public ConcurrentHashMap<Integer, Attribute> getAttributeList(ZoneClient c) {
 		// TODO -- This should be set on object creation, not checked each time
 		// this function is called.
 
 		// System.out.println("SOEObject()getAttributeList() for " +
 		// this.getClass().getName());
-		Hashtable<Integer, Attribute> retVector = new Hashtable<Integer, Attribute>();
+		ConcurrentHashMap<Integer, Attribute> retVector = new ConcurrentHashMap<Integer, Attribute>();
 
 		if (vAttributes == null || vAttributes.isEmpty()) {
 			// Attribute(String sName, String sValue)
@@ -1514,7 +1515,7 @@ public class SOEObject implements Serializable, Comparable<SOEObject> {
 	 * 
 	 * @return The Radial Items.
 	 */
-	public Hashtable<Character, RadialMenuItem> getRadialMenus(ZoneClient c) {
+	public ConcurrentHashMap<Character, RadialMenuItem> getRadialMenus(ZoneClient c) {
 		Player player = c.getPlayer();
 		if (player.getTutorial() != null) {
 			if (player.getTutorial().isWaitingRadialEvent()) {
@@ -1527,7 +1528,7 @@ public class SOEObject implements Serializable, Comparable<SOEObject> {
 			// 0
 			iRadialCondition = 0;
 		}
-		Hashtable<Character, RadialMenuItem> retHash = new Hashtable<Character, RadialMenuItem>();
+		ConcurrentHashMap<Character, RadialMenuItem> retHash = new ConcurrentHashMap<Character, RadialMenuItem>();
 		ArrayList<RadialMenuItem> V = c.getServer().getRadialMenusByCRC(
 				this.getCRC());
 		int retcount = 0;
