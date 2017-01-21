@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * The SWGEmail class contains all the information about an in-game email sent between 2 people.
@@ -71,6 +72,10 @@ public class SWGEmail implements Serializable{
         bDeleteEmail = false;
         bSent = false;
 	}
+
+    SWGEmail(int i, long SERVER_STRUCTURE_MANAGER_OBJECT_ID, long structureOwnerID, String structure_Damaged, String Message, List<Waypoint> WL, boolean b) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 	
 	/**
 	 * Gets the Email Object ID

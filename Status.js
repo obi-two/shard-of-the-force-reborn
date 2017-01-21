@@ -4,7 +4,7 @@
 //WARNING THIS IS LICENSED SOFTWARE
 //Define Variables
 var sURL = unescape(window.location.pathname);
-var LastUpdateTime = 1484550551584;
+var LastUpdateTime = 1485029019847;
 var ClusterName = new Array();
 var ClusterStatus = new Array();
 var ClusterPlayerCount = new Array();

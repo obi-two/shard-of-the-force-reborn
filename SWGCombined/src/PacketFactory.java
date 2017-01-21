@@ -5011,7 +5011,7 @@ public class PacketFactory {
 		dOut.setUpdateType(Constants.WORLD_UPDATE);
 		dOut.writeInt(vServers.size());
 		ChatServer s;
-		ArrayList<Chatroom> vRooms;
+		List<Chatroom> vRooms;
 		Chatroom r;
 		for (int i = 0; i < vServers.size(); i++) {
 			s = vServers.get(i);
@@ -5029,8 +5029,8 @@ public class PacketFactory {
 				// in the room should be written here.
 				// If it isn't, then these 2 loops would go outside the "j"
 				// loop... or even outside the "i" loop.
-				ArrayList<String> vModerators = r.getModeratorList();
-				ArrayList<String> vUsers = r.getPlayersInRoom();
+                                List<String> vModerators = r.getModeratorList();
+				List<String> vUsers = r.getPlayersInRoom();
 				dOut.writeInt(1);
 				for (int k = 0; k < vModerators.size(); k++) {
 					dOut.writeUTF(vModerators.get(k));

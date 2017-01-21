@@ -565,9 +565,10 @@ public class Structure extends TangibleItem {
                          Message += "X:" + this.getX() + "\r\n";
                          Message += "Y:" + this.getY() + "\r\n";
                          Message += "Planet: " + Constants.PlanetNames[this.getPlanetID()] + "\r\n";                         
-                         ArrayList<Waypoint> WL;                 
+                         List<Waypoint> WL;                 
                         WL = new ArrayList<Waypoint>();
-                         SWGEmail E = new SWGEmail(-1,Constants.SERVER_STRUCTURE_MANAGER_OBJECT_ID,this.structureOwnerID,"Structure Damaged!",Message, WL,false);                 
+                         SWGEmail E;                 
+                        E = new SWGEmail(-1,Constants.SERVER_STRUCTURE_MANAGER_OBJECT_ID,this.structureOwnerID,"Structure Damaged!",Message, WL,false);
                          server.queueEmailNewClientMessage(E);        
                     }
                     //--------------------------------
